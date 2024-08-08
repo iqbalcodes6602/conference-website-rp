@@ -57,7 +57,7 @@ const Contact = () => {
 						</GoogleMapReact>
 						<form
 							action="#"
-							className="flex flex-col gap-4 lg:max-w-sm"
+							className="flex flex-col gap-4 lg:max-w-lg"
 						>
 							<Typography
 								variant="small"

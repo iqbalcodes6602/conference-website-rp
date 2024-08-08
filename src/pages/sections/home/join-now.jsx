@@ -1,7 +1,7 @@
 import { Button, Typography } from '@material-tailwind/react'
 import React from 'react'
 
-function joinNow() {
+function JoinNow() {
     return (
         <div className="flex !w-full py-10 mb-5 md:mb-20 flex-col justify-center !items-center bg-gray-900 max-w-6xl mx-auto rounded-2xl p-5 ">
             <Typography
@@ -25,4 +25,4 @@ function joinNow() {
     )
 }
 
-export default joinNow
+export default JoinNow

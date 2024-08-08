@@ -1,5 +1,6 @@
 import { Typography } from "@material-tailwind/react";
 import AboutCard from "../../../components/about-card";
+import { Carousel } from "@material-tailwind/react";
 
 const EVENT_INFO = [
   {
@@ -8,12 +9,12 @@ const EVENT_INFO = [
       "NIT Rourkela is an institution of national importance with a reputation for excellence in research, consultancy, and education at the undergraduate, postgraduate, and doctoral levels. It is passionately committed to making our country a world leader in technology and science, and to inculcate this commitment among all its students. Our target is to be known worldwide for our academic standards and to be counted among the best technological institutes in India in terms of innovation, entrepreneurship, and intellectual wealth creation.",
     // subTitle: "Presentation",
   },
-  {
-    title: "About Industrial Design Department",
-    description:
-      "Industrial Design involves designing of products of daily life such as mobile phones, cars, home interiors, furniture, home decor, packaging and branding, and so on in such a way so that it makes the modern human life easy and more pleasurable. The field also includes designing of workplaces and tools/equipment in industries to make them safer and more user friendly. The present-day academic activities of Industrial Design are very broad with this due reason. Department of Industrial Design at National Institute of Technology Rourkela was established in 2010 to flourish in the emerging areas of design fields. The Industrial Design department at NIT Rourkela has specialized faculties in all important areas of industrial design such as product design, ergonomics & UX/UI.",
-    // subTitle: "Workshops",
-  },
+  // {
+  //   title: "About Industrial Design Department",
+  //   description:
+  //     "Industrial Design involves designing of products of daily life such as mobile phones, cars, home interiors, furniture, home decor, packaging and branding, and so on in such a way so that it makes the modern human life easy and more pleasurable. The field also includes designing of workplaces and tools/equipment in industries to make them safer and more user friendly. The present-day academic activities of Industrial Design are very broad with this due reason. Department of Industrial Design at National Institute of Technology Rourkela was established in 2010 to flourish in the emerging areas of design fields. The Industrial Design department at NIT Rourkela has specialized faculties in all important areas of industrial design such as product design, ergonomics & UX/UI.",
+  //   // subTitle: "Workshops",
+  // },
 ];
 
 export function AboutEvent() {
@@ -39,6 +40,23 @@ export function AboutEvent() {
         {EVENT_INFO.map((props, idx) => (
           <AboutCard key={idx} {...props} />
         ))}
+        <Carousel className="rounded-xl">
+          <img
+            src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
+            alt="image 1"
+            className="h-full w-full object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+            alt="image 2"
+            className="h-full w-full object-cover"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
+            alt="image 3"
+            className="h-full w-full object-cover"
+          />
+        </Carousel>
         <div className="md:col-span-2">
           <AboutCard
             title="About Industrial Design Department!"

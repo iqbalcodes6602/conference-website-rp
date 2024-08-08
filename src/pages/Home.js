@@ -8,6 +8,7 @@ import OurStats from "./sections/home/our-stats";
 import AboutEvent from "./sections/home/about-event";
 import Footer from "./sections/footer";
 import Header from "./sections/header";
+import JoinNow from "./sections/home/join-now";
 
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
 			<OurStats />
 			<EventContent />
 			<Faq />
+			<JoinNow />
 			<Footer />
 		</div>
 	);

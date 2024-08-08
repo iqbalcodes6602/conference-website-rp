@@ -13,7 +13,7 @@ function NavItem({ children, href }) {
         href={href || "#"}
         // target={href ? "_blank" : "_self"}
         variant="paragraph"
-        className="flex items-center gap-2 font-medium"
+        className="flex items-center gap-2 font-semibold"
       >
         {children}
       </Typography>
