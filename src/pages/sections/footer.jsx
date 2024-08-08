@@ -1,5 +1,4 @@
 import { Typography, IconButton } from "@material-tailwind/react";
-import JoinNow from "./home/join-now";
 const CURRENT_YEAR = new Date().getFullYear();
 const LINKS = ["Company", "About Us", "Team", "Products", "Blog"];
 
