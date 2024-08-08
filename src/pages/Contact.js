@@ -3,9 +3,17 @@ import React from "react";
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 import Footer from "./sections/footer";
 import Header from "./sections/header";
-
+import GoogleMapReact from 'google-map-react';
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const Contact = () => {
+	const defaultProps = {
+		center: {
+			lat: 10.99835602,
+			lng: 77.01502627
+		},
+		zoom: 11
+	};
 	return (
 		<div>
 			<Header />
@@ -30,12 +38,23 @@ const Contact = () => {
 						technical assistance, or suggestions for improvement, our team is
 						eager to hear from you.
 					</Typography>
-					<div className="grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-2 items-start">
-						<img
+					<div className="grid grid-cols-1 gap-x-6 gap-y-6 lg:grid-cols-2 justify-items-end">
+						{/* <img
 							src="/image/map.svg"
 							alt="map"
 							className="w-full h-full lg:max-h-[510px]"
-						/>
+						/> */}
+						<GoogleMapReact
+							bootstrapURLKeys={{ key: "" }}
+							defaultCenter={defaultProps.center}
+							defaultZoom={defaultProps.zoom}
+						>
+							<AnyReactComponent
+								lat={59.955413}
+								lng={30.337844}
+								text="My Marker"
+							/>
+						</GoogleMapReact>
 						<form
 							action="#"
 							className="flex flex-col gap-4 lg:max-w-sm"

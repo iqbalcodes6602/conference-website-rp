@@ -1,5 +1,3 @@
-"use client";
-
 import { Typography } from "@material-tailwind/react";
 import AboutCard from "../../../components/about-card";
 

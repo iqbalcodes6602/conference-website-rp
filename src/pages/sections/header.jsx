@@ -24,43 +24,43 @@ function NavItem({ children, href }) {
 const NAV_MENU = [
   {
     name: "Home",
-    icon: HomeIcon, 
-    href: "/home", 
+    icon: HomeIcon,
+    href: "/home",
   },
   {
     name: "Submission",
-    icon: PaperAirplaneIcon, 
-    href: "/submission", 
+    icon: PaperAirplaneIcon,
+    href: "/submission",
   },
   {
     name: "Important Dates",
-    icon: CalendarDateRangeIcon, 
-    href: "/important-dates", 
+    icon: CalendarDateRangeIcon,
+    href: "/important-dates",
   },
   {
     name: "Registration",
-    icon: UserCircleIcon, 
-    href: "/registration", 
+    icon: UserCircleIcon,
+    href: "/registration",
   },
   {
     name: "Committee",
-    icon: UserGroupIcon, 
-    href: "/committee", 
+    icon: UserGroupIcon,
+    href: "/committee",
   },
   {
     name: "Venue & Accommodation",
-    icon: MapIcon, 
-    href: "/venue-accommodation", 
+    icon: MapIcon,
+    href: "/venue-accommodation",
   },
   {
     name: "Contact Us",
-    icon: EnvelopeIcon, 
-    href: "/contact", 
+    icon: EnvelopeIcon,
+    href: "/contact",
   },
 ];
 
 
-export function Header({ page='nothome'}) {
+export function Header({ page = 'nothome' }) {
   const [open, setOpen] = React.useState(false);
   const [isScrolling, setIsScrolling] = React.useState(false);
 
@@ -92,17 +92,20 @@ export function Header({ page='nothome'}) {
       shadow={false}
       fullWidth
       blurred={false}
-      color={(isScrolling || page!=='home') ? "white" : "transparent"}
+      color={(isScrolling || page !== 'home') ? "white" : "transparent"}
       className="fixed top-0 z-50 border-0"
     >
-      <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page!=='home') ? "text-black" : "text-white"}`}>
+      <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page !== 'home') ? "text-black" : "text-white"}`}>
         {/* <Typography
           color={isScrolling ? "blue-gray" : "white"}
           className="text-lg font-bold"
         >
           Material Tailwind
         </Typography> */}
-        <Avatar />
+        <img
+          src="/logos/ipdmis.png"
+          className="w-10 h-10"
+        />
         <ul
           className={`hidden items-center gap-8 lg:flex`}
         >
@@ -114,17 +117,10 @@ export function Header({ page='nothome'}) {
           ))}
         </ul>
         <div className="hidden items-center gap-4 lg:flex">
-          {/* <a href="/login">
-            <Button className={`${isScrolling ? "text-gray-900" : "text-white"} hover:bg-gray-900 hover:bg-opacity-25`} variant="text">
-              Sign in
-            </Button>
-          </a>
-          <a href="/register">
-            <Button className={`shadow-none ${isScrolling ? "bg-gray-900 text-white" : "bg-white text-gray-900"} hover:shadow-none`}>
-              Sign Up
-            </Button>
-          </a> */}
-          <Avatar />
+          <img
+            src="/logos/nit_rourkela.png"
+            className="w-10 h-10"
+          />
         </div>
         <IconButton
           variant="text"
