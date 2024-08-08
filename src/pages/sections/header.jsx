@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Bars3Icon, CalendarDateRangeIcon, CommandLineIcon, EnvelopeIcon, HomeIcon, MapIcon, PaperAirplaneIcon, RectangleStackIcon, UserCircleIcon, UserGroupIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Avatar, Button, IconButton, Navbar, Typography } from "@material-tailwind/react";
+import { Bars3Icon, CalendarDateRangeIcon, EnvelopeIcon, HomeIcon, MapIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { Avatar, IconButton, Navbar, Typography } from "@material-tailwind/react";
 
 
 
@@ -24,38 +24,38 @@ function NavItem({ children, href }) {
 const NAV_MENU = [
   {
     name: "Home",
-    icon: HomeIcon, // You should replace this with the appropriate icon component
-    href: "/home", // Provide the correct href if needed
+    icon: HomeIcon, 
+    href: "/home", 
   },
   {
     name: "Submission",
-    icon: PaperAirplaneIcon, // You should replace this with the appropriate icon component
-    href: "/submission", // Provide the correct href if needed
+    icon: PaperAirplaneIcon, 
+    href: "/submission", 
   },
   {
     name: "Important Dates",
-    icon: CalendarDateRangeIcon, // You should replace this with the appropriate icon component
-    href: "/important-dates", // Provide the correct href if needed
+    icon: CalendarDateRangeIcon, 
+    href: "/important-dates", 
   },
   {
     name: "Registration",
-    icon: UserIcon, // You should replace this with the appropriate icon component
-    href: "/registration", // Provide the correct href if needed
+    icon: UserCircleIcon, 
+    href: "/registration", 
   },
   {
     name: "Committee",
-    icon: UserGroupIcon, // You should replace this with the appropriate icon component
-    href: "/committee", // Provide the correct href if needed
+    icon: UserGroupIcon, 
+    href: "/committee", 
   },
   {
     name: "Venue & Accommodation",
-    icon: MapIcon, // You should replace this with the appropriate icon component
-    href: "/venue-accommodation", // Provide the correct href if needed
+    icon: MapIcon, 
+    href: "/venue-accommodation", 
   },
   {
     name: "Contact Us",
-    icon: EnvelopeIcon, // You should replace this with the appropriate icon component
-    href: "/contact", // Provide the correct href if needed
+    icon: EnvelopeIcon, 
+    href: "/contact", 
   },
 ];
 
@@ -92,10 +92,10 @@ export function Header({ page='nothome'}) {
       shadow={false}
       fullWidth
       blurred={false}
-      color={(isScrolling || page!=='home') ? "light-blue" : "transparent"}
+      color={(isScrolling || page!=='home') ? "white" : "transparent"}
       className="fixed top-0 z-50 border-0"
     >
-      <div className="container mx-auto flex items-center justify-between">
+      <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page!=='home') ? "text-black" : "text-white"}`}>
         {/* <Typography
           color={isScrolling ? "blue-gray" : "white"}
           className="text-lg font-bold"
@@ -104,7 +104,7 @@ export function Header({ page='nothome'}) {
         </Typography> */}
         <Avatar />
         <ul
-          className={`hidden items-center gap-8 lg:flex text-white`}
+          className={`hidden items-center gap-8 lg:flex`}
         >
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
             <NavItem key={name} href={href}>
