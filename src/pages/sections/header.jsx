@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Bars3Icon, CalendarDateRangeIcon, EnvelopeIcon, HomeIcon, MapIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Avatar, IconButton, Navbar, Typography } from "@material-tailwind/react";
+import { IconButton, Navbar, Typography } from "@material-tailwind/react";
 
 
 
