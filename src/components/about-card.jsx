@@ -6,10 +6,10 @@ import {
 } from "@material-tailwind/react";
 
 
-export function AboutCard({ title, description, subTitle }) {
+export function AboutCard({ title='', description='', subTitle='' }) {
   return (
     <Card shadow={false}>
-      <CardBody className="h-[453px] p-5 flex flex-col justify-center items-center rounded-2xl bg-gray-900 ">
+      <CardBody className="h-full p-5 flex flex-col items-center rounded-2xl bg-gray-900 ">
         <Typography variant="h6" className="mb-4 text-center" color="white">
           {subTitle}
         </Typography>
@@ -18,13 +18,10 @@ export function AboutCard({ title, description, subTitle }) {
         </Typography>
         <Typography
           color="white"
-          className="mt-2 mb-10 text-base w-full lg:w-8/12 text-center font-normal"
+          className="mt-2 mb-10 text-base w-full lg:w-10/12 text-justify font-normal"
         >
           {description}
         </Typography>
-        <Button color="white" size="sm">
-          view details
-        </Button>
       </CardBody>
     </Card>
   );
