@@ -43,9 +43,8 @@ export function AboutEvent() {
         ))}
         <div className="md:col-span-2">
           <AboutCard
-            title="Networking!"
-            subTitle="Community"
-            description="Connect with industry leaders, AI experts, and fellow enthusiasts to build valuable professional relationships."
+            title="About Industrial Design Department!"
+            description="Industrial Design involves designing of products of daily life such as mobile phones, cars, home interiors, furniture, home decor, packaging and branding, and so on in such a way so that it makes the modern human life easy and more pleasurable. The field also includes designing of workplaces and tools/equipment in industries to make them safer and more user friendly. The present-day academic activities of Industrial Design are very broad with this due reason. Department of Industrial Design at National Institute of Technology Rourkela was established in 2010 to flourish in the emerging areas of design fields. The Industrial Design department at NIT Rourkela has specialized faculties in all important areas of industrial design such as product design, ergonomics & UX/UI."
           />
         </div>
       </div>
