@@ -1,11 +1,11 @@
 import React from "react";
 
-import Hero from "./sections/hero";
-import SponsoredBy from "./sections/sponsored-by";
-import Faq from "./sections/faq";
-import EventContent from "./sections/event-content";
-import OurStats from "./sections/our-stats";
-import AboutEvent from "./sections/about-event";
+import Hero from "./sections/home/hero";
+import SponsoredBy from "./sections/home/sponsored-by";
+import Faq from "./sections/home/faq";
+import EventContent from "./sections/home/event-content";
+import OurStats from "./sections/home/our-stats";
+import AboutEvent from "./sections/home/about-event";
 import Footer from "./sections/footer";
 import Header from "./sections/header";
 
@@ -13,7 +13,7 @@ import Header from "./sections/header";
 const Home = () => {
 	return (
 		<div>
-			<Header />
+			<Header page='home' />
 			<Hero />
 			<SponsoredBy />
 			<AboutEvent />

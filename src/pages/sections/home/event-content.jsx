@@ -4,7 +4,7 @@ import {
   TabsHeader,
 } from "@material-tailwind/react";
 
-import EventContentCard from "../../components/event-content-card";
+import EventContentCard from "../../../components/event-content-card";
 
 
 const EVENT_CONTENT = [
