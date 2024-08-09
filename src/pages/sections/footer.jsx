@@ -1,6 +1,15 @@
 import { Typography, IconButton } from "@material-tailwind/react";
+
 const CURRENT_YEAR = new Date().getFullYear();
-const LINKS = ["Company", "About Us", "Team", "Products", "Blog"];
+const LINKS = [
+  { name: "Home", href: "/home" },
+  { name: "Submission", href: "/submission" },
+  { name: "Important Dates", href: "/important-dates" },
+  { name: "Registration", href: "/registration" },
+  { name: "Committee", href: "/committee" },
+  { name: "Venue & Accommodation", href: "/venue-accommodation" },
+  { name: "Contact Us", href: "/contact" },
+];
 
 export function Footer() {
   return (
@@ -21,12 +30,12 @@ export function Footer() {
               <li key={index}>
                 <Typography
                   as="a"
-                  href="#"
+                  href={link.href}
                   variant="small"
                   color="white"
                   className="font-normal !text-gray-700 hover:!text-gray-900 transition-colors"
                 >
-                  {link}
+                  {link.name}
                 </Typography>
               </li>
             ))}
