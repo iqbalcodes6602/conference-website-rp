@@ -72,7 +72,6 @@ const NAV_MENU = [
 export function Header({ page = 'nothome' }) {
   const [open, setOpen] = React.useState(false);
   const [isScrolling, setIsScrolling] = React.useState(false);
-  const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
   const handleOpen = () => setOpen((cur) => !cur);
@@ -104,8 +103,8 @@ export function Header({ page = 'nothome' }) {
       shadow={false}
       fullWidth
       blurred={false}
-      color={(isScrolling || page !== 'home') ? "white" : "transparent"}
-      className="fixed top-0 z-50 border-0"
+      color={(isScrolling || page !== 'home') ? "transparent" : "transparent"}
+      className={`fixed top-0 z-50 border-0 ${isScrolling ? 'bg-[#ffffff40] backdrop-blur border-b-[1px] border-[#0000000d]' : ''}`}
     >
       <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page !== 'home') ? "text-black" : "text-white"}`}>
         {/* <Typography
@@ -115,6 +114,7 @@ export function Header({ page = 'nothome' }) {
           Material Tailwind
         </Typography> */}
         <img
+          alt="ipdmis logo"
           src="/logos/ipdmis.png"
           className="w-10 h-10"
         />
@@ -130,6 +130,7 @@ export function Header({ page = 'nothome' }) {
         </ul>
         <div className="hidden items-center gap-4 lg:flex">
           <img
+            alt="nitr logo"
             src="/logos/nit_rourkela.png"
             className="w-10 h-10"
           />
