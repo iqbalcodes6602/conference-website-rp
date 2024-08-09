@@ -47,11 +47,6 @@ const NAV_MENU = [
     href: "/important-dates",
   },
   {
-    name: "Registration",
-    icon: UserCircleIcon,
-    href: "/registration",
-  },
-  {
     name: "Committee",
     icon: UserGroupIcon,
     href: "/committee",
@@ -65,6 +60,11 @@ const NAV_MENU = [
     name: "Contact Us",
     icon: EnvelopeIcon,
     href: "/contact",
+  },
+  {
+    name: "Registration",
+    icon: UserCircleIcon,
+    href: "/registration",
   },
 ];
 
@@ -104,7 +104,7 @@ export function Header({ page = 'nothome' }) {
       fullWidth
       blurred={false}
       color={(isScrolling || page !== 'home') ? "transparent" : "transparent"}
-      className={`fixed top-0 z-50 border-0 ${isScrolling ? 'bg-[#ffffff40] backdrop-blur border-b-[1px] border-[#0000000d]' : ''}`}
+      className={`fixed top-0 z-50 border-0 ${isScrolling ? 'bg-[#ffffff40] backdrop-blur-md border-b-[1px] border-[#0000000d]' : ''}`}
     >
       <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page !== 'home') ? "text-black" : "text-white"}`}>
         {/* <Typography

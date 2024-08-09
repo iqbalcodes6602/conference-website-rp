@@ -6,8 +6,7 @@ import Registration from "./pages/Registration";
 import ImportantDates from "./pages/ImportantDates";
 import Committee from "./pages/Committee";
 import VenueAccommodation from "./pages/VenueAccommodation";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
+import Submission from "./pages/Submission";
 
 function App() {
 	return (
@@ -15,13 +14,12 @@ function App() {
 			<Routes>
 				<Route path='/*' element={<Home />} />
 				<Route path='/home' element={<Home />} />
+				<Route path='/submission' element={<Submission />} />
 				<Route path='/important-dates' element={<ImportantDates />} />
 				<Route path='/registration' element={<Registration />} />
 				<Route path='/committee' element={<Committee />} />
 				<Route path='/venue-accommodation' element={<VenueAccommodation />} />
-				<Route path='/contact' element={<Contact />} />				
-				{/* <Route path='/login' element={<Login />} />
-				<Route path='/register' element={<Register />} /> */}
+				<Route path='/contact' element={<Contact />} />
 			</Routes>
 		</BrowserRouter>
 	);
