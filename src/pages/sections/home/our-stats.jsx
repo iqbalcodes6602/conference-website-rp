@@ -1,5 +1,4 @@
 "use client";
-
 import { Typography } from "@material-tailwind/react";
 import StatsCard from "../../../components/stats-card";
 
@@ -47,8 +46,13 @@ export function OurStats() {
       <div>
         <div className="grid grid-cols-2 gap-8 gap-x-28">
           {STATS.map((props, key) => (
-            <StatsCard key={key} {...props} />
+            
+             <StatsCard key={key} {...props} /> 
+
+            
+           
           ))}
+
         </div>
       </div>
     </section>
