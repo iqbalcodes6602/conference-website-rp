@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/cloudlab', {
+mongoose.connect('mongodb://127.0.0.1:27017/ipdmis', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
