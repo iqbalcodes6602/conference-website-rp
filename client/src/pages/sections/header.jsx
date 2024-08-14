@@ -4,24 +4,9 @@ import { IconButton, Navbar, Typography } from "@material-tailwind/react";
 import { Drawer, Button, List, ListItem, ListItemPrefix, ListItemSuffix, Chip } from "@material-tailwind/react";
 import { UserContext } from "../../UserContext";
 import { NavLink } from "react-router-dom";
+import UserAvatar from "../../components/useravatar";
+import NavItem from "../../components/navitem";
 
-
-function NavItem({ children, href }) {
-  return (
-    <li>
-      <Typography
-        as="a"
-        // href={href || "#"}
-        variant="paragraph"
-        className="flex items-center gap-2 font-semibold"
-      >
-        <NavLink to={href} className="flex items-center gap-2 font-semibold">
-          {children}
-        </NavLink>
-      </Typography>
-    </li>
-  );
-}
 
 const NAV_MENU = [
   {
@@ -110,11 +95,7 @@ export function Header({ page = 'nothome' }) {
           ))}
           {/* Conditionally render the registration or user email */}
           {user ? (
-            <NavItem href="#">
-              {/* <UserCircleIcon className="h-4 w-4" /> */}
-              <span>{user.username}</span>
-              <button onClick={logout} className="text-red-500">Logout</button>
-            </NavItem>
+            <UserAvatar />
           ) : (
             <NavItem href="/registration">
               <UserCircleIcon className="h-4 w-4" />
