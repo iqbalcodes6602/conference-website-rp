@@ -8,7 +8,7 @@ import {
     Avatar,
     Typography,
 } from "@material-tailwind/react";
-import { ComputerDesktopIcon, GlobeAltIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { ComputerDesktopIcon, GlobeAltIcon, QuestionMarkCircleIcon, QueueListIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 
 function UserAvatar({ children }) {
@@ -48,7 +48,7 @@ function UserAvatar({ children }) {
                     <MenuList>
 
                         {/* Dashboard */}
-                        <NavLink to="/user-dashboard">
+                        <NavLink to="/dashboard">
                             <MenuItem className="flex items-center gap-2">
                                 <ComputerDesktopIcon className='h-5 w-5' />
                                 <Typography variant="small" className="font-medium">
@@ -67,7 +67,7 @@ function UserAvatar({ children }) {
 
                         {/* Help */}
                         <MenuItem className="flex items-center gap-2">
-                            <GlobeAltIcon className="h-4 w-4" />
+                            <QuestionMarkCircleIcon className="h-5 w-5" />
                             <Typography variant="small" className="font-medium">
                                 Help
                             </Typography>
