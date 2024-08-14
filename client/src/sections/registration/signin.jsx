@@ -23,7 +23,7 @@ function SignIn() {
                     login(jwtDecode(response.data));
                     console.log(jwtDecode(response.data))
                     localStorage.setItem('token', response.data);
-                    navigate('/dashboard');
+                    navigate('/user/dashboard');
                 })
         } catch (error) {
             console.error(error);

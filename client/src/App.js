@@ -9,6 +9,7 @@ import VenueAccommodation from "./pages/VenueAccommodation";
 import Submission from "./pages/Submission";
 import { UserContext } from './UserContext'; // Import the UserProvider
 import UserDashboard from "./pages/UserDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -34,7 +35,8 @@ function App() {
 				<Route path='/committee' element={<Committee />} />
 				<Route path='/venue-accommodation' element={<VenueAccommodation />} />
 				<Route path='/contact' element={<Contact />} />
-				<Route path='/dashboard' element={<UserDashboard />} />
+				<Route path='/user/dashboard' element={<UserDashboard />} />
+				<Route path='/admin/dashboard' element={<AdminDashboard />} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -74,7 +74,7 @@ export function Header({ page = 'nothome' }) {
       shadow={false}
       fullWidth
       blurred={false}
-      color={(isScrolling || page !== 'home') ? "transparent" : "transparent"}
+      color="transparent"
       className={`fixed top-0 z-50 border-0 ${isScrolling ? 'bg-[#ffffff40] backdrop-blur-md border-b-[1px] border-[#0000000d]' : ''}`}
     >
       <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page !== 'home') ? "text-black" : "text-white"}`}>
@@ -109,6 +109,10 @@ export function Header({ page = 'nothome' }) {
             className="w-10 h-10"
           />
         </div>
+
+
+
+        {/* side bard for mobile */}
         <IconButton
           variant="text"
           color={isScrolling ? "gray" : "white"}

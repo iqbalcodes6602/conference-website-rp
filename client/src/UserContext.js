@@ -10,17 +10,19 @@ export const UserProvider = ({ children }) => {
 
     const isUserValid = () => {
         const token = localStorage.getItem('token');
-        try {
-            const decoded = jwtDecode(token, 'ipdmis');
-            if (decoded.username) {
-                setUser(decoded);
-                return true
+        if (token) {
+            try {
+                const decoded = jwtDecode(token, 'ipdmis');
+                if (decoded.username) {
+                    setUser(decoded);
+                    return true
+                }
+                else
+                    return false;
+            } catch (error) {
+                console.error('Invalid token', error);
+                return null;
             }
-            else
-                return false;
-        } catch (error) {
-            console.error('Invalid token', error);
-            return null;
         }
     };
 
