@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import AboutCard from "../../../components/about-card";
+import AboutCard from "./components/about-card";
 import { Carousel } from "@material-tailwind/react";
 
 const EVENT_INFO = [

@@ -2,9 +2,9 @@ import React from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import { Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react'
-import SignIn from './sections/registration/signin'
-import SignUp from './sections/registration/signup'
-import LeftImage from './sections/registration/leftimage'
+import SignIn from '../sections/registration/signin'
+import SignUp from '../sections/registration/signup'
+import LeftImage from '../sections/registration/leftimage'
 function Registration() {
     return (
         <>

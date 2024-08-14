@@ -1,31 +1,18 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { Button, Input, Typography } from '@material-tailwind/react'
-import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../../UserContext';
+import React, { useContext, useState } from 'react'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { UserContext } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
+    const navigate = useNavigate();
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
     const { user, login, logout, isUserValid } = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         try {
-    //             if (isUserValid(token)) {
-    //                 login(jwtDecode(token));
-    //             }else{
-    //                 logout();
-    //             }
-    //         } catch (error) {
-    //             logout();
-    //         }
-    //     }
-    // }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -35,9 +22,8 @@ function SignIn() {
                     console.log(response.data);
                     login(jwtDecode(response.data));
                     console.log(jwtDecode(response.data))
-                    // setUserDetails();
-                    // console.log(jwtDecode(response.data));
                     localStorage.setItem('token', response.data);
+                    navigate('/user-dashboard');
                 })
         } catch (error) {
             console.error(error);
