@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import { Tab, TabPanel, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react'
 import SignIn from '../sections/registration/signin'
 import SignUp from '../sections/registration/signup'
 import LeftImage from '../sections/registration/leftimage'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../UserContext'
+
 function Registration() {
+    const navigate = useNavigate();
+    const { user, login, logout, isUserValid } = useContext(UserContext);
+
+    useEffect(() => {
+        try {
+            if (!isUserValid()) {
+                logout();
+                navigate('/registration');
+            }
+        } catch (error) {
+            logout();
+        }
+    }, [navigate, isUserValid, logout]);
     return (
         <>
             <Header />

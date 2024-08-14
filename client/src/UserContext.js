@@ -8,13 +8,16 @@ export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    const isUserValid = (token) => {
+    const isUserValid = () => {
+        const token = localStorage.getItem('token');
         try {
             const decoded = jwtDecode(token, 'ipdmis');
-            if (decoded.username)
-                return decoded;
+            if (decoded.username) {
+                setUser(decoded);
+                return true
+            }
             else
-                return null;
+                return false;
         } catch (error) {
             console.error('Invalid token', error);
             return null;

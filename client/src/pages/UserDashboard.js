@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';  // Updated import
 import { UserContext } from '../UserContext';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { Button, Typography } from '@material-tailwind/react';
+import { Typography } from '@material-tailwind/react';
 import OptionsCard from '../sections/userDashboard/optionscard';
-import { ArrowLeftCircleIcon, ArrowLeftIcon } from '@heroicons/react/24/solid';
 import SelectedOptionSection from '../sections/userDashboard/selectedOptionSection';
 
 const options = [
@@ -43,11 +42,14 @@ function UserDashboard() {
     const [showOptions, setShowOptions] = React.useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token || !isUserValid(token)) {
-            navigate('/registration');  // Updated method
-            logout();
-        }
+        try {
+			if (!isUserValid()) {
+				logout();
+                navigate('/registration');
+			}
+		} catch (error) {
+			logout();
+		}
     }, [navigate, isUserValid, logout]);
 
     const handleOptionSelect = (category) => {
