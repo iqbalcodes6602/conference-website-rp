@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom';  // Updated import
 import { UserContext } from '../UserContext';
 import Header from '../components/header';
 import Footer from '../components/footer';
-import { Typography } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
+import OptionsCard from '../sections/userDashboard/optionscard';
+import { ArrowLeftCircleIcon, ArrowLeftIcon } from '@heroicons/react/24/solid';
+import SelectedOptionSection from '../sections/userDashboard/selectedOptionSection';
 
-const catergories = [
+const options = [
     {
-        title: 'Marketing',
+        title: 'Add New Submission',
         description: 'Plan it, create it, launch it. Collaborate seamlessly with all the organization and hit your marketing goals every month with our marketing plan.',
     },
     {
-        title: 'Legal',
+        title: 'View All Submissions',
         description: 'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
     },
     {
@@ -32,10 +35,12 @@ const catergories = [
     },
 ];
 
-
 function UserDashboard() {
-    const { user, login, logout, isUserValid } = useContext(UserContext);
     const navigate = useNavigate();  // Updated hook
+    const { user, login, logout, isUserValid } = useContext(UserContext);
+
+    const [selectedOption, setSelectedOption] = React.useState(null);
+    const [showOptions, setShowOptions] = React.useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -44,6 +49,18 @@ function UserDashboard() {
             logout();
         }
     }, [navigate, isUserValid, logout]);
+
+    const handleOptionSelect = (category) => {
+        setSelectedOption(category);
+        setShowOptions(false);
+        console.log(category);
+        console.log(selectedOption);
+    }
+
+    const handleOptionDeSelect = () => {
+        setSelectedOption(null);
+        setShowOptions(true);
+    }
 
     return (
         <>
@@ -70,36 +87,22 @@ function UserDashboard() {
                         eager to hear from you.
                     </Typography>
                     <section className="bg-white dark:bg-gray-900">
-                        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6 text-left">
-                            <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-                                {
-                                    catergories.map((category, index) => (
-                                        <div key={index}>
-                                            <div className='flex justify-between'>
-                                                <h3 className="mb-2 text-xl font-bold dark:text-white">{category.title}</h3>
-                                                <svg
-                                                    className="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
+                        <div className="px-4 mx-auto max-w-screen-xl lg:px-6 text-left">
+                            {showOptions ? (
+                                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
+                                    {
+                                        options.map((category, index) => (
+                                            <div onClick={() => handleOptionSelect(category)} >
+                                                <OptionsCard key={index} category={category} />
                                             </div>
-                                            <p className="text-gray-500 dark:text-gray-400">
-                                                {category.description}
-                                            </p>
-                                        </div>
-                                    ))
-                                }
-                            </div>
+                                        ))
+                                    }
+                                </div>
+                            ) : (
+                                <SelectedOptionSection selectedOption={selectedOption} handleOptionDeSelect={handleOptionDeSelect} />
+                            )}
                         </div>
                     </section>
-
                 </div>
             </section>
             <Footer />
