@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import { Bars3Icon, CalendarDateRangeIcon, EnvelopeIcon, HomeIcon, MapIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { IconButton, Navbar, Typography } from "@material-tailwind/react";
-import { Drawer, Button, List, ListItem, ListItemPrefix, ListItemSuffix, Chip } from "@material-tailwind/react";
-import { UserContext } from "../../UserContext";
-import { NavLink } from "react-router-dom";
-import UserAvatar from "../../components/useravatar";
-import NavItem from "../../components/navitem";
+import { Drawer, Button, List, ListItem, ListItemPrefix, ListItemSuffix } from "@material-tailwind/react";
+import { UserContext } from "../UserContext";
+import UserAvatar from "./useravatar";
+import NavItem from "./navitem";
 
 
 const NAV_MENU = [

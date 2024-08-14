@@ -1,6 +1,6 @@
 import React from 'react'
-import Footer from "./sections/footer";
-import Header from "./sections/header";
+import Header from '../components/header'
+import Footer from '../components/footer'
 
 function Committee() {
   const CORE_TEAM = [
