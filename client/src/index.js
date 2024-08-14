@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-tailwind/react";
+import { UserProvider } from './UserContext'; // Import the UserProvider
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<App />
+			<UserProvider>
+				<App />
+			</UserProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 );

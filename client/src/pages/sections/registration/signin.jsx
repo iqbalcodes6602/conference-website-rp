@@ -1,10 +1,48 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import { Button, Input, Typography } from '@material-tailwind/react'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../../../UserContext';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function SignIn() {
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+    const { user, login, logout, isUserValid } = useContext(UserContext);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token) {
+    //         try {
+    //             if (isUserValid(token)) {
+    //                 login(jwtDecode(token));
+    //             }else{
+    //                 logout();
+    //             }
+    //         } catch (error) {
+    //             logout();
+    //         }
+    //     }
+    // }, []);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('http://localhost:5000/api/users/login', { username, password })
+                .then((response) => {
+                    console.log(response.data);
+                    login(jwtDecode(response.data));
+                    console.log(jwtDecode(response.data))
+                    // setUserDetails();
+                    // console.log(jwtDecode(response.data));
+                    localStorage.setItem('token', response.data);
+                })
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div>
             <Typography variant="h3" color="blue-gray" className="mb-2">
@@ -13,7 +51,7 @@ function SignIn() {
             <Typography className="mb-16 text-gray-600 font-normal text-[18px]">
                 Enter your email and password to sign in
             </Typography>
-            <form action="#" className="mx-auto max-w-[24rem] text-left">
+            <form onSubmit={handleLogin} className="mx-auto max-w-[24rem] text-left">
                 <div className="mb-6">
                     <label htmlFor="email">
                         <Typography
@@ -24,10 +62,11 @@ function SignIn() {
                         </Typography>
                     </label>
                     <Input
+                        onChange={(e) => setUsername(e.target.value)}
                         id="email"
                         color="gray"
                         size="lg"
-                        type="email"
+                        type="text"
                         name="email"
                         placeholder="name@mail.com"
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
@@ -46,6 +85,7 @@ function SignIn() {
                         </Typography>
                     </label>
                     <Input
+                        onChange={(e) => setPassword(e.target.value)}
                         size="lg"
                         placeholder="********"
                         labelProps={{
@@ -64,8 +104,8 @@ function SignIn() {
                         }
                     />
                 </div>
-                <Button color="gray" size="lg" className="mt-6" fullWidth>
-                    sign in
+                <Button type='submit' color="gray" size="lg" className="mt-6" fullWidth>
+                    Sign in
                 </Button>
                 <div className="!mt-4 flex justify-end">
                     <Typography
@@ -103,6 +143,43 @@ function SignIn() {
                 </Typography>
             </form>
         </div>
+        // <div>
+        //     <h1>Home Page</h1>
+        //     {user ? (
+        //         <div>
+        //             <p>Welcome, {user.username}!</p>
+        //             <button onClick={logout}>Logout</button>
+        //         </div>
+        //     ) : (
+        //         <div>
+        //             {/* <p>Please log in.</p>
+        //             <button onClick={() => login({ name: 'John Doe' })}>Login as John Doe</button> */}
+        //             <form onSubmit={handleLogin}>
+        //                 <div className="space-y-1">
+        //                     <Input
+        //                         id="username"
+        //                         type="text"
+        //                         placeholder="Username"
+        //                         value={username}
+        //                         onChange={(e) => setUsername(e.target.value)}
+        //                         required
+        //                     />
+        //                 </div>
+        //                 <div className="space-y-1">
+        //                     <Input
+        //                         id="password"
+        //                         type="password"
+        //                         placeholder="Password"
+        //                         value={password}
+        //                         onChange={(e) => setPassword(e.target.value)}
+        //                         required
+        //                     />
+        //                 </div>
+        //                 <Button type='submit'>Log In</Button>
+        //             </form>
+        //         </div>
+        //     )}
+        // </div>
     )
 }
 
