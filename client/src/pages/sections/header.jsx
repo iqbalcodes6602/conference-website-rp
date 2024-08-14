@@ -3,6 +3,7 @@ import { Bars3Icon, CalendarDateRangeIcon, EnvelopeIcon, HomeIcon, MapIcon, Pape
 import { IconButton, Navbar, Typography } from "@material-tailwind/react";
 import { Drawer, Button, List, ListItem, ListItemPrefix, ListItemSuffix, Chip } from "@material-tailwind/react";
 import { UserContext } from "../../UserContext";
+import { NavLink } from "react-router-dom";
 
 
 function NavItem({ children, href }) {
@@ -10,11 +11,13 @@ function NavItem({ children, href }) {
     <li>
       <Typography
         as="a"
-        href={href || "#"}
+        // href={href || "#"}
         variant="paragraph"
         className="flex items-center gap-2 font-semibold"
       >
-        {children}
+        <NavLink to={href} className="flex items-center gap-2 font-semibold">
+          {children}
+        </NavLink>
       </Typography>
     </li>
   );
