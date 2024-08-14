@@ -14,9 +14,8 @@ function Registration() {
 
     useEffect(() => {
         try {
-            if (!isUserValid()) {
-                logout();
-                navigate('/registration');
+            if (isUserValid()) {
+                navigate('/home');
             }
         } catch (error) {
             logout();
