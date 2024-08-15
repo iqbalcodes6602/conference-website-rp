@@ -4,8 +4,8 @@ import { UserContext } from '../UserContext';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { Typography } from '@material-tailwind/react';
-import OptionsCard from '../sections/userDashboard/optionscard';
-import SelectedOptionSection from '../sections/userDashboard/selectedOptionSection';
+import OptionsCard from '../sections/adminDashboard/optionscard';
+import SelectedOptionSection from '../sections/adminDashboard/selectedOptionSection';
 
 const options = [
     {
@@ -13,24 +13,8 @@ const options = [
         description: 'Plan it, create it, launch it. Collaborate seamlessly with all the organization and hit your marketing goals every month with our marketing plan.',
     },
     {
-        title: 'View All Reviwers',
-        description: 'Auto-assign tasks, send Slack messages, and much more. Now power up with hundreds of new templates to help you get started.',
-    },
-    {
         title: 'View All User Submissions',
         description: 'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
-    },
-    {
-        title: 'User Dashboard',
-        description: 'Audit-proof software built for critical financial operations like month-end close and quarterly budgeting.',
-    },
-    {
-        title: 'Enterprise Design',
-        description: 'Craft beautiful, delightful experiences for both marketing and product with real cross-company collaboration.',
-    },
-    {
-        title: 'Operations',
-        description: 'Keep your company’s lights on with customizable, iterative, and structured workflows built for all efficient teams and individual.',
     },
 ];
 
@@ -52,16 +36,16 @@ function AdminDashboard() {
                 }
             }
 		} catch (error) {
-            console.log("line 55",error);
+            // console.log("line 55",error);
 			logout();
 		}
-    }, [navigate, isUserValid, logout]);
+    }, []);
 
     const handleOptionSelect = (category) => {
         setSelectedOption(category);
         setShowOptions(false);
-        console.log(category);
-        console.log(selectedOption);
+        // console.log(category);
+        // console.log(selectedOption);
     }
 
     const handleOptionDeSelect = () => {

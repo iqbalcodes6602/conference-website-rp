@@ -44,21 +44,22 @@ function SignIn() {
                             variant="small"
                             className="mb-2 block font-medium text-gray-900"
                         >
-                            Your Email
+                            Your Username
                         </Typography>
                     </label>
                     <Input
                         onChange={(e) => setUsername(e.target.value)}
-                        id="email"
+                        label='Username'
+                        id="username"
                         color="gray"
                         size="lg"
                         type="text"
-                        name="email"
-                        placeholder="name@mail.com"
+                        name="username"
+                        // placeholder="name@mail.com"
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
-                        labelProps={{
-                            className: "hidden",
-                        }}
+                        // labelProps={{
+                        //     className: "hidden",
+                        // }}
                     />
                 </div>
                 <div className="mb-6">
@@ -73,10 +74,7 @@ function SignIn() {
                     <Input
                         onChange={(e) => setPassword(e.target.value)}
                         size="lg"
-                        placeholder="********"
-                        labelProps={{
-                            className: "hidden",
-                        }}
+                        label='Password'
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
                         type={passwordShown ? "text" : "password"}
                         icon={

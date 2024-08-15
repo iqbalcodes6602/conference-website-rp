@@ -28,6 +28,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Routes
 app.use('/api/users', require('./routes/users'));
+app.use('/api/admin', require('./routes/admin'));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

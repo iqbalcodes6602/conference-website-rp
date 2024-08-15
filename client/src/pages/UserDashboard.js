@@ -55,8 +55,8 @@ function UserDashboard() {
     const handleOptionSelect = (category) => {
         setSelectedOption(category);
         setShowOptions(false);
-        console.log(category);
-        console.log(selectedOption);
+        // console.log(category);
+        // console.log(selectedOption);
     }
 
     const handleOptionDeSelect = () => {

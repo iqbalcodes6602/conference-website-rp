@@ -8,7 +8,7 @@ import {
     Avatar,
     Typography,
 } from "@material-tailwind/react";
-import { ComputerDesktopIcon, GlobeAltIcon, QuestionMarkCircleIcon, QueueListIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { ComputerDesktopIcon, PresentationChartBarIcon, QuestionMarkCircleIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 
 function UserAvatar({ children }) {
@@ -21,10 +21,6 @@ function UserAvatar({ children }) {
                 variant="paragraph"
                 className="flex items-center gap-2 "
             >
-                {/* <NavItem href=''> */}
-                {/* <UserCircleIcon className="h-4 w-4" /> */}
-                {/* <span>{user.username}</span>
-            <button onClick={logout} className="text-red-500">Logout</button> */}
                 <Menu open={openMenu} handler={setOpenMenu} allowHover>
                     <MenuHandler>
                         <Avatar
@@ -36,39 +32,30 @@ function UserAvatar({ children }) {
                     </MenuHandler>
                     <MenuList>
 
-                        {/* Dashboard */}
+                        {/* Admin Panel */}
                         {
                             user.role === 'admin' && (
                                 <NavLink to="/admin/dashboard">
                                     <MenuItem className="flex items-center gap-2">
-                                        <ComputerDesktopIcon className='h-5 w-5' />
+                                        <PresentationChartBarIcon className='h-5 w-5' />
                                         <Typography variant="small" className="font-medium">
-                                            Admin
+                                            Admin Panel
                                         </Typography>
                                     </MenuItem>
                                 </NavLink>
                             )
                         }
-                        {
-                            user.role === 'user' && (
-                                <NavLink to="/user/dashboard">
-                                    <MenuItem className="flex items-center gap-2">
-                                        <ComputerDesktopIcon className='h-5 w-5' />
-                                        <Typography variant="small" className="font-medium">
-                                            User
-                                        </Typography>
-                                    </MenuItem>
-                                </NavLink>
-                            )
-                        }
-                        {/* <NavLink to="/user/dashboard">
+
+                        {/* User Dashboard */}
+                        <NavLink to="/user/dashboard">
                             <MenuItem className="flex items-center gap-2">
                                 <ComputerDesktopIcon className='h-5 w-5' />
                                 <Typography variant="small" className="font-medium">
                                     Dashboard
                                 </Typography>
                             </MenuItem>
-                        </NavLink> */}
+                        </NavLink>
+
 
                         {/* My Profile */}
                         <MenuItem className="flex items-center gap-2">
