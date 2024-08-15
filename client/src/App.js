@@ -31,12 +31,12 @@ function App() {
 				<Route path='/home' element={<Home />} />
 				<Route path='/submission' element={<Submission />} />
 				<Route path='/important-dates' element={<ImportantDates />} />
-				<Route path='/registration' element={<Registration />} />
+				<Route path='/registration' element={user ? <Home /> :<Registration />} />
 				<Route path='/committee' element={<Committee />} />
 				<Route path='/venue-accommodation' element={<VenueAccommodation />} />
 				<Route path='/contact' element={<Contact />} />
-				<Route path='/user/dashboard' element={<UserDashboard />} />
-				<Route path='/admin/dashboard' element={<AdminDashboard />} />
+				<Route path='/user/dashboard' element={user ? <UserDashboard /> : <Registration />}/>
+				<Route path='/admin/dashboard' element={user?.role==="admin" ?  <AdminDashboard /> : <UserDashboard />} />
 			</Routes>
 		</BrowserRouter>
 	);

@@ -50,7 +50,7 @@ function UserDashboard() {
 		} catch (error) {
 			logout();
 		}
-    }, [navigate, isUserValid, logout]);
+    }, []);
 
     const handleOptionSelect = (category) => {
         setSelectedOption(category);
@@ -94,8 +94,8 @@ function UserDashboard() {
                                 <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
                                     {
                                         options.map((category, index) => (
-                                            <div onClick={() => handleOptionSelect(category)} >
-                                                <OptionsCard key={index} category={category} />
+                                            <div  key={index} onClick={() => handleOptionSelect(category)} >
+                                                <OptionsCard category={category} />
                                             </div>
                                         ))
                                     }

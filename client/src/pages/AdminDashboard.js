@@ -46,8 +46,13 @@ function AdminDashboard() {
 			if (!isUserValid()) {
 				logout();
                 navigate('/registration');
-			}
+			}else{
+                if (user?.role !== 'admin') {
+                    navigate('/user/dashboard');
+                }
+            }
 		} catch (error) {
+            console.log("line 55",error);
 			logout();
 		}
     }, [navigate, isUserValid, logout]);
