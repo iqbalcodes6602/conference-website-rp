@@ -4,6 +4,9 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -44,5 +47,41 @@ router.get('/all-users', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve all users.', error });
     }
 });
+
+// add new submission
+// Set up Multer storage options
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Destination folder
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
+    }
+});
+
+const upload = multer({ storage });
+
+// Route to handle file uploads
+router.post('/upload', upload.single('file'), (req, res) => {
+    res.send('File uploaded successfully');
+});
+
+// Route to list files
+router.get('/files', (req, res) => {
+    fs.readdir('uploads/', (err, files) => {
+        if (err) {
+            return res.status(500).send('Unable to list files');
+        }
+        res.json(files);
+    });
+});
+
+// Route to serve files
+router.get('/files/:filename', (req, res) => {
+    const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
+    res.sendFile(filePath);
+});
+
+
 
 module.exports = router;
