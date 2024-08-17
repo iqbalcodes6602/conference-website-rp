@@ -12,6 +12,7 @@ import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import ViewAllUsers from "./sections/adminDashboard/view-all-users";
 import ViewAllUserSubmissions from "./sections/adminDashboard/view-all-users-submissions";
+import AddNewSubmission from "./sections/userDashboard/add-new-submission";
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -43,6 +44,7 @@ function App() {
 				{user &&
 					<>
 						<Route path='/user/dashboard' element={<UserDashboard />} />
+						<Route path='/user/dashboard/add-new-submission' element={<AddNewSubmission />} />
 					</>
 				}
 

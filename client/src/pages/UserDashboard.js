@@ -4,19 +4,18 @@ import { UserContext } from '../UserContext';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { Typography } from '@material-tailwind/react';
-import OptionsCard from '../sections/userDashboard/optionscard';
-import SelectedOptionSection from '../sections/userDashboard/selectedOptionSection';
+import OptionsCard from '../sections/userDashboard/components/optionscard';
 
 const options = [
     {
         title: 'Add New Submission',
         description: 'Plan it, create it, launch it. Collaborate seamlessly with all the organization and hit your marketing goals every month with our marketing plan.',
-        href: '/add-new-submission',
+        href: '/user/dashboard/add-new-submission',
     },
     {
-        title: 'View All Submissions',
+        title: 'View My Submissions',
         description: 'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
-        href: '/view-all-submissions',
+        href: '/user/dashboard/view-my-submissions',
     },
     {
         title: 'Business Automation',
@@ -44,9 +43,6 @@ function UserDashboard() {
     const navigate = useNavigate();  // Updated hook
     const { user, login, logout, isUserValid } = useContext(UserContext);
 
-    const [selectedOption, setSelectedOption] = React.useState(null);
-    const [showOptions, setShowOptions] = React.useState(true);
-
     useEffect(() => {
         try {
             if (!isUserValid()) {
@@ -57,18 +53,6 @@ function UserDashboard() {
             logout();
         }
     }, []);
-
-    const handleOptionSelect = (category) => {
-        setSelectedOption(category);
-        setShowOptions(false);
-        // console.log(category);
-        // console.log(selectedOption);
-    }
-
-    const handleOptionDeSelect = () => {
-        setSelectedOption(null);
-        setShowOptions(true);
-    }
 
     return (
         <>
@@ -99,9 +83,7 @@ function UserDashboard() {
                             <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
                                 {
                                     options.map((category, index) => (
-                                        <div key={index} onClick={() => handleOptionSelect(category)} >
-                                            <OptionsCard category={category} />
-                                        </div>
+                                        <OptionsCard key={index} category={category} />
                                     ))
                                 }
                             </div>
