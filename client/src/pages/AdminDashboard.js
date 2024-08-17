@@ -4,17 +4,18 @@ import { UserContext } from '../UserContext';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { Typography } from '@material-tailwind/react';
-import OptionsCard from '../sections/adminDashboard/optionscard';
-import SelectedOptionSection from '../sections/adminDashboard/selectedOptionSection';
+import OptionsCard from '../sections/adminDashboard/components/optionscard';
 
 const options = [
     {
         title: 'View All Users',
         description: 'Plan it, create it, launch it. Collaborate seamlessly with all the organization and hit your marketing goals every month with our marketing plan.',
+        href: '/admin/dashboard/view-all-users',
     },
     {
         title: 'View All User Submissions',
         description: 'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
+        href: '/admin/dashboard/view-all-user-submissions',
     },
 ];
 
@@ -22,36 +23,21 @@ function AdminDashboard() {
     const navigate = useNavigate();  // Updated hook
     const { user, login, logout, isUserValid } = useContext(UserContext);
 
-    const [selectedOption, setSelectedOption] = React.useState(null);
-    const [showOptions, setShowOptions] = React.useState(true);
-
     useEffect(() => {
         try {
-			if (!isUserValid()) {
-				logout();
+            if (!isUserValid()) {
+                logout();
                 navigate('/registration');
-			}else{
+            } else {
                 if (user?.role !== 'admin') {
                     navigate('/user/dashboard');
                 }
             }
-		} catch (error) {
+        } catch (error) {
             // console.log("line 55",error);
-			logout();
-		}
+            logout();
+        }
     }, []);
-
-    const handleOptionSelect = (category) => {
-        setSelectedOption(category);
-        setShowOptions(false);
-        // console.log(category);
-        // console.log(selectedOption);
-    }
-
-    const handleOptionDeSelect = () => {
-        setSelectedOption(null);
-        setShowOptions(true);
-    }
 
     return (
         <>
@@ -79,19 +65,13 @@ function AdminDashboard() {
                     </Typography>
                     <section className="bg-white dark:bg-gray-900">
                         <div className="px-4 mx-auto max-w-screen-xl lg:px-6 text-left">
-                            {showOptions ? (
-                                <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
-                                    {
-                                        options.map((category, index) => (
-                                            <div onClick={() => handleOptionSelect(category)} >
-                                                <OptionsCard key={index} category={category} />
-                                            </div>
-                                        ))
-                                    }
-                                </div>
-                            ) : (
-                                <SelectedOptionSection selectedOption={selectedOption} handleOptionDeSelect={handleOptionDeSelect} />
-                            )}
+                            <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
+                                {
+                                    options.map((category, index) => (
+                                        <OptionsCard key={index} category={category} />
+                                    ))
+                                }
+                            </div>
                         </div>
                     </section>
                 </div>

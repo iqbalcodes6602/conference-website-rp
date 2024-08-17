@@ -10,6 +10,8 @@ import Submission from "./pages/Submission";
 import { UserContext } from './UserContext'; // Import the UserProvider
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ViewAllUsers from "./sections/adminDashboard/view-all-users";
+import ViewAllUserSubmissions from "./sections/adminDashboard/view-all-users-submissions";
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -31,12 +33,27 @@ function App() {
 				<Route path='/home' element={<Home />} />
 				<Route path='/submission' element={<Submission />} />
 				<Route path='/important-dates' element={<ImportantDates />} />
-				<Route path='/registration' element={user ? <Home /> :<Registration />} />
+				<Route path='/registration' element={user ? <Home /> : <Registration />} />
 				<Route path='/committee' element={<Committee />} />
 				<Route path='/venue-accommodation' element={<VenueAccommodation />} />
 				<Route path='/contact' element={<Contact />} />
-				<Route path='/user/dashboard' element={user ? <UserDashboard /> : <Registration />}/>
-				<Route path='/admin/dashboard' element={user?.role==="admin" ?  <AdminDashboard /> : <UserDashboard />} />
+
+
+				{/* user routes */}
+				{user &&
+					<>
+						<Route path='/user/dashboard' element={<UserDashboard />} />
+					</>
+				}
+
+				{/* admin routes */}
+				{user && user.role === 'admin' &&
+					<>
+						<Route path='/admin/dashboard' element={<AdminDashboard />} />
+						<Route path='/admin/dashboard/view-all-users' element={<ViewAllUsers />} />
+						<Route path='/admin/dashboard/view-all-user-submissions' element={<ViewAllUserSubmissions />} />
+					</>
+				}
 			</Routes>
 		</BrowserRouter>
 	);
