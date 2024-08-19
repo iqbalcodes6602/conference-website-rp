@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../../components/header';
-import Footer from '../../components/footer';
 import OptionsHeader from '../../components/options-header';
 import PageWrapper from '../../components/page-wrapper';
 
@@ -60,19 +58,38 @@ function ViewMySubmissions() {
             });
     };
 
-
     return (
         <>
             <PageWrapper>
                 <OptionsHeader href='/user/dashboard' title='View My Submissions' />
                 <div>
                     <h1>Uploaded Files</h1>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
                     <ul>
                         {files.map((file, index) => (
                             <li key={index}>
                                 <button onClick={() => handleFileClick(file.filename)}>
                                     {file.filename}
                                 </button>
+                                <div>
+                                    <p><strong>Name:</strong> {file.name || 'N/A'}</p>
+                                    <p><strong>Email:</strong> {file.email || 'N/A'}</p>
+                                    <div>
+                                        <strong>Members:</strong>
+                                        {file.members && file.members.length > 0 ? (
+                                            <ul>
+                                                {file.members.map((member, memberIndex) => (
+                                                    <li key={memberIndex}>
+                                                        <p><strong>Member Name:</strong> {member.name}</p>
+                                                        <p><strong>Member Email:</strong> {member.email}</p>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>No members</p>
+                                        )}
+                                    </div>
+                                </div>
                             </li>
                         ))}
                     </ul>

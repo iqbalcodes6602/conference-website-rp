@@ -82,9 +82,15 @@ router.get('/all-users', async (req, res) => {
 
 // Route to handle file uploads
 router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
+    const { filename } = req.file;
+    const { name, email, members } = req.body;
+
     const file = new File({
-        filename: req.file.filename,
-        userId: req.user.userId
+        filename,
+        userId: req.user.userId,
+        name,      // Add name field
+        email,     // Add email field
+        members: JSON.parse(members) // Parse members back to object
     });
 
     try {
@@ -115,10 +121,7 @@ router.post('/files/:filename', verifyToken, async (req, res) => {
 
     const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
     res.sendFile(filePath);
-});
-
-module.exports = router;
-
+})
 
 
 

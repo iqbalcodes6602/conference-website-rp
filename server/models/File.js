@@ -1,12 +1,11 @@
-// backend/models/File.js
-
 const mongoose = require('mongoose');
 
-const fileSchema = new mongoose.Schema({
+const FileSchema = new mongoose.Schema({
     filename: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    name: { type: String, required: false },
+    email: { type: String, required: false },
+    members: { type: Array, required: false } // Adjust the type based on how you want to store members
 });
 
-const File = mongoose.model('File', fileSchema);
-
-module.exports = File;
+module.exports = mongoose.model('File', FileSchema);

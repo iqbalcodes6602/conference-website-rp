@@ -27,7 +27,7 @@ function ViewAllUserSubmissions() {
         </div>
       </div>
       <Typography
-      // className="font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500"
+      // className="font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500 text-center"
       >
        all reviewers
       </Typography>
