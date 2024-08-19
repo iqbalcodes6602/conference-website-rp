@@ -22,7 +22,7 @@ function Registration() {
     }, [navigate, isUserValid, logout]);
     return (
         <>
-            <PageWrapper>
+            <PageWrapper containerClassName='text-center' >
                 <section className="bg-white">
                     <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
                         <LeftImage />
@@ -48,6 +48,7 @@ function Registration() {
                                     >
                                         <TabPanel value="signin" >
                                             <SignIn />
+                                            {/* <SignUp /> */}
                                         </TabPanel>
                                         <TabPanel value="signup">
                                             <SignUp />

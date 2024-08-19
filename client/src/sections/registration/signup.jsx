@@ -38,18 +38,15 @@ function SignUp() {
                         </Typography>
                     </label>
                     <Input
+                        onChange={(e) => setUsername(e.target.value)}
+                        label='Username'
                         id="username"
                         color="gray"
                         size="lg"
                         type="text"
                         name="username"
-                        placeholder="Username"
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
-                        labelProps={{
-                            className: "hidden",
-                        }}
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div className="mb-6">
@@ -62,11 +59,8 @@ function SignUp() {
                         </Typography>
                     </label>
                     <Input
+                        label='Password'
                         size="lg"
-                        placeholder="********"
-                        labelProps={{
-                            className: "hidden",
-                        }}
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
                         type={passwordShown ? "text" : "password"}
                         icon={
