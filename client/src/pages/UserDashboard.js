@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';  // Updated import
 import { UserContext } from '../UserContext';
-import Header from '../components/header';
-import Footer from '../components/footer';
 import { Typography } from '@material-tailwind/react';
 import OptionsCard from '../sections/userDashboard/components/optionscard';
+import PageWrapper from '../components/page-wrapper';
 
 const options = [
     {
@@ -56,42 +55,38 @@ function UserDashboard() {
 
     return (
         <>
-            <Header />
-            <section className="px-8 py-8 lg:py-16 mt-10">
-                <div className="container mx-auto text-center">
-                    <Typography
-                        variant="h5"
-                        color="blue-gray"
-                        className="mb-4 !text-base lg:!text-2xl"
-                    >
-                        My Dashboard
-                    </Typography>
-                    <Typography
-                        variant="h1"
-                        color="blue-gray"
-                        className="mb-4 !text-3xl lg:!text-5xl"
-                    >
-                        We&apos;re Here to Help
-                    </Typography>
-                    <Typography className="font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500">
-                        Whether it&apos;s a question about our services, a request for
-                        technical assistance, or suggestions for improvement, our team is
-                        eager to hear from you.
-                    </Typography>
-                    <section className="bg-white dark:bg-gray-900">
-                        <div className="px-4 mx-auto max-w-screen-xl lg:px-6 text-left">
-                            <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
-                                {
-                                    options.map((category, index) => (
-                                        <OptionsCard key={index} category={category} />
-                                    ))
-                                }
-                            </div>
+            <PageWrapper>
+                <Typography
+                    variant="h5"
+                    color="blue-gray"
+                    className="mb-4 !text-base lg:!text-2xl text-center"
+                >
+                    My Dashboard
+                </Typography>
+                <Typography
+                    variant="h1"
+                    color="blue-gray"
+                    className="mb-4 !text-3xl lg:!text-5xl text-center"
+                >
+                    We&apos;re Here to Help
+                </Typography>
+                <Typography className="font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500 text-center">
+                    Whether it&apos;s a question about our services, a request for
+                    technical assistance, or suggestions for improvement, our team is
+                    eager to hear from you.
+                </Typography>
+                <section className="bg-white dark:bg-gray-900">
+                    <div className="px-4 mx-auto max-w-screen-xl lg:px-6 text-left">
+                        <div className="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:space-y-0">
+                            {
+                                options.map((category, index) => (
+                                    <OptionsCard key={index} category={category} />
+                                ))
+                            }
                         </div>
-                    </section>
-                </div>
-            </section>
-            <Footer />
+                    </div>
+                </section>
+            </PageWrapper>
         </>
     );
 }

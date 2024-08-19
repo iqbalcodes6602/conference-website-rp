@@ -1,6 +1,4 @@
 import React from 'react'
-import Header from '../components/header'
-import Footer from '../components/footer'
 import {
     Timeline,
     TimelineItem,
@@ -11,29 +9,29 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { HomeIcon, BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import PageWrapper from '../components/page-wrapper';
 
 
 function ImportantDates() {
     return (
         <>
-            <Header />
-            <section className="px-8 py-8 lg:py-16 mt-10">
-                <div className="container mx-auto text-center flex flex-col items-center">
+            <PageWrapper>
+                <div className='flex flex-col items-center'>
                     <Typography
                         variant="h5"
                         color="blue-gray"
-                        className="mb-4 !text-base lg:!text-2xl"
+                        className="mb-4 !text-base lg:!text-2xl text-center"
                     >
                         Customer Care
                     </Typography>
                     <Typography
                         variant="h1"
                         color="blue-gray"
-                        className="mb-4 !text-3xl lg:!text-5xl"
+                        className="mb-4 !text-3xl lg:!text-5xl text-center"
                     >
                         Important Dates
                     </Typography>
-                    <Typography className="mb-10 font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500">
+                    <Typography className="mb-10 font-normal !text-lg lg:mb-20 mx-auto max-w-3xl !text-gray-500 text-center">
                         Whether it&apos;s a question about our services, a request for
                         technical assistance, or suggestions for improvement, our team is
                         eager to hear from you.
@@ -99,8 +97,7 @@ function ImportantDates() {
                         </Timeline>
                     </div>
                 </div>
-            </section >
-            <Footer />
+            </PageWrapper>
         </>
     )
 }
