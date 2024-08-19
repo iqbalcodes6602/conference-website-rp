@@ -1,12 +1,43 @@
 // backend/routes/users.js
 
-const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const express = require('express');
+const File = require('../models/File'); // Assuming you have a File model
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
+
+
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided.' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Failed to authenticate token.' });
+        }
+
+        req.user = decoded; // Attach user information to request object
+        next();
+    });
+};
+
+// Set up Multer storage options
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Destination folder
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
+    }
+});
+
+const upload = multer({ storage });
+
 
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -48,39 +79,46 @@ router.get('/all-users', async (req, res) => {
     }
 });
 
-// add new submission
-// Set up Multer storage options
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Destination folder
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
+
+// Route to handle file uploads
+router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
+    const file = new File({
+        filename: req.file.filename,
+        userId: req.user.userId
+    });
+
+    try {
+        await file.save();
+        res.status(201).json({ message: 'File uploaded successfully', file });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error.', error: err.message });
     }
 });
 
-const upload = multer({ storage });
-
-// Route to handle file uploads
-router.post('/upload', upload.single('file'), (req, res) => {
-    res.send('File uploaded successfully');
-});
-
 // Route to list files
-router.get('/files', (req, res) => {
-    fs.readdir('uploads/', (err, files) => {
-        if (err) {
-            return res.status(500).send('Unable to list files');
-        }
-        res.json(files);
-    });
+router.post('/files', verifyToken, async (req, res) => {
+    try {
+        const files = await File.find({ userId: req.user.userId });
+        res.status(200).json(files);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to retrieve files.', error: err.message });
+    }
 });
 
 // Route to serve files
-router.get('/files/:filename', (req, res) => {
+router.post('/files/:filename', verifyToken, async (req, res) => {
+    const file = await File.findOne({ filename: req.params.filename, userId: req.user.userId });
+
+    if (!file) {
+        return res.status(404).json({ message: 'File not found.' });
+    }
+
     const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
     res.sendFile(filePath);
 });
+
+module.exports = router;
+
 
 
 
