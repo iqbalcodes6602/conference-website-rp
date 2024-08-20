@@ -55,13 +55,11 @@ function ViewAllUsers() {
             </Typography>
           </div>
         </div>
-        <Typography>
-          {allUsers.length > 0 ? (
-            <UserTable />
-          ) : (
-            'No users found.'
-          )}
-        </Typography>
+        {allUsers.length > 0 ? (
+          <UserTable />
+        ) : (
+          'No users found.'
+        )}
       </PageWrapper>
     </>
   );

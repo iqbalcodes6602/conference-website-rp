@@ -19,11 +19,16 @@ function SignIn() {
         try {
             await axios.post('http://localhost:5000/api/users/login', { username, password })
                 .then((response) => {
-                    console.log(response.data);
-                    login(jwtDecode(response.data));
-                    console.log(jwtDecode(response.data))
                     localStorage.setItem('token', response.data);
-                    navigate('/user/dashboard');
+                    const decodedToken = jwtDecode(response.data)
+                    login(decodedToken);
+                    // console.log(jwtDecode(response.data))
+                    if (decodedToken.role === 'admin')
+                        navigate('/admin/dashboard');
+                    else if (decodedToken.role === 'reviewer')
+                        navigate('/reviewer/dashboard');
+                    else
+                        navigate('/user/dashboard');
                 })
         } catch (error) {
             console.error(error);

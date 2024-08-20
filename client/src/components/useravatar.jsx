@@ -8,7 +8,7 @@ import {
     Avatar,
     Typography,
 } from "@material-tailwind/react";
-import { ComputerDesktopIcon, PresentationChartBarIcon, QuestionMarkCircleIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { ClipboardDocumentListIcon, ComputerDesktopIcon, PresentationChartBarIcon, QuestionMarkCircleIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 
 function UserAvatar({ children }) {
@@ -35,26 +35,62 @@ function UserAvatar({ children }) {
                         {/* Admin Panel */}
                         {
                             user.role === 'admin' && (
-                                <NavLink to="/admin/dashboard">
-                                    <MenuItem className="flex items-center gap-2">
-                                        <PresentationChartBarIcon className='h-5 w-5' />
-                                        <Typography variant="small" className="font-medium">
-                                            Admin Panel
-                                        </Typography>
-                                    </MenuItem>
-                                </NavLink>
+                                <>
+                                    <NavLink to="/admin/dashboard">
+                                        <MenuItem className="flex items-center gap-2">
+                                            <PresentationChartBarIcon className='h-5 w-5' />
+                                            <Typography variant="small" className="font-medium">
+                                                Admin Panel
+                                            </Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                    <NavLink to="/reviewer/dashboard">
+                                        <MenuItem className="flex items-center gap-2">
+                                            <ClipboardDocumentListIcon className='h-5 w-5' />
+                                            <Typography variant="small" className="font-medium">
+                                                Reviewer Dashboard
+                                            </Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                    <NavLink to="/user/dashboard">
+                                        <MenuItem className="flex items-center gap-2">
+                                            <ComputerDesktopIcon className='h-5 w-5' />
+                                            <Typography variant="small" className="font-medium">
+                                                User Dashboard
+                                            </Typography>
+                                        </MenuItem>
+                                    </NavLink>
+                                </>
                             )
                         }
 
+
+                        {/* Reviewer Dashboard */}
+                        {
+                            user.role === 'reviewer' &&
+                            <NavLink to="/reviewer/dashboard">
+                                <MenuItem className="flex items-center gap-2">
+                                    <ClipboardDocumentListIcon className='h-5 w-5' />
+                                    <Typography variant="small" className="font-medium">
+                                        Reviewer Dashboard
+                                    </Typography>
+                                </MenuItem>
+                            </NavLink>
+                        }
+
+
                         {/* User Dashboard */}
-                        <NavLink to="/user/dashboard">
-                            <MenuItem className="flex items-center gap-2">
-                                <ComputerDesktopIcon className='h-5 w-5' />
-                                <Typography variant="small" className="font-medium">
-                                    Dashboard
-                                </Typography>
-                            </MenuItem>
-                        </NavLink>
+                        {
+                            user.role === 'user' &&
+                            <NavLink to="/user/dashboard">
+                                <MenuItem className="flex items-center gap-2">
+                                    <ComputerDesktopIcon className='h-5 w-5' />
+                                    <Typography variant="small" className="font-medium">
+                                        My Dashboard
+                                    </Typography>
+                                </MenuItem>
+                            </NavLink>
+                        }
 
 
                         {/* My Profile */}
