@@ -22,11 +22,12 @@ const verifyReviewer = (req, res, next) => {
         }
 
         // Assuming 'isAdmin' is a field in your user model
-        if (decoded.role !== 'reviewer' || decoded.role !== 'admin') {
+        if (decoded.role !== 'reviewer') {
             return res.status(403).json({ message: 'Not authorized.' });
         }
 
         // Token is valid and user is admin
+        req.user = decoded;
         next();
     });
 };

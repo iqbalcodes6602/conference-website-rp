@@ -1,12 +1,9 @@
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import { Button, Typography } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
 import { UserTable } from './components/user-table';
-import { useNavigate } from 'react-router-dom';
 import PageWrapper from '../../components/page-wrapper';
+import OptionsHeader from '../../components/options-header';
 
 function ViewAllUsers() {
-  const navigate = useNavigate();
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
@@ -14,6 +11,7 @@ function ViewAllUsers() {
       try {
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:5000/api/admin/all-users', {
+          method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -36,27 +34,9 @@ function ViewAllUsers() {
   return (
     <>
       <PageWrapper>
-        <div className='flex justify-between mb-5'>
-          <div>
-            <Button
-              variant='text'
-              className='flex items-center gap-2'
-              onClick={() => {
-                navigate('/admin/dashboard');
-              }}>
-              <ArrowLeftIcon className='h-4 w-4' /> Go Back
-            </Button>
-          </div>
-          <div>
-            <Typography
-              variant="h2"
-              color="blue-gray">
-              View All Users
-            </Typography>
-          </div>
-        </div>
+        <OptionsHeader href='/admin/dashboard' title='View All Users' />
         {allUsers.length > 0 ? (
-          <UserTable />
+          <UserTable allUsers={allUsers} />
         ) : (
           'No users found.'
         )}

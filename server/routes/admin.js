@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Submission = require('../models/Submission');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -29,11 +30,23 @@ const verifyAdmin = (req, res, next) => {
 };
 
 // Admin users route
-router.get('/all-users', verifyAdmin, async (req, res) => {
+router.post('/all-users', verifyAdmin, async (req, res) => {
     try {
         // console.log('Admin user route hit');
         const allUsers = await User.find({}).select('-password');
         res.status(200).json(allUsers);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to retrieve all users.', error });
+    }
+});
+
+// Admin users route get all reviewrss
+router.post('/all-reviewers', verifyAdmin, async (req, res) => {
+    try {
+        // console.log('Admin user route hit');
+        const allReviewers = await User.find({ role: 'reviewer' }).select('-password');
+        res.status(200).json(allReviewers);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Failed to retrieve all users.', error });
@@ -61,6 +74,41 @@ router.post('/view-all-user-submissions/:filename', verifyAdmin, async (req, res
     const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
     res.sendFile(filePath);
 })
+
+// Route to update submission with reviewer id
+router.post('/update-submission-reviewer', verifyAdmin, async (req, res) => {
+    const { submissionId, reviewerId } = req.body;
+
+    if (!submissionId || !reviewerId) {
+        return res.status(400).json({ message: 'Both submissionId and reviewerId are required.' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(submissionId)) {
+        return res.status(400).json({ message: 'Invalid submission ID.' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(reviewerId)) {
+        return res.status(400).json({ message: 'Invalid reviewer ID.' });
+    }
+
+    try {
+        const updatedSubmission = await Submission.findByIdAndUpdate(
+            submissionId,
+            { reviewer: reviewerId },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedSubmission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        res.status(200).json(updatedSubmission);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to update submission.', error });
+    }
+});
+
 
 
 module.exports = router;

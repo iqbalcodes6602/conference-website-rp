@@ -1,6 +1,5 @@
 import {
     MagnifyingGlassIcon,
-    ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -22,14 +21,6 @@ import {
     Option,
 } from "@material-tailwind/react";
 
-// Define your data array
-const DATA = [
-    { _id: "66bc43c9382d5af54488c748", username: "amankumar", role: "user" },
-    { _id: "66bcb26e40091644b5181c74", username: "u", role: "user" },
-    { _id: "66bcbf7b40091644b5181c83", username: "test-1", role: "user" },
-    { _id: "66bcf692a95f2739a218d60f", username: "admin", role: "admin" },
-    { _id: "66bd868b40743f509c719ba3", username: "a", role: "admin" },
-];
 
 const TABS = [
     {
@@ -49,7 +40,8 @@ const TABS = [
 const TABLE_HEAD = ["User Id", "User Name", "Role", ""];
 
 
-export function UserTable() {
+export function UserTable({ allUsers }) {
+    const DATA = allUsers;
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">

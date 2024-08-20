@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Input, Tab, Tabs, TabsHeader, Tooltip, Typography } from '@material-tailwind/react';
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import ReviewerSelect from './reviewerSelect';
 
 
 function ViewAllSubmissionsTable() {
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
+    const [allReviewers, setAllReviewers] = useState([]);
 
+    // view all user submissions
     useEffect(() => {
         // Fetch the list of files from the server with Authorization header
         const fetchFiles = async () => {
@@ -33,6 +36,32 @@ function ViewAllSubmissionsTable() {
         fetchFiles();
     }, []);
 
+    // get all reviewers
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:5000/api/admin/all-reviewers', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setAllReviewers(data);
+                    console.log('All reviewers:', data);
+                } else {
+                    console.error('Failed to fetch users');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
 
     const TABS = [
@@ -50,7 +79,8 @@ function ViewAllSubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Reviewer", ""];
+
     const handleFileClick = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
@@ -205,6 +235,17 @@ function ViewAllSubmissionsTable() {
                                                         return <li key={member.email}>{member.name} - {member.email}</li>
                                                     })}
                                                 </ul>
+                                            </td>
+
+                                            {/* reviewer */}
+                                            <td className={classes}>
+                                                <div className="flex flex-col">
+                                                    <ReviewerSelect
+                                                        submissionId={submission._id}
+                                                        currentReviewer={submission.reviewer}
+                                                        allReviewers={allReviewers}
+                                                    />
+                                                </div>
                                             </td>
 
                                             {/* edit */}
