@@ -11,32 +11,7 @@ function AddNewSubmissionForm() {
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        // Fetch the list of files from the server with Authorization header
-        const fetchFiles = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/users/files', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Error fetching files: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                setFiles(data);
-            } catch (error) {
-                setError(error.message);
-                console.error('Error fetching files:', error);
-            }
-        };
-
-        fetchFiles();
-    }, []);
-
+    
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
@@ -67,19 +42,6 @@ function AddNewSubmissionForm() {
             console.log(data);
 
             // Refresh the list of files after successful upload
-            const updatedResponse = await fetch('http://localhost:5000/api/users/files', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-
-            if (!updatedResponse.ok) {
-                throw new Error(`Error fetching files after upload: ${updatedResponse.statusText}`);
-            }
-
-            const updatedFiles = await updatedResponse.json();
-            setFiles(updatedFiles);
 
         } catch (error) {
             setError(error.message);

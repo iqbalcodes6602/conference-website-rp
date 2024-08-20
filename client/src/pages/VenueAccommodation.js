@@ -5,7 +5,7 @@ import PageWrapper from '../components/page-wrapper'
 function VenueAccommodation() {
     return (
         <>
-            <PageWrapper>
+            <PageWrapper containerClassName='text-center' >
                 <Typography
                     variant="h5"
                     color="blue-gray"

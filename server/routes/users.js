@@ -3,7 +3,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const express = require('express');
-const File = require('../models/File'); // Assuming you have a File model
+const Submission = require('../models/Submission'); // Assuming you have a File model
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
@@ -85,7 +85,7 @@ router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
     const { filename } = req.file;
     const { name, email, members } = req.body;
 
-    const file = new File({
+    const submission = new Submission({
         filename,
         userId: req.user.userId,
         name,      // Add name field
@@ -94,17 +94,17 @@ router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
     });
 
     try {
-        await file.save();
-        res.status(201).json({ message: 'File uploaded successfully', file });
+        await submission.save();
+        res.status(201).json({ message: 'File uploaded successfully', submission });
     } catch (err) {
         res.status(500).json({ message: 'Server error.', error: err.message });
     }
 });
 
 // Route to list files
-router.post('/files', verifyToken, async (req, res) => {
+router.post('/view-my-submissions', verifyToken, async (req, res) => {
     try {
-        const files = await File.find({ userId: req.user.userId });
+        const files = await Submission.find({ userId: req.user.userId });
         res.status(200).json(files);
     } catch (err) {
         res.status(500).json({ message: 'Failed to retrieve files.', error: err.message });
@@ -112,8 +112,8 @@ router.post('/files', verifyToken, async (req, res) => {
 });
 
 // Route to serve files
-router.post('/files/:filename', verifyToken, async (req, res) => {
-    const file = await File.findOne({ filename: req.params.filename, userId: req.user.userId });
+router.post('/view-my-submissions/:filename', verifyToken, async (req, res) => {
+    const file = await Submission.findOne({ filename: req.params.filename, userId: req.user.userId });
 
     if (!file) {
         return res.status(404).json({ message: 'File not found.' });

@@ -3,7 +3,7 @@ import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButto
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
 
 
-function ViewMySubmissionsTable() {
+function ViewAllSubmissionsTable() {
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
 
@@ -11,7 +11,7 @@ function ViewMySubmissionsTable() {
         // Fetch the list of files from the server with Authorization header
         const fetchFiles = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/users/view-my-submissions', {
+                const response = await fetch('http://localhost:5000/api/admin/view-all-user-submissions', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -54,7 +54,7 @@ function ViewMySubmissionsTable() {
     const handleFileClick = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
-        const url = `http://localhost:5000/api/users/view-my-submissions/${filename}`;
+        const url = `http://localhost:5000/api/admin/view-all-user-submissions/${filename}`;
 
         fetch(url, {
             headers: {
@@ -240,4 +240,4 @@ function ViewMySubmissionsTable() {
     )
 }
 
-export default ViewMySubmissionsTable
+export default ViewAllSubmissionsTable

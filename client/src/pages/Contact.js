@@ -6,7 +6,7 @@ import PageWrapper from "../components/page-wrapper";
 const Contact = () => {
 	return (
 		<>
-			<PageWrapper>
+			<PageWrapper containerClassName="text-center" >
 				<Typography
 					variant="h5"
 					color="blue-gray"

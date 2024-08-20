@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const FileSchema = new mongoose.Schema({
+const SubmissionSchema = new mongoose.Schema({
     filename: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: false },
@@ -8,4 +8,4 @@ const FileSchema = new mongoose.Schema({
     members: { type: Array, required: false } // Adjust the type based on how you want to store members
 });
 
-module.exports = mongoose.model('File', FileSchema);
+module.exports = mongoose.model('Submission', SubmissionSchema);
