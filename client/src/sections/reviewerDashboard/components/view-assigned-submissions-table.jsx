@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Input, Tab, Tabs, TabsHeader, Tooltip, Typography } from '@material-tailwind/react';
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
+import GivePaperFeedback from '../give-paper-feedback';
 
 
 function ViewAssignedSubmissionsTable() {
+    const navigate = useNavigate();
+
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
 
@@ -34,29 +38,13 @@ function ViewAssignedSubmissionsTable() {
     }, []);
 
 
-
-    const TABS = [
-        {
-            label: "All",
-            value: "all",
-        },
-        {
-            label: "Monitored",
-            value: "monitored",
-        },
-        {
-            label: "Unmonitored",
-            value: "unmonitored",
-        },
-    ];
-
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", ""];
     const handleFileClick = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
         const url = `http://localhost:5000/api/reviewer/view-assigned-submissions/${filename}`;
 
         fetch(url, {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -76,6 +64,25 @@ function ViewAssignedSubmissionsTable() {
                 console.error('Error opening file:', error);
             });
     };
+
+
+    const TABS = [
+        {
+            label: "All",
+            value: "all",
+        },
+        {
+            label: "Monitored",
+            value: "monitored",
+        },
+        {
+            label: "Unmonitored",
+            value: "unmonitored",
+        },
+    ];
+
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", ""];
+
     return (
 
         <div>
@@ -179,7 +186,13 @@ function ViewAssignedSubmissionsTable() {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <span className='cursor-pointer' onClick={() => handleFileClick(submission.filename)}>
+                                                        <span
+                                                            className='cursor-pointer'
+                                                            onClick={() => navigate('/reviewer/dashboard/give-paper-feedback', {
+                                                                state: {
+                                                                    filename: submission.filename,
+                                                                }
+                                                            })}>
                                                             {submission.filename}
                                                         </span>
                                                     </Typography>
@@ -236,7 +249,7 @@ function ViewAssignedSubmissionsTable() {
                     </div>
                 </CardFooter>
             </Card>
-        </div>
+        </div >
     )
 }
 

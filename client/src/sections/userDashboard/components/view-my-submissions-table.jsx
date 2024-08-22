@@ -33,30 +33,13 @@ function ViewMySubmissionsTable() {
         fetchFiles();
     }, []);
 
-
-
-    const TABS = [
-        {
-            label: "All",
-            value: "all",
-        },
-        {
-            label: "Monitored",
-            value: "monitored",
-        },
-        {
-            label: "Unmonitored",
-            value: "unmonitored",
-        },
-    ];
-
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Reviewer", ""];
     const handleFileClick = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
         const url = `http://localhost:5000/api/users/view-my-submissions/${filename}`;
 
         fetch(url, {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -76,6 +59,24 @@ function ViewMySubmissionsTable() {
                 console.error('Error opening file:', error);
             });
     };
+
+
+    const TABS = [
+        {
+            label: "All",
+            value: "all",
+        },
+        {
+            label: "Monitored",
+            value: "monitored",
+        },
+        {
+            label: "Unmonitored",
+            value: "unmonitored",
+        },
+    ];
+
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Reviewer", ""];
     return (
 
         <div>

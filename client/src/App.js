@@ -16,6 +16,7 @@ import AddNewSubmission from "./sections/userDashboard/add-new-submission";
 import ViewMySubmissions from "./sections/userDashboard/view-my-submissions";
 import ReviewerDashboard from "./pages/ReviewerDashboard";
 import ViewAssignedSubmissions from "./sections/reviewerDashboard/view-assigned-submissions";
+import GivePaperFeedback from "./sections/reviewerDashboard/give-paper-feedback";
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -56,6 +57,7 @@ function App() {
 					<>
 						<Route path='/reviewer/dashboard' element={<ReviewerDashboard />} />
 						<Route path='/reviewer/dashboard/view-assigned-submissions' element={<ViewAssignedSubmissions />} />
+						<Route path='/reviewer/dashboard/give-paper-feedback' element={<GivePaperFeedback />} />
 					</>
 				}
 
