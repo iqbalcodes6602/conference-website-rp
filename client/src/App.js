@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, ScrollRestoration } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Registration from "./pages/Registration";
@@ -17,6 +17,7 @@ import ViewMySubmissions from "./sections/userDashboard/view-my-submissions";
 import ReviewerDashboard from "./pages/ReviewerDashboard";
 import ViewAssignedSubmissions from "./sections/reviewerDashboard/view-assigned-submissions";
 import GivePaperFeedback from "./sections/reviewerDashboard/give-paper-feedback";
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -32,45 +33,48 @@ function App() {
 	}, []);
 
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path='/*' element={<Home />} />
-				<Route path='/home' element={<Home />} />
-				<Route path='/submission' element={<Submission />} />
-				<Route path='/important-dates' element={<ImportantDates />} />
-				<Route path='/registration' element={user ? <Home /> : <Registration />} />
-				<Route path='/committee' element={<Committee />} />
-				<Route path='/venue-accommodation' element={<VenueAccommodation />} />
-				<Route path='/contact' element={<Contact />} />
+		<>
+			<BrowserRouter>
+				<ScrollToTop />
+				<Routes>
+					<Route path='/*' element={<Home />} />
+					<Route path='/home' element={<Home />} />
+					<Route path='/submission' element={<Submission />} />
+					<Route path='/important-dates' element={<ImportantDates />} />
+					<Route path='/registration' element={user ? <Home /> : <Registration />} />
+					<Route path='/committee' element={<Committee />} />
+					<Route path='/venue-accommodation' element={<VenueAccommodation />} />
+					<Route path='/contact' element={<Contact />} />
 
 
-				{/* user routes */}
-				{user &&
-					<>
-						<Route path='/user/dashboard' element={<UserDashboard />} />
-						<Route path='/user/dashboard/add-new-submission' element={<AddNewSubmission />} />
-						<Route path='/user/dashboard/view-my-submissions' element={<ViewMySubmissions />} />
-					</>
-				}
+					{/* user routes */}
+					{user &&
+						<>
+							<Route path='/user/dashboard' element={<UserDashboard />} />
+							<Route path='/user/dashboard/add-new-submission' element={<AddNewSubmission />} />
+							<Route path='/user/dashboard/view-my-submissions' element={<ViewMySubmissions />} />
+						</>
+					}
 
-				{user && user.role === 'reviewer' &&
-					<>
-						<Route path='/reviewer/dashboard' element={<ReviewerDashboard />} />
-						<Route path='/reviewer/dashboard/view-assigned-submissions' element={<ViewAssignedSubmissions />} />
-						<Route path='/reviewer/dashboard/give-paper-feedback' element={<GivePaperFeedback />} />
-					</>
-				}
+					{user && user.role === 'reviewer' &&
+						<>
+							<Route path='/reviewer/dashboard' element={<ReviewerDashboard />} />
+							<Route path='/reviewer/dashboard/view-assigned-submissions' element={<ViewAssignedSubmissions />} />
+							<Route path='/reviewer/dashboard/give-paper-feedback' element={<GivePaperFeedback />} />
+						</>
+					}
 
-				{/* admin routes */}
-				{user && user.role === 'admin' &&
-					<>
-						<Route path='/admin/dashboard' element={<AdminDashboard />} />
-						<Route path='/admin/dashboard/view-all-users' element={<ViewAllUsers />} />
-						<Route path='/admin/dashboard/view-all-user-submissions' element={<ViewAllUserSubmissions />} />
-					</>
-				}
-			</Routes>
-		</BrowserRouter>
+					{/* admin routes */}
+					{user && user.role === 'admin' &&
+						<>
+							<Route path='/admin/dashboard' element={<AdminDashboard />} />
+							<Route path='/admin/dashboard/view-all-users' element={<ViewAllUsers />} />
+							<Route path='/admin/dashboard/view-all-user-submissions' element={<ViewAllUserSubmissions />} />
+						</>
+					}
+				</Routes>
+			</BrowserRouter>
+		</>
 	);
 }
 

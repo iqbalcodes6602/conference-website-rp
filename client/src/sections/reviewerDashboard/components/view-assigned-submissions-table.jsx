@@ -38,7 +38,7 @@ function ViewAssignedSubmissionsTable() {
     }, []);
 
 
-    const handleFileClick = (filename) => {
+    const openFileInNewTab = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
         const url = `http://localhost:5000/api/reviewer/view-assigned-submissions/${filename}`;
@@ -81,7 +81,7 @@ function ViewAssignedSubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review Status"];
 
     return (
 
@@ -187,12 +187,7 @@ function ViewAssignedSubmissionsTable() {
                                                         className="font-normal"
                                                     >
                                                         <span
-                                                            className='cursor-pointer'
-                                                            onClick={() => navigate('/reviewer/dashboard/give-paper-feedback', {
-                                                                state: {
-                                                                    filename: submission.filename,
-                                                                }
-                                                            })}>
+                                                            className='cursor-pointer' onClick={() => openFileInNewTab(submission.filename)}>
                                                             {submission.filename}
                                                         </span>
                                                     </Typography>
@@ -220,13 +215,17 @@ function ViewAssignedSubmissionsTable() {
                                                 </ul>
                                             </td>
 
-                                            {/* edit */}
+                                            {/* review status */}
                                             <td className={classes}>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
-                                                        <PencilIcon className="h-4 w-4" />
-                                                    </IconButton>
-                                                </Tooltip>
+                                                <span
+                                                    className='cursor-pointer'
+                                                    onClick={() => navigate('/reviewer/dashboard/give-paper-feedback', {
+                                                        state: {
+                                                            filename: submission.filename,
+                                                        }
+                                                    })}>
+                                                    Add Review
+                                                </span>
                                             </td>
                                         </tr>
                                     );
