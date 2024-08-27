@@ -13,26 +13,31 @@ function Committee() {
       name: "Prof. B B Biswal",
       role: "Program Chair",
       description: "Vice Chancellor, Odisha University of Technology and Research, Bhubaneswar",
+      image: "/images/profs/Prof. Parhi.jpg",
     },
     {
       name: "Prof. D R K Parhi",
       role: "Chairman",
       description: "Dept. of Mechanical Engineering, National Institute of Technology, Rourkela",
+      image: "/images/profs/Prof. Parhi.jpg",
     },
     {
       name: "Prof. B B V L Deepak",
       role: "Convener",
       description: "Dept. of Industrial Design, National Institute of Technology, Rourkela",
+      image: "/images/profs/Prof. Deepak.jpg",
     },
     {
       name: "Prof. Dibya P Jena",
       role: "Coordinator",
       description: "Dept. of Industrial Design, National Institute of Technology, Rourkela",
+      image: "/images/profs/Prof. D P Jena.jpg",
     },
     {
       name: "Prof. Mohit Lal",
       role: "Coordinator",
       description: "Dept. of Industrial Design, National Institute of Technology, Rourkela",
+      image: "/images/profs/prof. M Lal.jpg",
     },
   ]
   return (
@@ -50,7 +55,7 @@ function Committee() {
               CORE_TEAM.map((member, index) => (
                 <div className="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
                   <a href="#">
-                    <img className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar" />
+                    <img className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src={member.image} alt="Bonnie Avatar" />
                   </a>
                   <div className="p-5">
                     <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
