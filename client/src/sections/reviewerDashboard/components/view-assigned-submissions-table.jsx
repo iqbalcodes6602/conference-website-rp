@@ -221,6 +221,7 @@ function ViewAssignedSubmissionsTable() {
                                                     className='cursor-pointer'
                                                     onClick={() => navigate('/reviewer/dashboard/give-paper-feedback', {
                                                         state: {
+                                                            submissionId: submission._id,
                                                             filename: submission.filename,
                                                         }
                                                     })}>

@@ -1,3 +1,5 @@
+// models/Submission.js
+
 const mongoose = require('mongoose');
 
 const SubmissionSchema = new mongoose.Schema({
@@ -8,6 +10,12 @@ const SubmissionSchema = new mongoose.Schema({
     members: { type: Array, required: false },
     status: { type: String, required: true, default: 'Pending', enum: ['Pending', 'In Review', 'Review Submitted', 'Registration Needed', 'Accepted'] },
     reviewer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false, default: null },
+    review: { // Add review field
+        originality: { type: String, required: false },
+        relationshipToLiterature: { type: String, required: false },
+        methodology: { type: String, required: false },
+        recommendation: { type: String, required: false }
+    }
 });
 
 module.exports = mongoose.model('Submission', SubmissionSchema);

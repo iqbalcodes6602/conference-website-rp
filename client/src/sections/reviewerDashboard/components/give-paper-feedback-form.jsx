@@ -1,37 +1,32 @@
-import { LinkIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { Button } from '@material-tailwind/react'
+import { LinkIcon } from '@heroicons/react/24/solid';
+import { Button, Radio, Textarea } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 
-function GivePaperFeedbackForm({ filename, url }) {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [members, setMembers] = useState([]);
-
-    const [file, setFile] = useState(null);
-    const [files, setFiles] = useState([]);
+function GivePaperFeedbackForm({ submissionId, filename, url }) {
     const [error, setError] = useState(null);
 
+    const [originality, setOriginality] = useState('');
+    const [relationshipToLiterature, setRelationshipToLiterature] = useState('');
+    const [methodology, setMethodology] = useState('');
+    const [recommendation, setRecommendation] = useState('');
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('members', JSON.stringify(members)); // Convert the array to a JSON string
-
         try {
-            const response = await fetch('http://localhost:5000/api/users/upload', {
+            const response = await fetch('http://localhost:5000/api/reviewer/add-submission-review', {
                 method: 'POST',
-                body: formData,
                 headers: {
+                    'Content-Type': 'application/json', // Add this header
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
+                },
+                body: JSON.stringify({
+                    submissionId: submissionId,
+                    originality: originality,
+                    relationshipToLiterature: relationshipToLiterature,
+                    methodology: methodology,
+                    recommendation: recommendation
+                }) // Convert the body to JSON string
             });
 
             if (!response.ok) {
@@ -65,127 +60,84 @@ function GivePaperFeedbackForm({ filename, url }) {
                         }
                     </div>
                 </aside >
+
+                {/*  */}
                 <form className='col-span-2' onSubmit={handleSubmit}>
-                    {/* full name */}
+
+                    {/* orginality */}
                     <div className="mb-5">
                         <label
-                            htmlFor="name"
+                            htmlFor="originality"
                             className="mb-3 block text-base font-medium text-black"
                         >
-                            Full Name
+                            1. Originality: Does the paper contain new and significant information adequate to justify publication?
                         </label>
-                        <input
-                            onChange={(e) => setName(e.target.value)}
+                        <Textarea
+                            label='Originality'
+                            onChange={(e) => setOriginality(e.target.value)}
                             type="text"
-                            name="name"
-                            id="name"
-                            placeholder="Full Name"
+                            name="originality"
+                            id="originality"
                             className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
                         />
                     </div>
 
 
-                    {/* email */}
+                    {/* reltionship to literature */}
                     <div className="mb-5">
                         <label
-                            htmlFor="email"
+                            htmlFor='relationship-to-literature'
                             className="mb-3 block text-base font-medium text-black"
                         >
-                            Email Address
+                            2. Relationship to Literature: Does the paper demonstrate an adequate understanding of the relevant literature in the field and cite an appropriate range of literature sources? Is any significant work ignored?
                         </label>
-                        <input
-                            onChange={(e) => setEmail(e.target.value)}
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder="Enter your email"
+                        <Textarea
+                            label='Relationship to Literature'
+                            onChange={(e) => setRelationshipToLiterature(e.target.value)}
+                            type="text"
+                            name="relationshipToLiterature"
+                            id="relationshipToLiterature"
                             className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
                         />
                     </div>
 
-                    {/* members */}
-                    <div className="mb-5 pt-3">
-                        <label className="mb-5 block text-base font-semibold text-black sm:text-xl">
-                            Add Members
-                        </label>
-                        <ol className="ml-5 list-decimal list-inside">
-                            {members.map((member, index) => (
-                                <li key={index} className="flex mb-5 items-center">
-                                    {member.name} - {member.email}
-                                    <TrashIcon
-                                        className='h-4 w-4 ml-5 cursor-pointer'
-                                        onClick={() => {
-                                            const newMembers = members.filter((_, i) => i !== index);
-                                            setMembers(newMembers);
-                                        }} />
-                                </li>
-                            ))}
-                        </ol>
-                        <div className="-mx-3 flex flex-wrap">
-                            <div className="w-full px-3 sm:w-1/2">
-                                <div className="mb-5">
-                                    <input
-                                        type="text"
-                                        name="membername"
-                                        id="membername"
-                                        placeholder="Enter Member Name"
-                                        className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full px-3 sm:w-1/2">
-                                <div className="mb-5">
-                                    <input
-                                        type="text"
-                                        name="memberemail"
-                                        id="memberemail"
-                                        placeholder="Enter Member Email"
-                                        className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
-                                    />
-                                </div>
-                            </div>
-                            <Button onClick={() => {
-                                const memberName = document.getElementById('membername').value;
-                                const memberEmail = document.getElementById('memberemail').value;
-                                setMembers([...members, { name: memberName, email: memberEmail }]);
-                                document.getElementById('membername').value = '';
-                                document.getElementById('memberemail').value = '';
-                            }}>
-                                Add Member
-                            </Button>
-                        </div>
-                    </div>
 
-                    {/* paper */}
+                    {/* methodology */}
                     <div className="mb-5">
                         <label
-                            htmlFor="email"
+                            htmlFor='methodology'
                             className="mb-3 block text-base font-medium text-black"
                         >
-                            Add Paper
+                            3. Methodology: Is the paper's argument built on an appropriate base of theory, concepts, or other ideas? Has the research or equivalent intellectual work on which the paper is based been well designed? Are the methods employed appropriate?
                         </label>
-                        <input onChange={handleFileChange} type="file" name="file" id="file" className="sr-only" />
-                        <label htmlFor="file"
-                            className="relative flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center">
-                            <div>
-                                <span className="mb-2 block text-xl font-semibold text-[#07074D]">
-                                    Drop files here
-                                </span>
-                                <span className="mb-2 block text-base font-medium text-[#6B7280]">
-                                    Or
-                                </span>
-                                <span
-                                    className="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                    Browse
-                                </span>
-                            </div>
-                        </label>
+                        <Textarea
+                            label='Methodology'
+                            onChange={(e) => setMethodology(e.target.value)}
+                            type="text"
+                            name="methodology"
+                            id="methodology"
+                            className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
+                        />
                     </div>
 
 
+                    {/* recommendation */}
+                    <div className="mb-5">
+                        <label
+                            htmlFor='relationship-to-literature'
+                            className="mb-3 block text-base font-medium text-black"
+                        >
+                            Recommendation
+                        </label>
+                        <Radio onChange={(e) => setRecommendation(e.target.value)} name="recommendation" value="accept" label='Accept' /> <br />
+                        <Radio onChange={(e) => setRecommendation(e.target.value)} name="recommendation" value="minor-revision" label='Minor Revision' /> <br />
+                        <Radio onChange={(e) => setRecommendation(e.target.value)} name="recommendation" value="major-revision" label='Major Revision' /> <br />
+                        <Radio onChange={(e) => setRecommendation(e.target.value)} name="recommendation" value="reject-resubmit" label='Reject and Resubmit' /> <br />
+                        <Radio onChange={(e) => setRecommendation(e.target.value)} name="recommendation" value="reject" label='Reject' />
+                    </div>
                     <div>
                         <Button type='submit' className="hover:shadow-form w-full rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
-                            Add Submission
+                            Add Review
                         </Button>
                     </div>
                 </form>
@@ -197,7 +149,3 @@ function GivePaperFeedbackForm({ filename, url }) {
 }
 
 export default GivePaperFeedbackForm
-
-
-
-

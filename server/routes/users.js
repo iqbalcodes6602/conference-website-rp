@@ -26,6 +26,7 @@ const verifyToken = (req, res, next) => {
     });
 };
 
+
 // Set up Multer storage options
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -36,6 +37,7 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
+
 
 // user registration route
 router.post('/register', async (req, res) => {
@@ -53,6 +55,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Server error.' });
     }
 });
+
 
 // user login route
 router.post('/login', async (req, res) => {
@@ -125,7 +128,6 @@ router.post('/view-my-submissions/:filename', verifyToken, async (req, res) => {
     const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
     res.sendFile(filePath);
 })
-
 
 
 module.exports = router;

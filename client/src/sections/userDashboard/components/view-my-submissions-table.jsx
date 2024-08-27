@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Input, Tab, Tabs, TabsHeader, Tooltip, Typography } from '@material-tailwind/react';
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
+import ReviewModal from './review-modal';
 
 
 function ViewMySubmissionsTable() {
@@ -76,7 +77,7 @@ function ViewMySubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Status", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review", ""];
     return (
 
         <div>
@@ -193,7 +194,7 @@ function ViewMySubmissionsTable() {
                                                     <Chip
                                                         variant="ghost"
                                                         size="sm"
-                                                        value={"online"}
+                                                        value={submission.status}
                                                         color={"blue-gray"}
                                                     />
                                                 </div>
@@ -208,7 +209,7 @@ function ViewMySubmissionsTable() {
                                                 </ul>
                                             </td>
 
-                                            {/* status */}
+                                            {/* review */}
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <Typography
@@ -216,9 +217,10 @@ function ViewMySubmissionsTable() {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <span className='cursor-pointer' onClick={() => handleFileClick(submission.filename)}>
-                                                            {submission.status}
-                                                        </span>
+                                                        {submission.review ?
+                                                            <ReviewModal review={submission.review} submissionId={submission._id} />
+                                                            : 'No review yet'
+                                                        }
                                                     </Typography>
                                                 </div>
                                             </td>

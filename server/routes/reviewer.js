@@ -9,6 +9,7 @@ const multer = require('multer');
 const path = require('path');
 
 
+
 const verifyReviewer = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
 
@@ -89,6 +90,47 @@ router.post('/view-assigned-submissions/:filename', verifyReviewer, async (req, 
     res.sendFile(filePath);
 })
 
+
+// route to add reviewer to submission using submission id
+// router.post('/add-submission-review', verifyReviewer, async (req, res) => {
+//     try {
+//         console.log("Request Body:", req.body);
+//         res.status(200).json({ message: 'Submission review added successfully.' });
+//     } catch (err) {
+//         res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
+//     }
+// });
+// route to add reviewer to submission using submission id
+router.post('/add-submission-review', verifyReviewer, async (req, res) => {
+    try {
+        const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
+
+        // Find the submission by submissionId
+        const submission = await Submission.findById(submissionId);
+
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        // Update the review field
+        submission.review = {
+            originality,
+            relationshipToLiterature,
+            methodology,
+            recommendation
+        };
+
+        // Change status to 'Review Submitted'
+        submission.status = 'Review Submitted';
+
+        // Save the updated submission
+        await submission.save();
+
+        res.status(200).json({ message: 'Submission review added successfully.', submission });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
+    }
+});
 
 
 module.exports = router;

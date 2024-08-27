@@ -8,6 +8,7 @@ function GivePaperFeedback() {
     const location = useLocation();
     // Extract filename from the location state
     const filename = location.state?.filename || '';
+    const submissionId = location.state?.submissionId || '';
 
     const [error, setError] = React.useState('');
     const [url, setUrl] = React.useState('');
@@ -44,7 +45,7 @@ function GivePaperFeedback() {
         <PageWrapper>
             <OptionsHeader title='Give Paper Feedback' href='/reviewer/dashboard/view-assigned-submissions' />
             {error && <p>{error}</p>}
-            <GivePaperFeedbackForm filename={filename} url={url} />
+            <GivePaperFeedbackForm filename={filename} url={url} submissionId={submissionId} />
         </PageWrapper>
     )
 }
