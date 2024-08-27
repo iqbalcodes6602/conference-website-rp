@@ -94,7 +94,10 @@ router.post('/update-submission-reviewer', verifyAdmin, async (req, res) => {
     try {
         const updatedSubmission = await Submission.findByIdAndUpdate(
             submissionId,
-            { reviewer: reviewerId },
+            {
+                reviewer: reviewerId,
+                status: 'In Review'
+            },
             { new: true, runValidators: true }
         );
 

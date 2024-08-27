@@ -76,7 +76,7 @@ function ViewMySubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Reviewer", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Status", ""];
     return (
 
         <div>
@@ -208,7 +208,7 @@ function ViewMySubmissionsTable() {
                                                 </ul>
                                             </td>
 
-                                            {/* reviewer */}
+                                            {/* status */}
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <Typography
@@ -217,7 +217,7 @@ function ViewMySubmissionsTable() {
                                                         className="font-normal"
                                                     >
                                                         <span className='cursor-pointer' onClick={() => handleFileClick(submission.filename)}>
-                                                            {submission.reviewer ? submission.reviewer : 'Not assigned'}
+                                                            {submission.status}
                                                         </span>
                                                     </Typography>
                                                 </div>
