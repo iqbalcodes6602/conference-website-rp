@@ -35,10 +35,9 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
     }
 });
-
 const upload = multer({ storage });
 
-
+// user registration route
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -55,6 +54,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// user login route
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -70,6 +70,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+// Route to get all users
 router.get('/all-users', async (req, res) => {
     try {
         const allUsers = await User.find({}).select('-password');
@@ -110,6 +112,7 @@ router.post('/view-my-submissions', verifyToken, async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve files.', error: err.message });
     }
 });
+
 
 // Route to serve files
 router.post('/view-my-submissions/:filename', verifyToken, async (req, res) => {

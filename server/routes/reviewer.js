@@ -16,7 +16,7 @@ const verifyReviewer = (req, res, next) => {
         return res.status(401).json({ message: 'No token provided.' });
     }
 
-    jwt.verify(token, 'ipdmis', (err, decoded) => {
+    jwt.verify(token, 'ipdims', (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Failed to authenticate token.' });
         }

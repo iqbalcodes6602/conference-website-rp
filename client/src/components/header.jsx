@@ -79,8 +79,8 @@ export function Header({ page = 'nothome' }) {
     >
       <div className={`container mx-auto flex items-center justify-between ${(isScrolling || page !== 'home') ? "text-black" : "text-white"}`}>
         <img
-          alt="ipdmis logo"
-          src="/logos/ipdmis.png"
+          alt="ipdims logo"
+          src="/logos/ipdims.png"
           className="w-10 h-10"
         />
         <ul

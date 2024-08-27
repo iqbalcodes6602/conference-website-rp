@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const decoded = jwtDecode(token, 'ipdmis');
+                const decoded = jwtDecode(token, 'ipdims');
                 if (decoded.username) {
                     setUser(decoded);
                     return true
