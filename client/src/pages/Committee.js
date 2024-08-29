@@ -4,16 +4,17 @@ import Footer from '../components/footer'
 
 function Committee() {
   const CORE_TEAM = [
-    // {
-    //   name: "Prof. K Umamaheswar Rao",
-    //   role: "Patron",
-    //   description: "Director, National Institute of Technology, Rourkela",
-    // },
+    {
+      name: "Prof. K Umamaheswar Rao",
+      role: "Patron",
+      description: "Director, National Institute of Technology, Rourkela",
+      image:"/images/profs/Prof. K Umamaheswar.jpeg"
+    },
     {
       name: "Prof. B B Biswal",
       role: "Program Chair",
       description: "Vice Chancellor, Odisha University of Technology and Research, Bhubaneswar",
-      image: "/images/profs/Prof. Parhi.jpg",
+      image: "/images/profs/Prof. B B biswal.jpeg",
     },
     {
       name: "Prof. D R K Parhi",
@@ -45,8 +46,8 @@ function Committee() {
       <Header />
       <section className="bg-white dark:bg-gray-900 mt-10">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-          <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Team members</h2>
+          <div className="max-w-screen-sm text-left mb-8 lg:mb-16">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-200 dark:text-white">Team members</h2>
           </div>
 
           <div className="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
@@ -97,10 +98,11 @@ function Committee() {
 
       <section className="bg-white dark:bg-gray-900 ">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-          <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Local Organizing Committee</h2>
+          <div className=" max-w-screen-sm text-left mb-8 lg:mb-16">
+             
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-200 dark:text-white">Local Organizing Committee</h2>
           </div>
-          <ul className="text-center">
+          <ul className="text-left">
             <li className="p-2">Prof. S Murugan, National Institute of Technology, Rourkela, India</li>
             <li className="p-2">Prof. J Srinivas, National Institute of Technology, Rourkela, India</li>
             <li className="p-2">Prof. U C Pati, National Institute of Technology, Rourkela, India</li>
@@ -119,10 +121,10 @@ function Committee() {
 
       <section className="bg-white dark:bg-gray-900 ">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-          <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">International Advisory Board</h2>
+          <div className=" max-w-screen-sm text-left mb-8 lg:mb-16">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-200 dark:text-white">International Advisory Board</h2>
           </div>
-          <ul className="text-center">
+          <ul className="text-left">
             <li className="p-2">Prof. P N Rao, University of Northern Iowa, U.S</li>
             <li className="p-2">Prof. Satyandra K. Gupta, University of Southern California, Los Angeles, California</li>
             <li className="p-2">Prof. Prasad KDV Yarlagadda, Queensland University of Technology, Australia</li>
@@ -145,10 +147,10 @@ function Committee() {
 
       <section className="bg-white dark:bg-gray-900 ">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
-          <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">National Advisory Board</h2>
+          <div className=" max-w-screen-sm text-left mb-8 lg:mb-16">
+            <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-blue-200 dark:text-white">National Advisory Board</h2>
           </div>
-          <ul className="text-center">
+          <ul className="text-left">
             <li className="p-2">Prof. Amarendra Kr. Das, Indian Institute of Technology, Guwahati, India</li>
             <li className="p-2">Prof. Dilip Kr. Pratihar, Indian Institute of Technology, Khargpur, India</li>
             <li className="p-2">Prof. Debkumar Chakrabarti, Indian Institute of Technology, Guwahati, India</li>
