@@ -130,4 +130,73 @@ router.post('/view-my-submissions/:filename', verifyToken, async (req, res) => {
 })
 
 
+// Route to submit revision
+router.post('/submit-revision', verifyToken, upload.single('file'), async (req, res) => {
+    const { filename } = req.file;
+    const { submissionId } = req.body;
+
+    try {
+        const submission = await Submission.findById(submissionId);
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found' });
+        }
+
+        submission.filename = filename;
+        submission.status = 'Revision Submitted';
+        submission.action = 'N/A';
+
+        await submission.save();
+
+        res.status(201).json({ message: 'Revision Submitted Successfully', submission });
+    } catch (err) {
+        // Handle errors and send error response
+        res.status(500).json({ message: 'Server error.', error: err.message });
+    }
+});
+
+
+// register for confrernece
+router.post('/register-now', verifyToken, upload.single('file'), async (req, res) => {
+    const { filename } = req.file;
+    const { submissionId } = req.body;
+
+    try {
+        const submission = await Submission.findById(submissionId);
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found' });
+        }
+
+        submission.screenshot = filename;
+        submission.status = 'In Verification';
+        submission.action = 'View Screenshot';
+
+        await submission.save();
+
+        res.status(201).json({ message: 'Revision Submitted Successfully', submission });
+    } catch (err) {
+        // Handle errors and send error response
+        res.status(500).json({ message: 'Server error.', error: err.message });
+    }
+});
+
+
+
+// Route to serve submission screenshot
+router.post('/view-submission-screenshot/:filename', verifyToken, async (req, res) => {
+    try {
+        const { submissionId } = req.body;
+        const file = await Submission.findOne({ _id: submissionId, screenshot: req.params.filename });
+
+        if (!file) {
+            return res.status(404).json({ message: 'Screenshot not found.' });
+        }
+
+        const filePath = path.resolve(__dirname, '../uploads', req.params.filename); // Correct path to the root 'uploads' directory
+        res.sendFile(filePath);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error.', error: err.message });
+    }
+});
+
+
 module.exports = router;

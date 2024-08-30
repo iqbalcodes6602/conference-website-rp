@@ -81,7 +81,7 @@ function ViewAssignedSubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review Status"];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review"];
 
     return (
 
@@ -200,7 +200,7 @@ function ViewAssignedSubmissionsTable() {
                                                     <Chip
                                                         variant="ghost"
                                                         size="sm"
-                                                        value={"online"}
+                                                        value={submission.status}
                                                         color={"blue-gray"}
                                                     />
                                                 </div>

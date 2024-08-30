@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Input, Tab, Tabs, TabsHeader, Tooltip, Typography } from '@material-tailwind/react';
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
 import ReviewModal from './review-modal';
+import RegisterModal from './register-modal';
+import ViewScreenshotModal from './view-screenshot-modal';
 
 
 function ViewMySubmissionsTable() {
@@ -34,6 +36,8 @@ function ViewMySubmissionsTable() {
         fetchFiles();
     }, []);
 
+
+    // Function to handle file click to get pdf file from server
     const handleFileClick = (filename) => {
         // Open the file in a new tab with Authorization header
         const token = localStorage.getItem('token');
@@ -62,6 +66,7 @@ function ViewMySubmissionsTable() {
     };
 
 
+
     const TABS = [
         {
             label: "All",
@@ -77,7 +82,7 @@ function ViewMySubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Action", ""];
     return (
 
         <div>
@@ -209,7 +214,7 @@ function ViewMySubmissionsTable() {
                                                 </ul>
                                             </td>
 
-                                            {/* review */}
+                                            {/* action */}
                                             <td className={classes}>
                                                 <div className="flex flex-col">
                                                     <Typography
@@ -217,10 +222,15 @@ function ViewMySubmissionsTable() {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {submission.review ?
+                                                        {submission.action === "Submit Revision" ? (
                                                             <ReviewModal review={submission.review} submissionId={submission._id} />
-                                                            : 'No review yet'
-                                                        }
+                                                        ) : submission.action === "Register Now" ? (
+                                                            <RegisterModal submissionId={submission._id} />
+                                                        ) : submission.action === "View Screenshot" ? (
+                                                            <ViewScreenshotModal submissionId={submission._id} image={submission.screenshot} />
+                                                        ) : (
+                                                            <div>{submission.action}</div>
+                                                        )}
                                                     </Typography>
                                                 </div>
                                             </td>

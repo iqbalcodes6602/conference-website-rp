@@ -68,6 +68,7 @@ router.post('/upload', verifyReviewer, upload.single('file'), async (req, res) =
     }
 });
 
+
 // Route to list files
 router.post('/view-assigned-submissions', verifyReviewer, async (req, res) => {
     try {
@@ -77,6 +78,7 @@ router.post('/view-assigned-submissions', verifyReviewer, async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve files.', error: err.message });
     }
 });
+
 
 // Route to serve files
 router.post('/view-assigned-submissions/:filename', verifyReviewer, async (req, res) => {
@@ -91,16 +93,7 @@ router.post('/view-assigned-submissions/:filename', verifyReviewer, async (req, 
 })
 
 
-// route to add reviewer to submission using submission id
-// router.post('/add-submission-review', verifyReviewer, async (req, res) => {
-//     try {
-//         console.log("Request Body:", req.body);
-//         res.status(200).json({ message: 'Submission review added successfully.' });
-//     } catch (err) {
-//         res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
-//     }
-// });
-// route to add reviewer to submission using submission id
+// route to add reviewe to submission using submission id
 router.post('/add-submission-review', verifyReviewer, async (req, res) => {
     try {
         const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
@@ -121,7 +114,88 @@ router.post('/add-submission-review', verifyReviewer, async (req, res) => {
         };
 
         // Change status to 'Review Submitted'
-        submission.status = 'Review Submitted';
+        submission.status = 'Reviewed';
+
+        // Change action to 'Submit Revision'
+        submission.action = 'Submit Revision';
+
+
+        // Save the updated submission
+        await submission.save();
+
+        res.status(200).json({ message: 'Submission review added successfully.', submission });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
+    }
+});
+
+
+
+// route to accept submission
+router.post('/accept-submission', verifyReviewer, async (req, res) => {
+    try {
+        const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
+
+        // console.log('in accepted')
+        // console.log(submissionId, originality)
+        // Find the submission by submissionId
+        const submission = await Submission.findById(submissionId);
+
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        // Update the review field
+        submission.review = {
+            originality,
+            relationshipToLiterature,
+            methodology,
+            recommendation
+        };
+
+        // Change status to 'Review Submitted'
+        submission.status = 'Accepted';
+
+        // Change action to 'Register Now'
+        submission.action = 'Register Now';
+
+        // Save the updated submission
+        await submission.save();
+
+        res.status(200).json({ message: 'Submission review added successfully.', submission });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
+    }
+});
+
+
+// route to reject submission
+router.post('/reject-submission', verifyReviewer, async (req, res) => {
+    try {
+        const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
+
+        // console.log('in rejected')
+        // console.log(submissionId, originality)
+        // Find the submission by submissionId
+        const submission = await Submission.findById(submissionId);
+
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        // Update the review field
+        submission.review = {
+            originality,
+            relationshipToLiterature,
+            methodology,
+            recommendation
+        };
+
+        // Change status to 'Review Submitted'
+        submission.status = 'Rejected';
+
+        // Change action to 'Register Now'
+        submission.action = 'N/A';
 
         // Save the updated submission
         await submission.save();

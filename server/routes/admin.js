@@ -113,5 +113,72 @@ router.post('/update-submission-reviewer', verifyAdmin, async (req, res) => {
 });
 
 
+// register submsission accept
+router.post('/register-submission-accept', verifyAdmin, async (req, res) => {
+    const { submissionId } = req.body;
+
+    if (!submissionId) {
+        return res.status(400).json({ message: 'ubmissionId is required.' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(submissionId)) {
+        return res.status(400).json({ message: 'Invalid submission ID.' });
+    }
+
+
+    try {
+        const updatedSubmission = await Submission.findByIdAndUpdate(
+            submissionId,
+            {
+                status: 'Registered'
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedSubmission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        res.status(200).json(updatedSubmission);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to update submission.', error });
+    }
+});
+
+
+
+// register submsission reject
+router.post('/register-submission-reject', verifyAdmin, async (req, res) => {
+    const { submissionId } = req.body;
+
+    if (!submissionId) {
+        return res.status(400).json({ message: 'submissionId is required.' });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(submissionId)) {
+        return res.status(400).json({ message: 'Invalid submission ID.' });
+    }
+
+
+    try {
+        const updatedSubmission = await Submission.findByIdAndUpdate(
+            submissionId,
+            {
+                status: 'Rejected'
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedSubmission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        res.status(200).json(updatedSubmission);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to update submission.', error });
+    }
+});
 
 module.exports = router;

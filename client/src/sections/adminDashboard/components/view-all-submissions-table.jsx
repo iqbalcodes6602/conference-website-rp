@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Chip, IconButton, Input, Tab, Tabs, TabsHeader, Tooltip, Typography } from '@material-tailwind/react';
 import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid';
 import ReviewerSelect from './reviewerSelect';
+import AcceptOrRejectSubmissionModal from './accept-or-reject-submission-modal';
 
 
 function ViewAllSubmissionsTable() {
@@ -222,7 +223,7 @@ function ViewAllSubmissionsTable() {
                                                     <Chip
                                                         variant="ghost"
                                                         size="sm"
-                                                        value={"online"}
+                                                        value={submission.status}
                                                         color={"blue-gray"}
                                                     />
                                                 </div>
@@ -248,14 +249,31 @@ function ViewAllSubmissionsTable() {
                                                 </div>
                                             </td>
 
-                                            {/* edit */}
+                                            {/* action */}
                                             <td className={classes}>
+                                                <div className="flex flex-col">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {submission.action === "View Screenshot" ? (
+                                                            <AcceptOrRejectSubmissionModal submissionId={submission._id} image={submission.screenshot} />
+                                                        ) : (
+                                                            <div>_</div>
+                                                        )}
+                                                    </Typography>
+                                                </div>
+                                            </td>
+
+                                            {/* edit */}
+                                            {/* <td className={classes}>
                                                 <Tooltip content="Edit User">
                                                     <IconButton variant="text">
                                                         <PencilIcon className="h-4 w-4" />
                                                     </IconButton>
                                                 </Tooltip>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     );
                                 },

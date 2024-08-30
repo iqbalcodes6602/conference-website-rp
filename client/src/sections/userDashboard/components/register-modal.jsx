@@ -1,26 +1,46 @@
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react'
 import React, { useState } from 'react'
 
-function ReviewModal({ review, submissionId }) {
+function RegisterModal({ submissionId }) {
     const [open, setOpen] = React.useState(false);
-
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
 
-
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        const validTypes = ['image/jpeg', 'image/png'];
+        const maxSize = 2 * 1024 * 1024; // 2 MB
+
+        if (!validTypes.includes(selectedFile.type)) {
+            setError('Only JPEG and PNG files are allowed.');
+            setFile(null);
+            return;
+        }
+
+        if (selectedFile.size > maxSize) {
+            setError('File size must be less than 2 MB.');
+            setFile(null);
+            return;
+        }
+
+        setError(null);
+        setFile(selectedFile);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!file) {
+            setError('Please select a file.');
+            return;
+        }
 
         const formData = new FormData();
         formData.append('file', file);
         formData.append('submissionId', submissionId);
 
         try {
-            const response = await fetch('http://localhost:5000/api/users/submit-revision', {
+            const response = await fetch('http://localhost:5000/api/users/register-now', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -43,46 +63,21 @@ function ReviewModal({ review, submissionId }) {
         }
     };
 
-
     const handleOpen = () => setOpen(!open);
+
     return (
         <>
-            {error && <p className="text-red-500">{error}</p>}
             <span onClick={handleOpen} className='cursor-pointer hover:underline'>
-                Submit Revision
+                Register Now
             </span>
             <Dialog size='xs' open={open} handler={handleOpen} className='p-5 w-auto'>
-                <DialogHeader>Check Submission Review</DialogHeader>
+                <DialogHeader>Register Now</DialogHeader>
                 <DialogBody>
-                    <div className="grid grid-cols-1 gap-4">
-                        <div>
-                            <h2 className="font-bold text-lg">Originality</h2>
-                            <p>{review.originality}</p>
-                        </div>
-                        <div>
-                            <h2 className="font-bold text-lg">Relationship to Literature</h2>
-                            <p>{review.relationshipToLiterature}</p>
-                        </div>
-                        <div>
-                            <h2 className="font-bold text-lg">Methodology</h2>
-                            <p>{review.methodology}</p>
-                        </div>
-                        <div>
-                            <h2 className="font-bold text-lg">Recommendation</h2>
-                            <p>{review.recommendation}</p>
-                        </div>
-                    </div>
+                    Upload details of the payment
                 </DialogBody>
 
                 <form onSubmit={handleSubmit}>
-                    {/* paper */}
                     <div className="mb-5">
-                        <label
-                            htmlFor="email"
-                            className="mb-3 block text-base font-medium text-black"
-                        >
-                            Upload paper with aforesaid changes
-                        </label>
                         <input
                             onChange={handleFileChange}
                             type="file"
@@ -101,10 +96,11 @@ function ReviewModal({ review, submissionId }) {
                                 </span>
                                 <span
                                     className="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                    Browse
+                                    {file ? file.name : 'Choose a file'}
                                 </span>
                             </div>
                         </label>
+                        {error && <p className="text-red-500">{error}</p>}
                     </div>
                     <DialogFooter>
                         <Button
@@ -115,7 +111,7 @@ function ReviewModal({ review, submissionId }) {
                         >
                             <span>Close</span>
                         </Button>
-                        <Button type='submit' variant="gradient" color="green" onClick={handleOpen}>
+                        <Button variant="gradient" color="green" type="submit">
                             <span>Submit</span>
                         </Button>
                     </DialogFooter>
@@ -125,4 +121,4 @@ function ReviewModal({ review, submissionId }) {
     )
 }
 
-export default ReviewModal
+export default RegisterModal

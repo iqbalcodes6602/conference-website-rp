@@ -111,6 +111,8 @@ export function UserTable({ allUsers }) {
 
                                 return (
                                     <tr key={username}>
+
+                                        {/* user id */}
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <Avatar src={username || "path/to/placeholder.jpg"} alt={username} size="sm" />
@@ -125,6 +127,8 @@ export function UserTable({ allUsers }) {
                                                 </div>
                                             </div>
                                         </td>
+                                        
+                                        {/* user name */}
                                         <td className={classes}>
                                             <div className="flex flex-col">
                                                 <Typography
@@ -136,6 +140,8 @@ export function UserTable({ allUsers }) {
                                                 </Typography>
                                             </div>
                                         </td>
+
+                                        {/* role */}
                                         <td className={classes}>
                                             <div className="w-max">
                                                 <Select
@@ -150,6 +156,8 @@ export function UserTable({ allUsers }) {
                                                 </Select>
                                             </div>
                                         </td>
+
+                                        {/* actions */}
                                         <td className={classes}>
                                             <Tooltip content="Edit User">
                                                 <IconButton variant="text">

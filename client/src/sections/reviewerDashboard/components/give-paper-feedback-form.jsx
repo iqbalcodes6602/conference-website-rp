@@ -10,11 +10,18 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
     const [methodology, setMethodology] = useState('');
     const [recommendation, setRecommendation] = useState('');
 
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/reviewer/add-submission-review', {
+            if (recommendation === 'accept')
+                url = 'http://localhost:5000/api/reviewer/accept-submission'
+            else if (recommendation === 'reject')
+                url = 'http://localhost:5000/api/reviewer/reject-submission'
+            else
+                url = 'http://localhost:5000/api/reviewer/add-submission-review'
+
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Add this header
@@ -35,8 +42,6 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
 
             const data = await response.json();
             console.log(data);
-
-            // Refresh the list of files after successful upload
 
         } catch (error) {
             setError(error.message);
