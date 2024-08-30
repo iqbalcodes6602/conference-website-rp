@@ -81,7 +81,7 @@ export function Header({ page = 'nothome' }) {
         <img
           alt="ipdims logo"
           src="/logos/ipdims.png"
-          className="w-20 h-25"
+          className="h-10"
         />
         <ul
           className={`hidden items-center gap-8 lg:flex`}
@@ -106,7 +106,7 @@ export function Header({ page = 'nothome' }) {
           <img
             alt="nitr logo"
             src="/logos/nit_rourkela.png"
-            className="w-20 h-25"
+            className="h-10"
           />
         </div>
 
