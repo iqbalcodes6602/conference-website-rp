@@ -240,7 +240,7 @@ function ViewAllSubmissionsTable() {
 
                                             {/* reviewer */}
                                             <td className={classes}>
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col items-start">
                                                     <ReviewerSelect
                                                         submissionId={submission._id}
                                                         currentReviewer={submission.reviewer}
@@ -251,7 +251,7 @@ function ViewAllSubmissionsTable() {
 
                                             {/* action */}
                                             <td className={classes}>
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col text-center">
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
