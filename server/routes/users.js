@@ -1,60 +1,23 @@
 // backend/routes/users.js
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const express = require('express');
 const Submission = require('../models/Submission'); // Assuming you have a File model
 const router = express.Router();
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-const multer = require('multer');
+const upload = require('../utils/storage');
+const path = require('path');
+
 require('dotenv').config();
+const { verifyToken } = require('../utils/middleware');
+const { sendAccountVerificationMail } = require('../utils/mail');
 
 // Temporary store for unverified users and their OTPs
 const tempStore = {};
-
-// Set up nodemailer transport
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.SENDER_EMAIL, // Your email
-        pass: process.env.SENDER_EMAIL_PASSWORD, // Your email password
-    },
-});
-
 // Generate OTP
 const generateOTP = () => {
     return crypto.randomInt(100000, 999999).toString(); // 6-digit OTP
 };
-
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided.' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Failed to authenticate token.' });
-        }
-
-        req.user = decoded; // Attach user information to request object
-        next();
-    });
-};
-
-
-// Set up Multer storage options
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Destination folder
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
-    }
-});
-const upload = multer({ storage });
 
 
 // User registration route
@@ -75,17 +38,15 @@ router.post('/register', async (req, res) => {
         tempStore[email] = { fullName, email, password, otp };
 
         // Send OTP to user's email
-        await transporter.sendMail({
-            to: email,
-            subject: 'Verify your email',
-            text: `Your OTP for verification is ${otp}`,
-        });
+        await sendAccountVerificationMail(email, otp);
 
         return res.status(200).json({ message: 'OTP sent to your email.' });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Server error.' });
     }
 });
+
 
 // Verify OTP route
 router.post('/verify-otp', async (req, res) => {
@@ -127,6 +88,7 @@ router.post('/verify-otp', async (req, res) => {
     }
 });
 
+
 // User login route
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -147,20 +109,8 @@ router.post('/login', async (req, res) => {
 });
 
 
-
-// Route to get all users
-router.get('/all-users', async (req, res) => {
-    try {
-        const allUsers = await User.find({}).select('-password');
-        res.status(200).json(allUsers);
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to retrieve all users.', error });
-    }
-});
-
-
-// Route to handle file uploads
-router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
+// Route to add new user submission
+router.post('/add-new-submission', verifyToken, upload.single('file'), async (req, res) => {
     const { filename } = req.file;
     const { name, email, members } = req.body;
 
@@ -179,6 +129,7 @@ router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
         res.status(500).json({ message: 'Server error.', error: err.message });
     }
 });
+
 
 // Route to list files
 router.post('/view-my-submissions', verifyToken, async (req, res) => {
@@ -252,7 +203,6 @@ router.post('/register-now', verifyToken, upload.single('file'), async (req, res
         res.status(500).json({ message: 'Server error.', error: err.message });
     }
 });
-
 
 
 // Route to serve submission screenshot

@@ -26,7 +26,7 @@ function AddNewSubmissionForm() {
         formData.append('members', JSON.stringify(members)); // Convert the array to a JSON string
 
         try {
-            const response = await fetch('http://localhost:5000/api/users/upload', {
+            const response = await fetch('http://localhost:5000/api/users/add-new-submission', {
                 method: 'POST',
                 body: formData,
                 headers: {

@@ -1,49 +1,13 @@
 // backend/routes/users.js
 
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const express = require('express');
 const Submission = require('../models/Submission'); // Assuming you have a File model
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
+const { verifyReviewer } = require('../utils/middleware');
+const upload = require('../utils/storage');
 
-
-
-const verifyReviewer = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided.' });
-    }
-
-    jwt.verify(token, 'ipdims', (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Failed to authenticate token.' });
-        }
-
-        // Assuming 'isAdmin' is a field in your user model
-        if (decoded.role !== 'reviewer') {
-            return res.status(403).json({ message: 'Not authorized.' });
-        }
-
-        // Token is valid and user is admin
-        req.user = decoded;
-        next();
-    });
-};
-
-// Set up Multer storage options
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Destination folder
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`); // Filename with timestamp
-    }
-});
-
-const upload = multer({ storage });
 
 
 
