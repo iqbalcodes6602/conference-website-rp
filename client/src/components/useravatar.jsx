@@ -23,7 +23,7 @@ function UserAvatar({ children }) {
                 className="flex items-center gap-2 "
             >
                 <Menu open={openMenu} handler={setOpenMenu}>
-                    <Tooltip content={user.username} placement="right-end">
+                    <Tooltip content={user.fullName} placement="right-end">
                         <MenuHandler>
                             <Avatar
                                 variant="circular"

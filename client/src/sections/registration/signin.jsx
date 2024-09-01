@@ -11,18 +11,19 @@ function SignIn() {
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
     const { user, login, logout, isUserValid } = useContext(UserContext);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/users/login', { username, password })
+            await axios.post('http://localhost:5000/api/users/login', { email, password })
                 .then((response) => {
-                    localStorage.setItem('token', response.data);
-                    const decodedToken = jwtDecode(response.data)
+                    console.log(response.data.token)
+                    localStorage.setItem('token', response.data.token);
+                    const decodedToken = jwtDecode(response.data.token)
                     login(decodedToken);
-                    // console.log(jwtDecode(response.data))
+                    console.log(jwtDecode(response.data.token))
                     if (decodedToken.role === 'admin')
                         navigate('/admin/dashboard');
                     else if (decodedToken.role === 'reviewer')
@@ -49,17 +50,17 @@ function SignIn() {
                             variant="small"
                             className="mb-2 block font-medium text-gray-900"
                         >
-                            Your Username
+                            Your Email
                         </Typography>
                     </label>
                     <Input
-                        onChange={(e) => setUsername(e.target.value)}
-                        label='Username'
-                        id="username"
+                        onChange={(e) => setEmail(e.target.value)}
+                        label='Email'
+                        id="email"
                         color="gray"
                         size="lg"
                         type="text"
-                        name="username"
+                        name="email"
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
                     />
                 </div>
@@ -128,43 +129,6 @@ function SignIn() {
                 </Typography>
             </form>
         </div>
-        // <div>
-        //     <h1>Home Page</h1>
-        //     {user ? (
-        //         <div>
-        //             <p>Welcome, {user.username}!</p>
-        //             <button onClick={logout}>Logout</button>
-        //         </div>
-        //     ) : (
-        //         <div>
-        //             {/* <p>Please log in.</p>
-        //             <button onClick={() => login({ name: 'John Doe' })}>Login as John Doe</button> */}
-        //             <form onSubmit={handleLogin}>
-        //                 <div className="space-y-1">
-        //                     <Input
-        //                         id="username"
-        //                         type="text"
-        //                         placeholder="Username"
-        //                         value={username}
-        //                         onChange={(e) => setUsername(e.target.value)}
-        //                         required
-        //                     />
-        //                 </div>
-        //                 <div className="space-y-1">
-        //                     <Input
-        //                         id="password"
-        //                         type="password"
-        //                         placeholder="Password"
-        //                         value={password}
-        //                         onChange={(e) => setPassword(e.target.value)}
-        //                         required
-        //                     />
-        //                 </div>
-        //                 <Button type='submit'>Log In</Button>
-        //             </form>
-        //         </div>
-        //     )}
-        // </div>
     )
 }
 

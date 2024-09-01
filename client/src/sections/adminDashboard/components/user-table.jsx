@@ -103,19 +103,19 @@ export function UserTable({ allUsers }) {
                     </thead>
                     <tbody>
                         {DATA.map(
-                            ({ _id, username, role }, index) => {
+                            ({ _id, fullName, email, role }, index) => {
                                 const isLast = index === DATA.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50";
 
                                 return (
-                                    <tr key={username}>
+                                    <tr key={email}>
 
                                         {/* user id */}
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
-                                                <Avatar src={username || "path/to/placeholder.jpg"} alt={username} size="sm" />
+                                                <Avatar src={fullName || "path/to/placeholder.jpg"} alt={fullName} size="sm" />
                                                 <div className="flex flex-col">
                                                     <Typography
                                                         variant="small"
@@ -136,7 +136,7 @@ export function UserTable({ allUsers }) {
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {username}
+                                                    {fullName}
                                                 </Typography>
                                             </div>
                                         </td>

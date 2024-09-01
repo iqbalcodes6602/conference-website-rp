@@ -5,9 +5,27 @@ const User = require('../models/User');
 const express = require('express');
 const Submission = require('../models/Submission'); // Assuming you have a File model
 const router = express.Router();
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const multer = require('multer');
-const path = require('path');
+require('dotenv').config();
 
+// Temporary store for unverified users and their OTPs
+const tempStore = {};
+
+// Set up nodemailer transport
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.SENDER_EMAIL, // Your email
+        pass: process.env.SENDER_EMAIL_PASSWORD, // Your email password
+    },
+});
+
+// Generate OTP
+const generateOTP = () => {
+    return crypto.randomInt(100000, 999999).toString(); // 6-digit OTP
+};
 
 const verifyToken = (req, res, next) => {
     const token = req.headers['authorization']?.split(' ')[1];
@@ -39,39 +57,95 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-// user registration route
+// User registration route
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { fullName, email, password } = req.body;
     try {
-        let user = await User.findOne({ username });
-        if (user) {
-            return res.status(400).json({ message: 'Username already exists.' });
+        // Check if the user already exists in the database
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists.' });
         }
-        user = new User({ username, password });
-        // console.log(user)
-        await user.save();
-        res.status(201).json({ message: 'User registered successfully.' });
+
+        // Generate and store OTP
+        const otp = generateOTP();
+        console.log(otp)
+
+        // Store user data and OTP in the temporary store
+        tempStore[email] = { fullName, email, password, otp };
+
+        // Send OTP to user's email
+        await transporter.sendMail({
+            to: email,
+            subject: 'Verify your email',
+            text: `Your OTP for verification is ${otp}`,
+        });
+
+        return res.status(200).json({ message: 'OTP sent to your email.' });
     } catch (err) {
         res.status(500).json({ message: 'Server error.' });
     }
 });
 
-
-// user login route
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+// Verify OTP route
+router.post('/verify-otp', async (req, res) => {
+    const { email, otp } = req.body;
     try {
-        const user = await User.findOne({ username });
+        // Check if the email exists in the temp store
+        const tempUser = tempStore[email];
+        if (!tempUser) {
+            return res.status(400).json({ message: 'User not found or already verified.' });
+        }
+
+        // Verify OTP
+        if (tempUser.otp === otp) {
+            // Save the user to the database
+            const user = new User({
+                fullName: tempUser.fullName,
+                email: tempUser.email,
+                password: tempUser.password,
+            });
+            await user.save();
+
+            // Remove temp user data from the store
+            delete tempStore[email];
+
+            // Generate JWT token
+            const token = jwt.sign(
+                { userId: user._id, fullName: user.fullName, email: user.email, role: user.role },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            return res.status(200).json({ message: 'Email verified successfully.', token });
+        } else {
+            return res.status(400).json({ message: 'Invalid OTP.' });
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: 'Server error.' });
+    }
+});
+
+// User login route
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email });
         if (!user || !user.validPassword(password)) {
-            // console.log(user);
             return res.status(400).json({ message: 'Invalid credentials.' });
         }
-        const token = jwt.sign({ userId: user._id, username: user.username, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.status(200).json(token);
+        const token = jwt.sign(
+            { userId: user._id, fullName: user.fullName, email: user.email, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+        res.status(200).json({ token });
     } catch (err) {
         res.status(500).json({ message: 'Server error.' });
     }
 });
+
 
 
 // Route to get all users

@@ -56,7 +56,7 @@ const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
 
     const searchReviewerName = (reviewerId) => {
         const reviewer = allReviewers.find(reviewer => reviewer._id === reviewerId);
-        return reviewer ? reviewer.username : 'Not Assigned';
+        return reviewer ? reviewer.fullName : 'Not Assigned';
     }
 
     return (
@@ -84,7 +84,7 @@ const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
                             autoComplete="off"
                         />
                         {allReviewers
-                            .filter(reviewer => reviewer.username.toLowerCase().includes(searchTerm))
+                            .filter(reviewer => reviewer.fullName.toLowerCase().includes(searchTerm))
                             .map((reviewer) => (
                                 <a
                                     key={reviewer._id}
@@ -92,7 +92,7 @@ const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
                                     className="block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
                                     onClick={() => handleReviewerSelect(reviewer)}
                                 >
-                                    {reviewer.username}
+                                    {reviewer.fullName}
                                 </a>
                             ))}
                     </div>

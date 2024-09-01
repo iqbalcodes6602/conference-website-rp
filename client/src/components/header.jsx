@@ -162,7 +162,7 @@ export function Header({ page = 'nothome' }) {
                 <ListItemPrefix>
                   <UserCircleIcon className="h-5 w-5" />
                 </ListItemPrefix>
-                {user.email}
+                {user.fullName}
                 <ListItemSuffix>
                   <Button onClick={logout} size="sm" color="red">
                     Logout

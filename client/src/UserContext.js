@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
         if (token) {
             try {
                 const decoded = jwtDecode(token, 'ipdims');
-                if (decoded.username) {
+                if (decoded.email) {
                     setUser(decoded);
                     return true
                 }
