@@ -10,7 +10,7 @@ const path = require('path');
 
 require('dotenv').config();
 const { verifyToken } = require('../utils/middleware');
-const { sendAccountVerificationMail } = require('../utils/mail');
+const { sendAccountVerificationMail, sendToAdminsNewSubmission, sendToMembersNewSubmission } = require('../utils/mail');
 
 // Temporary store for unverified users and their OTPs
 const tempStore = {};
@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
         tempStore[email] = { fullName, email, password, otp };
 
         // Send OTP to user's email
-        await sendAccountVerificationMail(email, otp);
+        // await sendAccountVerificationMail(email, otp);
 
         return res.status(200).json({ message: 'OTP sent to your email.' });
     } catch (err) {
@@ -50,6 +50,7 @@ router.post('/register', async (req, res) => {
 
 // Verify OTP route
 router.post('/verify-otp', async (req, res) => {
+    console.log(tempStore)
     const { email, otp } = req.body;
     try {
         // Check if the email exists in the temp store
@@ -124,8 +125,13 @@ router.post('/add-new-submission', verifyToken, upload.single('file'), async (re
 
     try {
         await submission.save();
+        // send email to admin for new submission added
+        // await sendToAdminsNewSubmission(submission)
+        // send email to members of team for new submission added
+        // await sendToMembersNewSubmission(submission)
         res.status(201).json({ message: 'File uploaded successfully', submission });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: 'Server error.', error: err.message });
     }
 });

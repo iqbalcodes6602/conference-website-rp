@@ -1,6 +1,5 @@
 // middlewares to verify token and check role of user
 const jwt = require('jsonwebtoken');
-const { model } = require("mongoose");
 
 
 // user verification

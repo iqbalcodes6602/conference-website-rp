@@ -62,7 +62,7 @@ function AddNewSubmissionForm() {
                             </li>
                             <li>
                                 Users must not use offensive, vulgar, or otherwise inappropriate
-                                language in their username or profile information
+                                language in their name or profile information
                             </li>
                             <li>Users must not create multiple accounts for the same person.</li>
                         </ul>
