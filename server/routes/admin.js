@@ -3,6 +3,7 @@ const User = require('../models/User');
 const Submission = require('../models/Submission');
 const mongoose = require('mongoose');
 const { verifyAdmin } = require('../utils/middleware');
+const { sendToReviewerNewSubmissionAssigned, sendToUserAndMembersSubmissionInReview } = require('../utils/mail');
 
 const router = express.Router();
 
@@ -82,6 +83,11 @@ router.post('/update-submission-reviewer', verifyAdmin, async (req, res) => {
         if (!updatedSubmission) {
             return res.status(404).json({ message: 'Submission not found.' });
         }
+        // mail to reviewer a new submission has been assigned
+        // await sendToReviewerNewSubmissionAssigned(updatedSubmission, reviewerId);
+        
+        // email to user and members: submission is in review
+        await sendToUserAndMembersSubmissionInReview(updatedSubmission);
 
         res.status(200).json(updatedSubmission);
     } catch (error) {
