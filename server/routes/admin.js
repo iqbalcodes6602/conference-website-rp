@@ -3,7 +3,14 @@ const User = require('../models/User');
 const Submission = require('../models/Submission');
 const mongoose = require('mongoose');
 const { verifyAdmin } = require('../utils/middleware');
-const { sendToReviewerNewSubmissionAssigned, sendToUserAndMembersSubmissionInReview, sendToUserAndMembersPaymentDetailsNotCorrect, sendToUserAndMembersRegistrationSuccess } = require('../utils/mail');
+
+const {
+    sendToReviewerNewSubmissionAssigned,
+    sendToUserAndMembersSubmissionInReview,
+    sendToUserAndMembersPaymentDetailsNotCorrect,
+    sendToUserAndMembersRegistrationSuccess,
+    sendToUserRoleUpdated
+} = require('../utils/mail');
 
 const router = express.Router();
 
@@ -17,6 +24,40 @@ router.post('/all-users', verifyAdmin, async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Failed to retrieve all users.', error });
+    }
+});
+
+
+// change user role to admin
+router.post('/change-user-role/', verifyAdmin, async (req, res) => {
+    const { email, role } = req.body;
+
+    if (!role) {
+        return res.status(400).json({ message: 'Role is required.' });
+    }
+
+    if (!['user', 'reviewer', 'admin'].includes(role)) {
+        return res.status(400).json({ message: 'Invalid role.' });
+    }
+
+    try {
+        const updatedUser = await User.findOneAndUpdate(
+            { email },
+            { role },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        // mail to user: role has been updated
+        // await sendToUserRoleUpdated(updatedUser);
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Failed to update user role.', error });
     }
 });
 
@@ -89,7 +130,7 @@ router.post('/update-submission-reviewer', verifyAdmin, async (req, res) => {
         }
         // mail to reviewer a new submission has been assigned
         // await sendToReviewerNewSubmissionAssigned(updatedSubmission, reviewerId);
-        
+
         // email to user and members: submission is in review
         // await sendToUserAndMembersSubmissionInReview(updatedSubmission);
 

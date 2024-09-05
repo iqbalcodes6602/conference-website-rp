@@ -19,7 +19,8 @@ import {
     Avatar,
     Select,
     Option,
-} from "@material-tailwind/react";
+} from "@material-tailwind/react"
+import ChangeUserRole from "./change-user-role";
 
 
 const TABS = [
@@ -41,6 +42,7 @@ const TABLE_HEAD = ["User Id", "User Name", "Role", ""];
 
 
 export function UserTable({ allUsers }) {
+
     const DATA = allUsers;
     return (
         <Card className="h-full w-full">
@@ -144,16 +146,7 @@ export function UserTable({ allUsers }) {
                                         {/* role */}
                                         <td className={classes}>
                                             <div className="w-max">
-                                                <Select
-                                                    value={role}
-                                                    label="Role"
-                                                    // onChange={(e) => setRole(e.target.value)}
-                                                    className="block w-full px-3 py-2 rounded-md shadow-sm sm:text-sm"
-                                                >
-                                                    <Option value="user" selected={role === 'user'}>User</Option>
-                                                    <Option value="reviewer" selected={role === 'reviewer'}>Reviewer</Option>
-                                                    <Option value="admin" selected={role === 'admin'}>Admin</Option>
-                                                </Select>
+                                                <ChangeUserRole role={role} email={email} />
                                             </div>
                                         </td>
 

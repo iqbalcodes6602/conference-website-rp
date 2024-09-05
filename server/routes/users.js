@@ -10,7 +10,14 @@ const path = require('path');
 
 require('dotenv').config();
 const { verifyToken } = require('../utils/middleware');
-const { sendAccountVerificationMail, sendToAdminsNewSubmission, sendToMembersNewSubmission, sendToReviewerRevisionSubmitted, sendToAdminsNewRegistrationDetailsAdded } = require('../utils/mail');
+
+const {
+    sendAccountVerificationMail,
+    sendToAdminsNewSubmission,
+    sendToMembersNewSubmission,
+    sendToReviewerRevisionSubmitted,
+    sendToAdminsNewRegistrationDetailsAdded
+} = require('../utils/mail');
 
 // Temporary store for unverified users and their OTPs
 const tempStore = {};

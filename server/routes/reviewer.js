@@ -7,7 +7,12 @@ const router = express.Router();
 const path = require('path');
 const { verifyReviewer } = require('../utils/middleware');
 const upload = require('../utils/storage');
-const { sendToUserAndMembersSubmissionReviewed, sendToUserAndMembersSubmissionRejected, sendToUserAndMembersSubmissionAccepted } = require('../utils/mail');
+
+const {
+    sendToUserAndMembersSubmissionReviewed,
+    sendToUserAndMembersSubmissionRejected,
+    sendToUserAndMembersSubmissionAccepted
+} = require('../utils/mail');
 
 
 

@@ -1,7 +1,7 @@
 // Set up nodemailer transport
 const nodemailer = require('nodemailer');
 const User = require('../models/User');
-const Submission = require('../models/Submission');
+
 
 // get all admins
 const getAllAdminEmails = async () => {
@@ -19,7 +19,9 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// 1. verify email
+
+
+// 0. verify email
 const sendAccountVerificationMail = async (email, otp) => {
     await transporter.sendMail({
         to: email,
@@ -28,7 +30,42 @@ const sendAccountVerificationMail = async (email, otp) => {
     });
 }
 
-// 2. new submission added - email to all admins
+
+
+// 1. mail to user: role has been updated
+const sendToUserRoleUpdated = async (user) => {
+    await transporter.sendMail({
+        to: user.email,
+        subject: 'Role Updated',
+        html: `
+            <h4>Your role has been updated. Details are below:</h4>
+            <table border="1" cellPadding="10" cellSpacing="0">
+                <tbody>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Full Name</td>
+                        <td>${user.fullName}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>${user.email}</td>
+                    </tr>
+                    <tr>
+                        <td>Role</td>
+                        <td>${user.role}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `,
+    });
+}
+
+
+
+// 2. mail to all admins: new submission added
 const sendToAdminsNewSubmission = async (submission) => {
     const allAdminEmails = await getAllAdminEmails();
     console.log(allAdminEmails, typeof allAdminEmails)
@@ -94,7 +131,7 @@ const sendToAdminsNewSubmission = async (submission) => {
 }
 
 
-// 3. a new submission has been added: mail to all mambers
+// 3. mail to members: a new submission has been added
 const sendToMembersNewSubmission = async (submission) => {
     const allMembersEmail = submission.members.map(member => member.email).join(',');
     console.log(allMembersEmail, typeof allMembersEmail)
@@ -798,7 +835,8 @@ const sendToUserAndMembersRegistrationSuccess = async (submission) => {
 
 
 module.exports = {
-    sendAccountVerificationMail, // 1
+    sendAccountVerificationMail, // 0
+    sendToUserRoleUpdated, // 1
     sendToAdminsNewSubmission, // 2
     sendToMembersNewSubmission, // 3
     sendToReviewerNewSubmissionAssigned, // 4
