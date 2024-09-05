@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon, PencilIcon, UserPlusIcon } from '@heroicons/react/
 import ReviewModal from './review-modal';
 import RegisterModal from './register-modal';
 import ViewScreenshotModal from './view-screenshot-modal';
+import UpdatePaymentDetails from './update-payment-details';
 
 
 function ViewMySubmissionsTable() {
@@ -226,6 +227,8 @@ function ViewMySubmissionsTable() {
                                                             <ReviewModal review={submission.review} submissionId={submission._id} />
                                                         ) : submission.action === "Register Now" ? (
                                                             <RegisterModal submissionId={submission._id} />
+                                                        ) : submission.action === "Update Payment Details" ? (
+                                                            <UpdatePaymentDetails submissionId={submission._id} />
                                                         ) : submission.action === "View Screenshot" ? (
                                                             <ViewScreenshotModal submissionId={submission._id} image={submission.screenshot} />
                                                         ) : (

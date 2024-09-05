@@ -7,6 +7,7 @@ const router = express.Router();
 const path = require('path');
 const { verifyReviewer } = require('../utils/middleware');
 const upload = require('../utils/storage');
+const { sendToUserAndMembersSubmissionReviewed, sendToUserAndMembersSubmissionRejected, sendToUserAndMembersSubmissionAccepted } = require('../utils/mail');
 
 
 
@@ -87,6 +88,52 @@ router.post('/add-submission-review', verifyReviewer, async (req, res) => {
         // Save the updated submission
         await submission.save();
 
+        // send mail to mambers submission ha been reviewed
+        // await sendToUserAndMembersSubmissionReviewed(submission)
+
+        res.status(200).json({ message: 'Submission review added successfully.', submission });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
+    }
+});
+
+
+
+// route to reject submission
+router.post('/reject-submission', verifyReviewer, async (req, res) => {
+    try {
+        const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
+
+        // console.log('in rejected')
+        // console.log(submissionId, originality)
+        // Find the submission by submissionId
+        const submission = await Submission.findById(submissionId);
+
+        if (!submission) {
+            return res.status(404).json({ message: 'Submission not found.' });
+        }
+
+        // Update the review field
+        submission.review = {
+            originality,
+            relationshipToLiterature,
+            methodology,
+            recommendation
+        };
+
+        // Change status to 'Review Submitted'
+        submission.status = 'Rejected';
+
+        // Change action to 'Register Now'
+        submission.action = 'N/A';
+
+        // Save the updated submission
+        await submission.save();
+
+        // 8. mail to user and members: your submission has been rejected
+        // await sendToUserAndMembersSubmissionRejected(submission)
+
+
         res.status(200).json({ message: 'Submission review added successfully.', submission });
     } catch (err) {
         res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
@@ -126,49 +173,16 @@ router.post('/accept-submission', verifyReviewer, async (req, res) => {
         // Save the updated submission
         await submission.save();
 
-        res.status(200).json({ message: 'Submission review added successfully.', submission });
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
-    }
-});
-
-
-// route to reject submission
-router.post('/reject-submission', verifyReviewer, async (req, res) => {
-    try {
-        const { submissionId, originality, relationshipToLiterature, methodology, recommendation } = req.body;
-
-        // console.log('in rejected')
-        // console.log(submissionId, originality)
-        // Find the submission by submissionId
-        const submission = await Submission.findById(submissionId);
-
-        if (!submission) {
-            return res.status(404).json({ message: 'Submission not found.' });
-        }
-
-        // Update the review field
-        submission.review = {
-            originality,
-            relationshipToLiterature,
-            methodology,
-            recommendation
-        };
-
-        // Change status to 'Review Submitted'
-        submission.status = 'Rejected';
-
-        // Change action to 'Register Now'
-        submission.action = 'N/A';
-
-        // Save the updated submission
-        await submission.save();
+        // 8. mail to user and members: your submission has been rejected
+        // await sendToUserAndMembersSubmissionAccepted(submission)
 
         res.status(200).json({ message: 'Submission review added successfully.', submission });
     } catch (err) {
         res.status(500).json({ message: 'Failed to add submission review.', error: err.message });
     }
 });
+
+
 
 
 module.exports = router;

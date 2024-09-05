@@ -8,7 +8,7 @@ import {
 export function AboutCard({ title='', description='', subTitle='' }) {
   return (
     <Card shadow={false}>
-      <CardBody className="h-full p-5 flex flex-col items-center rounded-2xl bg-deep-orange-900 opacity-0.5 ">
+      <CardBody className="h-full p-5 flex flex-col items-center rounded-2xl bg-gray-900 opacity-0.5 ">
         <Typography variant="h6" className="mb-4 text-center" color="white">
           {subTitle}
         </Typography>

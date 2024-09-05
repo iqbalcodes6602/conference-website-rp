@@ -46,7 +46,7 @@ const SubmissionSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'N/A',
-        enum: ['N/A', 'Submit Revision', 'Register Now', 'View Screenshot']
+        enum: ['N/A', 'Submit Revision', 'Register Now', 'Update Payment Details', 'View Screenshot']
     },
     screenshot: {
         type: String,

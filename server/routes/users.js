@@ -10,7 +10,7 @@ const path = require('path');
 
 require('dotenv').config();
 const { verifyToken } = require('../utils/middleware');
-const { sendAccountVerificationMail, sendToAdminsNewSubmission, sendToMembersNewSubmission } = require('../utils/mail');
+const { sendAccountVerificationMail, sendToAdminsNewSubmission, sendToMembersNewSubmission, sendToReviewerRevisionSubmitted, sendToAdminsNewRegistrationDetailsAdded } = require('../utils/mail');
 
 // Temporary store for unverified users and their OTPs
 const tempStore = {};
@@ -178,6 +178,10 @@ router.post('/submit-revision', verifyToken, upload.single('file'), async (req, 
 
         await submission.save();
 
+        // send mail to reviewer: revision submitted
+        // await sendToReviewerRevisionSubmitted(submission)
+
+
         res.status(201).json({ message: 'Revision Submitted Successfully', submission });
     } catch (err) {
         // Handle errors and send error response
@@ -202,6 +206,9 @@ router.post('/register-now', verifyToken, upload.single('file'), async (req, res
         submission.action = 'View Screenshot';
 
         await submission.save();
+
+        // 10. mail to admins: a new submission has added payment details
+        // await sendToAdminsNewRegistrationDetailsAdded(submission)
 
         res.status(201).json({ message: 'Revision Submitted Successfully', submission });
     } catch (err) {

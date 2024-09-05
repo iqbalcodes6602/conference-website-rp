@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// verify email
+// 1. verify email
 const sendAccountVerificationMail = async (email, otp) => {
     await transporter.sendMail({
         to: email,
@@ -28,7 +28,7 @@ const sendAccountVerificationMail = async (email, otp) => {
     });
 }
 
-// new submission added - email to all admins
+// 2. new submission added - email to all admins
 const sendToAdminsNewSubmission = async (submission) => {
     const allAdminEmails = await getAllAdminEmails();
     console.log(allAdminEmails, typeof allAdminEmails)
@@ -94,7 +94,7 @@ const sendToAdminsNewSubmission = async (submission) => {
 }
 
 
-// a new submission has been added: mail to all mambers
+// 3. a new submission has been added: mail to all mambers
 const sendToMembersNewSubmission = async (submission) => {
     const allMembersEmail = submission.members.map(member => member.email).join(',');
     console.log(allMembersEmail, typeof allMembersEmail)
@@ -160,7 +160,7 @@ const sendToMembersNewSubmission = async (submission) => {
 }
 
 
-// mail to reviewer a new submission has been assigned
+// 4. mail to reviewer a new submission has been assigned
 const sendToReviewerNewSubmissionAssigned = async (submission, reviewerId) => {
     const reviewer = await User.findById(reviewerId);
     console.log(reviewer, typeof reviewer)
@@ -226,7 +226,7 @@ const sendToReviewerNewSubmissionAssigned = async (submission, reviewerId) => {
 }
 
 
-// mail to user and members: submission has been assigned to reviewer and is in review
+// 5. mail to user and members: submission has been assigned to reviewer and is in review
 const sendToUserAndMembersSubmissionInReview = async (submission) => {
     // const submission = await Submission.findById(submissionId)
     console.log(submission)
@@ -234,8 +234,8 @@ const sendToUserAndMembersSubmissionInReview = async (submission) => {
     const allMembersEmail = submission.members.map(member => member.email).join(',');
     const allEmails = submission.email + ',' + allMembersEmail
     console.log(allEmails, typeof allEmails)
-    
-    
+
+
     await transporter.sendMail({
         to: allEmails,
         subject: 'Submission Status Update.',
@@ -297,10 +297,517 @@ const sendToUserAndMembersSubmissionInReview = async (submission) => {
     });
 }
 
+
+// 6. mail to user and members: submission has been reviewed
+const sendToUserAndMembersSubmissionReviewed = async (submission) => {
+    // const submission = await Submission.findById(submissionId)
+    console.log(submission)
+
+    const allMembersEmail = submission.members.map(member => member.email).join(',');
+    const allEmails = submission.email + ',' + allMembersEmail
+    console.log(allEmails, typeof allEmails)
+
+
+    await transporter.sendMail({
+        to: allEmails,
+        subject: 'Submission Reviewed.',
+        html: `
+                <h4>You submission has been reviewed by reviewer. Update your submission with revised details. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+// 7. send mail to reviewer: revision submitted
+const sendToReviewerRevisionSubmitted = async (submission) => {
+    const reviewer = await User.findById(submission.reviewer);
+    console.log(reviewer, typeof reviewer)
+    await transporter.sendMail({
+        to: reviewer.email,
+        subject: 'Submission Revised',
+        html: `
+                <h4>A new revision has been added to a submission in which you hvae been assigned a reviewer. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+// 8. mail to user and members: your submission has been rejected
+const sendToUserAndMembersSubmissionRejected = async (submission) => {
+    // const submission = await Submission.findById(submissionId)
+    console.log(submission)
+
+    const allMembersEmail = submission.members.map(member => member.email).join(',');
+    const allEmails = submission.email + ',' + allMembersEmail
+    console.log(allEmails, typeof allEmails)
+
+
+    await transporter.sendMail({
+        to: allEmails,
+        subject: 'Submission Rejected.',
+        html: `
+                <h4>You submission has been <b>rejected</b> by reviewer. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+
+// 9. mail to user and members: your submission has been rejected
+const sendToUserAndMembersSubmissionAccepted = async (submission) => {
+    // const submission = await Submission.findById(submissionId)
+    console.log(submission)
+
+    const allMembersEmail = submission.members.map(member => member.email).join(',');
+    const allEmails = submission.email + ',' + allMembersEmail
+    console.log(allEmails, typeof allEmails)
+
+
+    await transporter.sendMail({
+        to: allEmails,
+        subject: 'Submission Accepted.',
+        html: `
+                <h4>You submission has been <b>accepted</b> by reviewer. You need to now complete the registration process by doing payment. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+
+// 10. mail to admins: a new submission has added payment details
+const sendToAdminsNewRegistrationDetailsAdded = async (submission) => {
+    const allAdminEmails = await getAllAdminEmails();
+    console.log(allAdminEmails, typeof allAdminEmails)
+    await transporter.sendMail({
+        to: allAdminEmails,
+        subject: 'Registration Added',
+        html: `
+                <h4>A submission has added new registration details which needs verification. Details are below:</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+
+
+// 11. mail to user and memeber: payment deatils not correct
+const sendToUserAndMembersPaymentDetailsNotCorrect = async (submission) => {
+    // const submission = await Submission.findById(submissionId)
+    console.log(submission)
+
+    const allMembersEmail = submission.members.map(member => member.email).join(',');
+    const allEmails = submission.email + ',' + allMembersEmail
+    console.log(allEmails, typeof allEmails)
+
+
+    await transporter.sendMail({
+        to: allEmails,
+        subject: 'Payment details not correct.',
+        html: `
+                <h4>You payment verification has failed, since the payment detials were not correct. You need to now complete the registration process by doing payment. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+
+// 12. mail to user and memeber: payment deatils not correct
+const sendToUserAndMembersRegistrationSuccess = async (submission) => {
+    // const submission = await Submission.findById(submissionId)
+    console.log(submission)
+
+    const allMembersEmail = submission.members.map(member => member.email).join(',');
+    const allEmails = submission.email + ',' + allMembersEmail
+    console.log(allEmails, typeof allEmails)
+
+
+    await transporter.sendMail({
+        to: allEmails,
+        subject: 'Registered Successfully.',
+        html: `
+                <h4>Your payment details have been verified. You have <b>successfully registered</b> for IPDIMS Conference. Check details below</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>${submission._id.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Filename</td>
+                            <td>${submission.filename}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td>${submission.userId.toString()}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>${submission.name}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${submission.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>${submission.status}</td>
+                        </tr>
+                        <tr>
+                            <td>Reviewer</td>
+                            <td>${submission.reviewer === null ? 'None' : submission.reviewer}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>${submission.action}</td>
+                        </tr>
+                        <tr>
+                            <td>Members</td>
+                            <td>
+                                <ul>
+                                    ${submission.members.map(member => `
+                                        <li>
+                                            Name: ${member.name}, Email: ${member.email}
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
+
+
+
+
 module.exports = {
-    sendAccountVerificationMail,
-    sendToAdminsNewSubmission,
-    sendToMembersNewSubmission,
-    sendToReviewerNewSubmissionAssigned,
-    sendToUserAndMembersSubmissionInReview
+    sendAccountVerificationMail, // 1
+    sendToAdminsNewSubmission, // 2
+    sendToMembersNewSubmission, // 3
+    sendToReviewerNewSubmissionAssigned, // 4
+    sendToUserAndMembersSubmissionInReview, // 5
+    sendToUserAndMembersSubmissionReviewed, //6
+    sendToReviewerRevisionSubmitted, // 7
+    sendToUserAndMembersSubmissionRejected, // 8
+    sendToUserAndMembersSubmissionAccepted, // 9
+    sendToAdminsNewRegistrationDetailsAdded, // 10
+    sendToUserAndMembersPaymentDetailsNotCorrect, // 11
+    sendToUserAndMembersRegistrationSuccess, // 12
 };
