@@ -18,6 +18,8 @@ import ReviewerDashboard from "./pages/ReviewerDashboard";
 import ViewAssignedSubmissions from "./sections/reviewerDashboard/view-assigned-submissions";
 import GivePaperFeedback from "./sections/reviewerDashboard/give-paper-feedback";
 import ScrollToTop from "./ScrollToTop";
+import ManageAnnouncements from "./sections/adminDashboard/manage-announcements";
+
 
 function App() {
 	const { user, login, logout, isUserValid } = useContext(UserContext);
@@ -70,6 +72,7 @@ function App() {
 							<Route path='/admin/dashboard' element={<AdminDashboard />} />
 							<Route path='/admin/dashboard/view-all-users' element={<ViewAllUsers />} />
 							<Route path='/admin/dashboard/view-all-user-submissions' element={<ViewAllUserSubmissions />} />
+							<Route path='/admin/dashboard/manage-announcements' element={<ManageAnnouncements />} />
 						</>
 					}
 				</Routes>

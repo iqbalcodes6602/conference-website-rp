@@ -686,7 +686,6 @@ const sendToAdminsNewRegistrationDetailsAdded = async (submission) => {
 
 
 
-
 // 11. mail to user and memeber: payment deatils not correct
 const sendToUserAndMembersPaymentDetailsNotCorrect = async (submission) => {
     // const submission = await Submission.findById(submissionId)

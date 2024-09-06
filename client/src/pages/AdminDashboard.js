@@ -16,6 +16,11 @@ const options = [
         description: 'Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.',
         href: '/admin/dashboard/view-all-user-submissions',
     },
+    {
+        title: 'Manage Announcements',
+        description: 'Get the insights you need to make smarter marketing decisions and grow your organization with confidence.',
+        href: '/admin/dashboard/manage-announcements',
+    }
 ];
 
 function AdminDashboard() {

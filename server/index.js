@@ -30,6 +30,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/reviewer', require('./routes/reviewer'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/general', require('./routes/general'));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

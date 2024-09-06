@@ -11,6 +11,7 @@ const {
     sendToUserAndMembersRegistrationSuccess,
     sendToUserRoleUpdated
 } = require('../utils/mail');
+const Announcement = require('../models/Announcement');
 
 const router = express.Router();
 
@@ -216,6 +217,30 @@ router.post('/register-submission-accept', verifyAdmin, async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Failed to update submission.', error });
+    }
+});
+
+
+// add new announcement
+router.post('/add-new-announcement', verifyAdmin, async (req, res) => {
+    const { title, description, date } = req.body;
+
+    if (!title) {
+        return res.status(400).json({ error: 'Title is required' });
+    }
+
+    try {
+        const newAnnouncement = new Announcement({
+            title,
+            description,
+            date
+        });
+
+        await newAnnouncement.save();
+        res.status(201).json({ message: 'Announcement created successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to create announcement' });
     }
 });
 

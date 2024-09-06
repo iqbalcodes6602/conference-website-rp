@@ -1,7 +1,6 @@
 import React from "react";
 
 import Hero from "../sections/home/hero";
-import SponsoredBy from "../sections/home/sponsored-by";
 import Faq from "../sections/home/faq";
 import EventContent from "../sections/home/event-content";
 import OurStats from "../sections/home/our-stats";
@@ -9,6 +8,7 @@ import AboutEvent from "../sections/home/about-event";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import JoinNow from "../sections/home/join-now";
+import Announcements from "../sections/home/announcement";
 
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
 		<div>
 			<Header page='home' />
 			<Hero />
-			<SponsoredBy />
+			<Announcements />
 			<AboutEvent />
 			<OurStats />
 			<EventContent />
