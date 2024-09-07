@@ -1,5 +1,6 @@
 import { Button, Typography } from '@material-tailwind/react'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 function JoinNow() {
     return (
@@ -8,18 +9,20 @@ function JoinNow() {
                 className="text-2xl md:text-3xl text-center font-bold "
                 color="white"
             >
-                Join now and get 30% OFF!
+                Join IPDIMS 2024.
             </Typography>
             <Typography
                 color="white"
                 className=" md:w-7/12 text-center my-3 !text-base"
             >
-                Don&apos;t miss out on this exclusive offer that will end soon.
+                We will have a great lineup of speakers, workshops, and networking opportunities.
             </Typography>
             <div className="flex w-full md:w-fit gap-3 mt-2 flex-col md:flex-row">
-                <Button color="white" size="md">
-                    buy ticket
-                </Button>
+                <NavLink to='/registration' >
+                    <Button color="white" size="md">
+                        Register Now
+                    </Button>
+                </NavLink>
             </div>
         </div>
     )

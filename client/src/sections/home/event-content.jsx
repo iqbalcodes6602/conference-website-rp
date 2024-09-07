@@ -1,62 +1,99 @@
 import {
   Tab,
+  TabPanel,
   Tabs,
+  TabsBody,
   TabsHeader,
+  Typography,
 } from "@material-tailwind/react";
 
-import EventContentCard from "./components/event-content-card";
-
-
-const EVENT_CONTENT = [
-  {
-    title: "AI's Role in Shaping the Future",
-    des: "Discover how AI is revolutionizing industries, creating new possibilities, and addressing global challenges. Gain a deep understanding of the pivotal role AI plays in driving innovation, sustainability, and progress in our rapidly evolving world.",
-    name: "Marcell Glock",
-    position: "Chief Executive, Spotify",
-    panel: "Panel Discussion",
-    img: "/images/avatar1.jpg",
-  },
-  {
-    title: "Introduction to Machine Learning",
-    des: "Explore the basic principles, algorithms, and applications of Machine Learning. Through hands-on exercises and practical examples, you'll develop a solid understanding of how Machine Learning powers AI-driven solutions.",
-    name: "Marcell Glock",
-    position: "Chief Executive, Spotify",
-    panel: "Workshop",
-    img: "/images/avatar2.jpg",
-  },
-  {
-    title: "AI in Healthcare: Revolutionizing Patient Care",
-    des: "This session is a must-attend for healthcare professionals, AI enthusiasts, and anyone interested in the intersection of technology and well-being. Join us as we discuss how AI is bringing about positive changes in healthcare.",
-    name: "Marcell Glock",
-    position: "Chief Executive, Spotify",
-    panel: "Workshop",
-    img: "/images/avatar3.jpg",
-  },
-];
 
 export function EventContent() {
   return (
     <section className="py-8 px-8 lg:py-20">
-      <Tabs value="Day1" className="mb-8">
+      <div className="text-center">
+        <Typography variant="h1" color="blue-gray" className="mb-4">
+          Call for Papers
+        </Typography>
+        <Typography
+          variant="lead"
+          className="mx-auto mb-24 lg:w-3/5 !text-gray-500"
+        >
+          Technical papers are solicited on the topics pertaining to the scope of the conference will include, but are not limited to, the following:
+        </Typography>
+      </div>
+      <Tabs value="Track1" className="mb-8">
         <div className="w-full flex mb-8 flex-col items-center">
           <TabsHeader className="h-12 w-72 md:w-96">
-            <Tab value="Day1" className="font-medium">
-              Day 1
+            <Tab value="Track1" className="font-medium">
+              Track 1
             </Tab>
-            <Tab value="Day2" className="font-medium">
-              Day 2
-            </Tab>
-            <Tab value="Day3" className="font-medium">
-              Day 3
+            <Tab value="Track2" className="font-medium">
+              Track 2
             </Tab>
           </TabsHeader>
+
+          {/* main content of tabs */}
+          <TabsBody>
+            <TabPanel value="Track1">
+              <div className="flex flex-col items-center">
+                <h1 className="text-3xl font-semibold my-5">TRACK 1: Innovative Product Design</h1>
+                <p className="text-2xl text-left mb-5">
+                  <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                    <li>
+                      Computer Aided Design
+                    </li>
+                    <li>
+                      Design Aesthetics
+                    </li>
+                    <li>
+                      Design for Cost & Sustainability
+                    </li>
+                    <li>
+                      Design Creativity & Optimization
+                    </li>
+                    <li>
+                      Design for Sustainability
+                    </li>
+                    <li>
+                      Human Factors and Ergonomics in Design
+                    </li>
+                    <li>
+                      UX/UI Design
+                    </li>
+                    <li>
+                      Human Computer Interaction
+                    </li>
+                    <li>
+                      Materials Selection for Design
+                    </li>
+                  </ul>
+                </p>
+              </div>
+            </TabPanel>
+
+            <TabPanel value="Track2">
+              <div className="flex flex-col items-center">
+                <h1 className="text-3xl font-semibold my-5">TRACK 2: Intelligent Manufacturing Systems</h1>
+                <p className="text-2xl text-left mb-5">
+                  <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                    <li>Artificial Intelligence in manufacturing processes</li>
+                    <li>Optimization and simulation</li>
+                    <li>Process planning and Scheduling</li>
+                    <li>Smart Manufacturing</li>
+                    <li>Virtual Manufacturing</li>
+                    <li>Robotics, Mechatronics & Automation</li>
+                    <li>Precision engineering and metrology</li>
+                    <li>Supply Chain Management</li>
+                    <li>CAD/CAM/CAE</li>
+                  </ul>
+                </p>
+              </div>
+            </TabPanel>
+
+          </TabsBody>
         </div>
       </Tabs>
-      <div className="mx-auto container">
-        {EVENT_CONTENT.map((props, idx) => (
-          <EventContentCard key={idx} {...props} />
-        ))}
-      </div>
     </section>
   );
 }

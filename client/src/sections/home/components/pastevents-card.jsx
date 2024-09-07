@@ -36,7 +36,7 @@ export function PastEventsCard() {
     <Card shadow={false}>
       <CardBody className="h-full p-5 flex flex-col items-center rounded-2xl bg-gray-900 opacity-0.5 ">
         <Typography variant="h4" className="text-left mb-5" color="white">
-          Latest Announcements
+          Past IPDIMS
         </Typography>
         <Typography
           color="white"

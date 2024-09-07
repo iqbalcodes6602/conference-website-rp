@@ -1,14 +1,15 @@
 import { Typography, IconButton } from "@material-tailwind/react";
+import { NavLink } from "react-router-dom";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const LINKS = [
   { name: "Home", href: "/home" },
   { name: "Submission", href: "/submission" },
   { name: "Important Dates", href: "/important-dates" },
-  { name: "Registration", href: "/registration" },
   { name: "Committee", href: "/committee" },
   { name: "Venue & Accommodation", href: "/venue-accommodation" },
   { name: "Contact Us", href: "/contact" },
+  { name: "Registration", href: "/registration" },
 ];
 
 export function Footer() {
@@ -23,20 +24,21 @@ export function Footer() {
             variant="h6"
             className="text-gray-900"
           >
-            Material Tailwind
+            IPDIMS
           </Typography>
           <ul className="flex justify-center my-4 md:my-0 w-max mx-auto items-center gap-4">
             {LINKS.map((link, index) => (
               <li key={index}>
-                <Typography
-                  as="a"
-                  href={link.href}
-                  variant="small"
-                  color="white"
-                  className="font-normal !text-gray-700 hover:!text-gray-900 transition-colors"
-                >
-                  {link.name}
-                </Typography>
+                <NavLink to={link.href}>
+                  <Typography
+                    as="a"
+                    variant="small"
+                    color="white"
+                    className="font-normal !text-gray-700 hover:!text-gray-900 transition-colors"
+                  >
+                    {link.name}
+                  </Typography>
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -59,15 +61,7 @@ export function Footer() {
           color="blue-gray"
           className="text-center mt-12 font-normal !text-gray-700"
         >
-          &copy; {CURRENT_YEAR} Made with{" "}
-          <a href="https://www.material-tailwind.com" target="_blank">
-            Material Tailwind
-          </a>{" "}
-          by{" "}
-          <a href="https://www.creative-tim.com" target="_blank">
-            Conference Website
-          </a>
-          .
+          &copy; IPDIMS {CURRENT_YEAR} Made by Department Of Industrial Design, NIT Rourkela.
         </Typography>
       </div>
     </footer>

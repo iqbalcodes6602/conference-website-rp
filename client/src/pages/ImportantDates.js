@@ -12,7 +12,42 @@ import { HomeIcon, BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/soli
 import PageWrapper from '../components/page-wrapper';
 
 
+// Last date for submission of full length paper: 15 – 09 - 2024
+// Author notification: 15 - 10 – 2024
+// Submission of Revised Paper: 30 - 10 - 2024
+// Early bird Registration: Till 20 - 11 - 202
+// Late Registration: 21 to 27 – 11 - 2024
+// Conference Dates: 04 & 05 December 2024
+
+const importantDates = [
+    {
+        date: '15 September, 2024',
+        description: 'Last date for submission of full length paper',
+    },
+    {
+        date: '15 October, 2024',
+        description: 'Author notification',
+    },
+    {
+        date: '30 October, 2024',
+        description: 'Submission of Revised Paper',
+    },
+    {
+        date: '20 November, 2024',
+        description: 'Early bird Registration',
+    },
+    {
+        date: '21 - 27 November, 2024',
+        description: 'Late Registration',
+    },
+    {
+        date: '04 & 05 December, 2024',
+        description: 'Conference Dates',
+    }
+]
+
 function ImportantDates() {
+
     return (
         <>
             <PageWrapper>
@@ -38,62 +73,24 @@ function ImportantDates() {
                     </Typography>
                     <div className="w-[32rem] text-left">
                         <Timeline>
-                            <TimelineItem>
-                                <TimelineConnector />
-                                <TimelineHeader>
-                                    <TimelineIcon className="p-2">
-                                        <HomeIcon className="h-4 w-4" />
-                                    </TimelineIcon>
-                                    <Typography variant="h5" color="blue-gray">
-                                        Timeline Title Here.
-                                    </Typography>
-                                </TimelineHeader>
-                                <TimelineBody className="pb-8">
-                                    <Typography color="gary" className="font-normal text-gray-600">
-                                        The key to more success is to have a lot of pillows. Put it this way, it took me
-                                        twenty five years to get these plants, twenty five years of blood sweat and tears, and
-                                        I&apos;m never giving up, I&apos;m just getting started. I&apos;m up to something. Fan
-                                        luv.
-                                    </Typography>
-                                </TimelineBody>
-                            </TimelineItem>
-                            <TimelineItem>
-                                <TimelineConnector />
-                                <TimelineHeader>
-                                    <TimelineIcon className="p-2">
-                                        <BellIcon className="h-4 w-4" />
-                                    </TimelineIcon>
-                                    <Typography variant="h5" color="blue-gray">
-                                        Timeline Title Here.
-                                    </Typography>
-                                </TimelineHeader>
-                                <TimelineBody className="pb-8">
-                                    <Typography color="gary" className="font-normal text-gray-600">
-                                        The key to more success is to have a lot of pillows. Put it this way, it took me
-                                        twenty five years to get these plants, twenty five years of blood sweat and tears, and
-                                        I&apos;m never giving up, I&apos;m just getting started. I&apos;m up to something. Fan
-                                        luv.
-                                    </Typography>
-                                </TimelineBody>
-                            </TimelineItem>
-                            <TimelineItem>
-                                <TimelineHeader>
-                                    <TimelineIcon className="p-2">
-                                        <CurrencyDollarIcon className="h-4 w-4" />
-                                    </TimelineIcon>
-                                    <Typography variant="h5" color="blue-gray">
-                                        Timeline Title Here.
-                                    </Typography>
-                                </TimelineHeader>
-                                <TimelineBody>
-                                    <Typography color="gary" className="font-normal text-gray-600">
-                                        The key to more success is to have a lot of pillows. Put it this way, it took me
-                                        twenty five years to get these plants, twenty five years of blood sweat and tears, and
-                                        I&apos;m never giving up, I&apos;m just getting started. I&apos;m up to something. Fan
-                                        luv.
-                                    </Typography>
-                                </TimelineBody>
-                            </TimelineItem>
+                            {importantDates.map((date, index) => (
+                                <TimelineItem key={index}>
+                                    <TimelineConnector />
+                                    <TimelineHeader>
+                                        <TimelineIcon className="p-2">
+                                            <HomeIcon className="h-4 w-4" />
+                                        </TimelineIcon>
+                                        <Typography variant="h5" color="blue-gray">
+                                            {date.date}
+                                        </Typography>
+                                    </TimelineHeader>
+                                    <TimelineBody className="pb-8">
+                                        <Typography color="gray" className="font-normal text-gray-600">
+                                            {date.description}
+                                        </Typography>
+                                    </TimelineBody>
+                                </TimelineItem>
+                            ))}
                         </Timeline>
                     </div>
                 </div>

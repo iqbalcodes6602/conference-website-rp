@@ -831,6 +831,42 @@ const sendToUserAndMembersRegistrationSuccess = async (submission) => {
 }
 
 
+// 13. mail to admin: new query from contact us
+const sendToAdminNewQueryFromContactUs = async (contactData) => {
+    const allAdminEmails = await getAllAdminEmails();
+    console.log(allAdminEmails, typeof allAdminEmails)
+    await transporter.sendMail({
+        to: allAdminEmails,
+        subject: 'New Query',
+        html: `
+                <h4>A new query has been submitted through 'Contact Us'. Details are below:</h4>
+                <table border="1" cellPadding="10" cellSpacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>First Name</td>
+                            <td>${contactData.firstName}</td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td>${contactData.lastName}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>${contactData.email}</td>
+                        </tr>
+                        <tr>
+                            <td>Message</td>
+                            <td>${contactData.message}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+    });
+}
 
 
 module.exports = {
@@ -847,4 +883,5 @@ module.exports = {
     sendToAdminsNewRegistrationDetailsAdded, // 10
     sendToUserAndMembersPaymentDetailsNotCorrect, // 11
     sendToUserAndMembersRegistrationSuccess, // 12
+    sendToAdminNewQueryFromContactUs, // 13
 };

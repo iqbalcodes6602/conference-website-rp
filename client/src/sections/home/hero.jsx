@@ -20,14 +20,14 @@ function Hero() {
           >
             Innovative Product Design and Intelligent Manufacturing Systems
           </Typography>
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <Button variant="gradient" color="white">
               Get started
             </Button>
             <IconButton className="rounded-full bg-white p-6">
               <PlayIcon className="h-4 w-4 text-gray-900" />
             </IconButton>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
