@@ -24,6 +24,10 @@ const SubmissionSchema = new mongoose.Schema({
         type: Array,
         required: false
     },
+    track: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         required: true,

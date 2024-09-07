@@ -1,4 +1,4 @@
-import { TrashIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Button } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 
@@ -6,12 +6,12 @@ function AddNewSubmissionForm() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [members, setMembers] = useState([]);
+    const [selectedTrack, setSelectedTrack] = useState('');
 
     const [file, setFile] = useState(null);
-    const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
 
-    
+
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
@@ -24,6 +24,9 @@ function AddNewSubmissionForm() {
         formData.append('name', name);
         formData.append('email', email);
         formData.append('members', JSON.stringify(members)); // Convert the array to a JSON string
+        formData.append('track', selectedTrack);
+
+        // console.log(file, name, email, members, selectedTrack);
 
         try {
             const response = await fetch('http://localhost:5000/api/users/add-new-submission', {
@@ -107,8 +110,8 @@ function AddNewSubmissionForm() {
                     </div>
 
                     {/* members */}
-                    <div className="mb-5 pt-3">
-                        <label className="mb-5 block text-base font-semibold text-black sm:text-xl">
+                    <div className="mb-5">
+                        <label className="mb-3 block text-base font-medium text-black">
                             Add Members
                         </label>
                         <ol className="ml-5 list-decimal list-inside">
@@ -124,46 +127,65 @@ function AddNewSubmissionForm() {
                                 </li>
                             ))}
                         </ol>
-                        <div className="-mx-3 flex flex-wrap">
-                            <div className="w-full px-3 sm:w-1/2">
-                                <div className="mb-5">
-                                    <input
-                                        type="text"
-                                        name="membername"
-                                        id="membername"
-                                        placeholder="Enter Member Name"
-                                        className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
-                                    />
-                                </div>
+                        <div className="-mx-3 flex flex-wrap items-center">
+                            <div className="w-full px-3 sm:flex-1 mb-5">
+                                <input
+                                    type="text"
+                                    name="membername"
+                                    id="membername"
+                                    placeholder="Enter Member Name"
+                                    className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
+                                />
                             </div>
-                            <div className="w-full px-3 sm:w-1/2">
-                                <div className="mb-5">
-                                    <input
-                                        type="text"
-                                        name="memberemail"
-                                        id="memberemail"
-                                        placeholder="Enter Member Email"
-                                        className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
-                                    />
-                                </div>
+                            <div className="w-full px-3 sm:flex-1 mb-5">
+                                <input
+                                    type="text"
+                                    name="memberemail"
+                                    id="memberemail"
+                                    placeholder="Enter Member Email"
+                                    className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
+                                />
                             </div>
-                            <Button onClick={() => {
-                                const memberName = document.getElementById('membername').value;
-                                const memberEmail = document.getElementById('memberemail').value;
-                                setMembers([...members, { name: memberName, email: memberEmail }]);
-                                document.getElementById('membername').value = '';
-                                document.getElementById('memberemail').value = '';
-                            }}>
-                                Add Member
-                            </Button>
+                            <div className="w-full px-3 sm:w-auto mb-5">
+                                <Button onClick={() => {
+                                    const memberName = document.getElementById('membername').value;
+                                    const memberEmail = document.getElementById('memberemail').value;
+                                    setMembers([...members, { name: memberName, email: memberEmail }]);
+                                    document.getElementById('membername').value = '';
+                                    document.getElementById('memberemail').value = '';
+                                }}>
+                                    <PlusIcon className='h-5 w-5' />
+                                </Button>
+                            </div>
                         </div>
                     </div>
 
-                    {/* paper */}
+                    {/* track */}
                     <div className="mb-5">
                         <label
-                            htmlFor="email"
+                            htmlFor="track"
                             className="mb-3 block text-base font-medium text-black"
+                        >
+                            Track Applying For
+                        </label>
+                        <select
+                            name="track"
+                            id="track"
+                            className="w-full rounded-md border border-gray-300 bg-white py-3 px-6 text-base font-medium text-black outline-none focus:border-black focus:shadow-md"
+                            value={selectedTrack}
+                            onChange={(event) => { setSelectedTrack(event.target.value) }}
+                        >
+                            <option value="">Select a track</option>
+                            <option value="1-innovative-product-design">Innovative Product Design</option>
+                            <option value="2-intelligent-manufacturing-systems">Intelligent Manufacturing Systems</option>
+                        </select>
+                    </div>
+
+                    {/* paper */}
+                    <div className="mb-5 pt-3">
+                        <label
+                            htmlFor="email"
+                            className="mb-5 block text-base font-semibold text-black sm:text-xl"
                         >
                             Add Paper
                         </label>

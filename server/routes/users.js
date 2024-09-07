@@ -120,22 +120,26 @@ router.post('/login', async (req, res) => {
 // Route to add new user submission
 router.post('/add-new-submission', verifyToken, upload.single('file'), async (req, res) => {
     const { filename } = req.file;
-    const { name, email, members } = req.body;
+    const { name, email, members, track } = req.body;
 
     const submission = new Submission({
         filename,
         userId: req.user.userId,
-        name,      // Add name field
-        email,     // Add email field
-        members: JSON.parse(members) // Parse members back to object
+        name,      
+        email,    
+        members: JSON.parse(members), // Parse members back to object
+        track,     
     });
 
     try {
         await submission.save();
+        
         // send email to admin for new submission added
         // await sendToAdminsNewSubmission(submission)
+
         // send email to members of team for new submission added
         // await sendToMembersNewSubmission(submission)
+        
         res.status(201).json({ message: 'File uploaded successfully', submission });
     } catch (err) {
         console.log(err)

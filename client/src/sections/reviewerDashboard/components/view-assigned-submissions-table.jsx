@@ -81,7 +81,7 @@ function ViewAssignedSubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Review"];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Track", "Review"];
 
     return (
 
@@ -213,6 +213,19 @@ function ViewAssignedSubmissionsTable() {
                                                         return <li key={member.email}>{member.name} - {member.email}</li>
                                                     })}
                                                 </ul>
+                                            </td>
+
+                                            {/* track */}
+                                            <td className={classes}>
+                                                <div className="flex flex-col">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {submission.track.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}
+                                                    </Typography>
+                                                </div>
                                             </td>
 
                                             {/* review status */}

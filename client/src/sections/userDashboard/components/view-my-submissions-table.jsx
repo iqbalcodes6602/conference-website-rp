@@ -83,7 +83,7 @@ function ViewMySubmissionsTable() {
         },
     ];
 
-    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Action", ""];
+    const TABLE_HEAD = ["Name", "File Name", "Status", "Members", "Track", "Action"];
     return (
 
         <div>
@@ -215,6 +215,19 @@ function ViewMySubmissionsTable() {
                                                 </ul>
                                             </td>
 
+                                            {/* track */}
+                                            <td className={classes}>
+                                                <div className="flex flex-col">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {submission.track.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}
+                                                    </Typography>
+                                                </div>
+                                            </td>
+
                                             {/* action */}
                                             <td className={classes}>
                                                 <div className="flex flex-col">
@@ -236,15 +249,6 @@ function ViewMySubmissionsTable() {
                                                         )}
                                                     </Typography>
                                                 </div>
-                                            </td>
-
-                                            {/* edit */}
-                                            <td className={classes}>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
-                                                        <PencilIcon className="h-4 w-4" />
-                                                    </IconButton>
-                                                </Tooltip>
                                             </td>
                                         </tr>
                                     );
