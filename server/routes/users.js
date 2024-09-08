@@ -43,6 +43,7 @@ router.post('/register', async (req, res) => {
 
         // Store user data and OTP in the temporary store
         tempStore[email] = { fullName, email, password, otp };
+        // console.log(tempStore)
 
         // Send OTP to user's email
         // await sendAccountVerificationMail(email, otp);

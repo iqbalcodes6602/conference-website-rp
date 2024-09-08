@@ -1,6 +1,6 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
-import { Button, Input, Typography } from '@material-tailwind/react'
-import React, { useContext, useState } from 'react'
+import { Button, Input, Typography } from '@material-tailwind/react';
+import React, { useContext, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { UserContext } from '../../UserContext';
@@ -10,31 +10,46 @@ function SignIn() {
     const navigate = useNavigate();
     const [passwordShown, setPasswordShown] = useState(false);
     const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
-    const { user, login, logout, isUserValid } = useContext(UserContext);
+    const { login } = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const validate = () => {
+        const errors = {};
+        if (!email) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            errors.email = 'Email address is invalid';
+        }
+        if (!password) {
+            errors.password = 'Password is required';
+        }
+        return errors;
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
         try {
-            await axios.post('http://localhost:5000/api/users/login', { email, password })
-                .then((response) => {
-                    console.log(response.data.token)
-                    localStorage.setItem('token', response.data.token);
-                    const decodedToken = jwtDecode(response.data.token)
-                    login(decodedToken);
-                    console.log(jwtDecode(response.data.token))
-                    if (decodedToken.role === 'admin')
-                        navigate('/admin/dashboard');
-                    else if (decodedToken.role === 'reviewer')
-                        navigate('/reviewer/dashboard');
-                    else
-                        navigate('/user/dashboard');
-                })
+            const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+            console.log(response.data.token);
+            localStorage.setItem('token', response.data.token);
+            const decodedToken = jwtDecode(response.data.token);
+            login(decodedToken);
+            console.log(decodedToken);
+            if (decodedToken.role === 'admin') navigate('/admin/dashboard');
+            else if (decodedToken.role === 'reviewer') navigate('/reviewer/dashboard');
+            else navigate('/user/dashboard');
         } catch (error) {
             console.error(error);
         }
     };
+
     return (
         <div>
             <Typography variant="h3" color="blue-gray" className="mb-2">
@@ -62,7 +77,13 @@ function SignIn() {
                         type="text"
                         name="email"
                         className="w-full placeholder:opacity-100 focus:border-t-primary border-t-blue-gray-200"
+                        error={errors.email ? true : false}
                     />
+                    {errors.email && (
+                        <Typography variant="small" color="red" className="mt-1">
+                            {errors.email}
+                        </Typography>
+                    )}
                 </div>
                 <div className="mb-6">
                     <label htmlFor="password">
@@ -88,7 +109,13 @@ function SignIn() {
                                 )}
                             </i>
                         }
+                        error={errors.password ? true : false}
                     />
+                    {errors.password && (
+                        <Typography variant="small" color="red" className="mt-1">
+                            {errors.password}
+                        </Typography>
+                    )}
                 </div>
                 <Button type='submit' color="gray" size="lg" className="mt-6" fullWidth>
                     Sign in
@@ -104,32 +131,9 @@ function SignIn() {
                         Forgot password
                     </Typography>
                 </div>
-                <Button
-                    variant="outlined"
-                    size="lg"
-                    className="mt-6 flex h-12 items-center justify-center gap-2"
-                    fullWidth
-                >
-                    <img
-                        src={`https://www.material-tailwind.com/logos/logo-google.png`}
-                        alt="google"
-                        className="h-6 w-6"
-                    />{" "}
-                    sign in with google
-                </Button>
-                <Typography
-                    variant="small"
-                    color="gray"
-                    className="!mt-4 text-center font-normal"
-                >
-                    Not registered?{" "}
-                    <a href="#" className="font-medium text-gray-900">
-                        Create account
-                    </a>
-                </Typography>
             </form>
         </div>
-    )
+    );
 }
 
-export default SignIn
+export default SignIn;

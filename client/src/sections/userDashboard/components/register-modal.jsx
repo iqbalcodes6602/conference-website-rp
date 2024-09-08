@@ -70,10 +70,27 @@ function RegisterModal({ submissionId }) {
             <span onClick={handleOpen} className='cursor-pointer hover:underline'>
                 Register Now
             </span>
-            <Dialog size='xs' open={open} handler={handleOpen} className='p-5 w-auto'>
+            <Dialog size='xl' open={open} handler={handleOpen} className='p-5 w-auto'>
                 <DialogHeader>Register Now</DialogHeader>
                 <DialogBody>
-                    Upload details of the payment
+                    <p>Each paper should be registered either by the corresponding author or any of the co-author of the paper to publish in the conference proceedings.</p>
+                    <p><strong><em>Registration fee details will be updated soon…</em></strong></p>
+                    <p>Payment towards registration should be made through online transfer or Demand Draft. After the payment of Registration fees, authors are requested to fill the online registration form.</p>
+                    <h3><strong>The bank details for payment are as follows:</strong></h3>
+                    <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
+                        <li>Name of the Account: Conference NIT Rourkela</li>
+                        <li>Account Number: 36734418111</li>
+                        <li>IFSC code: SBIN0002109</li>
+                        <li>Bank Name: State Bank of India</li>
+                        <li>Branch: SBI, NIT Campus, Rourkela</li>
+                        <li>Address: SBI, NIT Campus, Rourkela-769008, Odisha
+                            <ul style={{ listStyleType: 'circle', paddingLeft: '20px' }}>
+                                <li>Account Type: Saving Account</li>
+                                <li>Swift Code: SBININBB137 (Commercial)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>Registration fee includes conference kit, participation certificate, working lunch, refreshments, and gala dinner.</strong></p>
                 </DialogBody>
 
                 <form onSubmit={handleSubmit}>
