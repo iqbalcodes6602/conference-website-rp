@@ -1,30 +1,33 @@
 import { LinkIcon } from '@heroicons/react/24/solid';
-import { Button, Radio, Textarea } from '@material-tailwind/react'
-import React, { useEffect, useState } from 'react'
+import { Button, Radio, Textarea } from '@material-tailwind/react';
+import React, { useEffect, useState } from 'react';
+import { ConfirmationModal } from '../../../components/confirmation-modal';
+
 
 function GivePaperFeedbackForm({ submissionId, filename, url }) {
     const [error, setError] = useState(null);
-
     const [originality, setOriginality] = useState('');
     const [relationshipToLiterature, setRelationshipToLiterature] = useState('');
     const [methodology, setMethodology] = useState('');
     const [recommendation, setRecommendation] = useState('');
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = () => setOpen(!open);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleConfirm = async () => {
         try {
+            let apiUrl;
             if (recommendation === 'accept')
-                url = 'http://localhost:5000/api/reviewer/accept-submission'
+                apiUrl = 'http://localhost:5000/api/reviewer/accept-submission';
             else if (recommendation === 'reject')
-                url = 'http://localhost:5000/api/reviewer/reject-submission'
+                apiUrl = 'http://localhost:5000/api/reviewer/reject-submission';
             else
-                url = 'http://localhost:5000/api/reviewer/add-submission-review'
+                apiUrl = 'http://localhost:5000/api/reviewer/add-submission-review';
 
-            const response = await fetch(url, {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Add this header
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify({
@@ -33,7 +36,7 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
                     relationshipToLiterature: relationshipToLiterature,
                     methodology: methodology,
                     recommendation: recommendation
-                }) // Convert the body to JSON string
+                })
             });
 
             if (!response.ok) {
@@ -47,6 +50,12 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
             setError(error.message);
             console.error(error);
         }
+        handleOpen(); // Close the modal after confirmation
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleOpen(); // Open the confirmation modal
     };
 
     return (
@@ -66,7 +75,6 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
                     </div>
                 </aside >
 
-                {/*  */}
                 <form className='col-span-2' onSubmit={handleSubmit}>
 
                     {/* orginality */}
@@ -147,10 +155,16 @@ function GivePaperFeedbackForm({ submissionId, filename, url }) {
                     </div>
                 </form>
             </div >
-            {error && <p>Error: {error}</p>
-            }
+            {error && <p>Error: {error}</p>}
+            <ConfirmationModal
+                open={open}
+                handleOpen={handleOpen}
+                titleOfModal='Submit Review'
+                message='Are you sure you want to submit this review?'
+                actionOnConfirm={handleConfirm}
+            />
         </>
-    )
+    );
 }
 
-export default GivePaperFeedbackForm
+export default GivePaperFeedbackForm;

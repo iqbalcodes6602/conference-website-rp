@@ -61,6 +61,7 @@ function RegisterModal({ submissionId }) {
             setError(error.message);
             console.error(error);
         }
+        handleOpen(); // Close the modal after confirmation
     };
 
     const handleOpen = () => setOpen(!open);
@@ -70,7 +71,7 @@ function RegisterModal({ submissionId }) {
             <span onClick={handleOpen} className='cursor-pointer hover:underline'>
                 Register Now
             </span>
-            <Dialog size='xl' open={open} handler={handleOpen} className='p-5 w-auto'>
+            <Dialog size='lg' open={open} handler={handleOpen} className='p-5 h-[80vh] overflow-y-scroll'>
                 <DialogHeader>Register Now</DialogHeader>
                 <DialogBody>
                     <p>Each paper should be registered either by the corresponding author or any of the co-author of the paper to publish in the conference proceedings.</p>
@@ -122,13 +123,12 @@ function RegisterModal({ submissionId }) {
                     <DialogFooter>
                         <Button
                             variant="text"
-                            color="red"
                             onClick={handleOpen}
-                            className="mr-1"
+                            className="mr-5"
                         >
                             <span>Close</span>
                         </Button>
-                        <Button variant="gradient" color="green" type="submit">
+                        <Button variant="gradient" type="submit">
                             <span>Submit</span>
                         </Button>
                     </DialogFooter>

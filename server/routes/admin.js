@@ -161,8 +161,8 @@ router.post('/register-submission-reject', verifyAdmin, async (req, res) => {
         const updatedSubmission = await Submission.findByIdAndUpdate(
             submissionId,
             {
-                status: 'Rejected',
-                action: 'Upload Payment Details'
+                status: 'Accepted',
+                action: 'Update Payment Details'
             },
             { new: true, runValidators: true }
         );

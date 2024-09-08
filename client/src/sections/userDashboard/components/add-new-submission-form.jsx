@@ -1,6 +1,7 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Button } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
+import { ConfirmationModal } from '../../../components/confirmation-modal';
 
 function AddNewSubmissionForm() {
     const [name, setName] = useState('');
@@ -11,13 +12,18 @@ function AddNewSubmissionForm() {
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
 
+    // confirmation modal
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(!open);
+
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+
+        // e.preventDefault();
 
         const formData = new FormData();
         formData.append('file', file);
@@ -71,7 +77,9 @@ function AddNewSubmissionForm() {
                         </ul>
                     </div>
                 </aside>
-                <form onSubmit={handleSubmit}>
+                <form
+                // onSubmit={handleSubmit}
+                >
                     {/* full name */}
                     <div className="mb-5">
                         <label
@@ -201,7 +209,7 @@ function AddNewSubmissionForm() {
                                 </span>
                                 <span
                                     className="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                    Browse
+                                    {file ? file.name : 'Choose a file'}
                                 </span>
                             </div>
                         </label>
@@ -209,9 +217,23 @@ function AddNewSubmissionForm() {
 
 
                     <div>
-                        <Button type='submit' className="hover:shadow-form w-full rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                        {/* <Button type='submit' className="hover:shadow-form w-full rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                            Add Submission
+                        </Button> */}
+
+                        <Button
+                            className='hover:shadow-form w-full rounded-md bg-black py-3 px-8 text-center text-base font-semibold text-white outline-none'
+                            onClick={handleOpen}
+                        >
                             Add Submission
                         </Button>
+                        <ConfirmationModal
+                            open={open}
+                            handleOpen={handleOpen}
+                            titleOfModal='Add Submission'
+                            message='Are you sure you want to add this submission?'
+                            actionOnConfirm={handleSubmit}
+                        />
                     </div>
                 </form>
 

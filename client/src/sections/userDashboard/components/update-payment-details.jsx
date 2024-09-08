@@ -105,13 +105,12 @@ function UpdatePaymentDetails({ submissionId }) {
                     <DialogFooter>
                         <Button
                             variant="text"
-                            color="red"
                             onClick={handleOpen}
                             className="mr-1"
                         >
                             <span>Close</span>
                         </Button>
-                        <Button variant="gradient" color="green" type="submit">
+                        <Button variant="gradient" type="submit">
                             <span>Submit</span>
                         </Button>
                     </DialogFooter>

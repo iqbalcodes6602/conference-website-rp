@@ -51,7 +51,7 @@ function ReviewModal({ review, submissionId }) {
             <span onClick={handleOpen} className='cursor-pointer hover:underline'>
                 Submit Revision
             </span>
-            <Dialog size='xs' open={open} handler={handleOpen} className='p-5 w-auto'>
+            <Dialog size='md' open={open} handler={handleOpen} className='p-5 w-auto'>
                 <DialogHeader>Check Submission Review</DialogHeader>
                 <DialogBody>
                     <div className="grid grid-cols-1 gap-4">
@@ -109,13 +109,12 @@ function ReviewModal({ review, submissionId }) {
                     <DialogFooter>
                         <Button
                             variant="text"
-                            color="red"
                             onClick={handleOpen}
-                            className="mr-1"
+                            className="mr-5"
                         >
                             <span>Close</span>
                         </Button>
-                        <Button type='submit' variant="gradient" color="green" onClick={handleOpen}>
+                        <Button type='submit' onClick={handleOpen}>
                             <span>Submit</span>
                         </Button>
                     </DialogFooter>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Ensure axios is installed
+import { ConfirmationModal } from '../../../components/confirmation-modal';
 
 const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedReviewer, setSelectedReviewer] = useState(currentReviewer);
+    const [newReviewer, setNewReviewer] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -14,26 +17,31 @@ const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
-    const handleReviewerSelect = async (reviewer) => {
-        setSelectedReviewer(reviewer._id);
+    const handleOpen = () => setOpen(!open);
+
+    const handleConfirm = async () => {
+        setSelectedReviewer(newReviewer._id);
         setIsOpen(false);
     
         try {
             const token = localStorage.getItem('token');
             await axios.post('http://localhost:5000/api/admin/update-submission-reviewer', {
                 submissionId,
-                reviewerId: reviewer._id
+                reviewerId: newReviewer._id
             }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            // Call parent update function if provided
-            alert('Submission updated successfully!');
         } catch (error) {
             console.error('Failed to update submission:', error);
-            alert('Failed to update submission. Please try again.');
         }
+        handleOpen(); // Close the modal after confirmation
+    };
+
+    const handleReviewerSelect = (reviewer) => {
+        setNewReviewer(reviewer);
+        handleOpen(); // Open the confirmation modal
     };
 
     const handleOutsideClick = (event) => {
@@ -98,6 +106,13 @@ const ReviewerSelect = ({ currentReviewer, allReviewers, submissionId }) => {
                     </div>
                 )}
             </div>
+            <ConfirmationModal
+                open={open}
+                handleOpen={handleOpen}
+                titleOfModal='Assign Reviewer'
+                message={`Are you sure you want to assign ${newReviewer?.fullName} as the reviewer?`}
+                actionOnConfirm={handleConfirm}
+            />
         </div>
     );
 };

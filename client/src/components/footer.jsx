@@ -61,7 +61,7 @@ export function Footer() {
           color="blue-gray"
           className="text-center mt-12 font-normal !text-gray-700"
         >
-          &copy; IPDIMS {CURRENT_YEAR} Made by Department Of Industrial Design, NIT Rourkela.
+          &copy; IPDIMS {CURRENT_YEAR} Made by Department of Industrial Design, NIT Rourkela.
         </Typography>
       </div>
     </footer>

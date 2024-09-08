@@ -56,7 +56,6 @@ function ViewScreenshotModal({ image, submissionId }) {
                 <DialogFooter>
                     <Button
                         variant="text"
-                        color="red"
                         onClick={handleOpen}
                         className="mr-1"
                     >
